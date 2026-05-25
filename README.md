@@ -1,4 +1,4 @@
-# Lyra 🎵
+# Lyra 
 
 Lyra is a macOS-only (for now) menu bar application that displays real-time, synchronized scrolling lyrics for the track currently playing in the Spotify desktop application.
 ---
