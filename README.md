@@ -1,9 +1,6 @@
 # Lyra 🎵
 
-Lyra is a high-performance, lightweight macOS menu bar application that displays real-time, synchronized scrolling lyrics in your system status bar for the track currently playing in the Spotify desktop application.
-
-Built natively in **Swift 6** using AppKit and zero third-party dependencies, Lyra runs as an accessory background daemon with a near-zero CPU and memory footprint.
-
+Lyra is a macOS-only (for now) menu bar application that displays real-time, synchronized scrolling lyrics for the track currently playing in the Spotify desktop application.
 ---
 
 ## Menu Bar Preview
@@ -14,11 +11,7 @@ Built natively in **Swift 6** using AppKit and zero third-party dependencies, Ly
 
 
 
-## Installation & Build
-
-### Prerequisites
-- **macOS 13.0** (Ventura) or newer.
-- **Xcode Command Line Tools** (Swift 6.0 toolchain or newer).
+## Installation 
 
 ### Build from Source
 Clone the repository and compile using Swift Package Manager in release configuration:
@@ -39,16 +32,10 @@ Verify the installation is successful:
 ```bash
 lyra --version
 ```
-
----
-
-## Usage
-
 Start playing a song on Spotify and launch Lyra:
 ```bash
 lyra
 ```
-
 The background daemon will boot, and the active lyric line will appear in your top menu bar.
 
 ### CLI Options
@@ -64,23 +51,12 @@ To close Lyra, click the status item in the menu bar and select **Quit Lyra**.
 
 ---
 
+## Future
 
+I plan to expand Lyra's capabilities to more music sources, platforms, and integrations:
 
-## Required macOS Permissions
-
-Since Lyra communicates with the Spotify application via `NSAppleScript`, macOS enforces automation security boundaries.
-
-1. On the first launch, macOS will request permission to let your terminal emulator control Spotify:
-   > **"Terminal" would like to control "Spotify"**
-2. Click **OK**.
-
-
-## Future Roadmap
-
-We plan to expand Lyra's capabilities to more music sources, platforms, and integrations:
-
-### 1. Apple Music
-### 2. YouTube Music
-### 3. Browser Extension
-### 4. Windows Taskbar
+1. Apple Music
+2. YouTube Music
+3. Browser Extension
+4. Windows Taskbar
 
