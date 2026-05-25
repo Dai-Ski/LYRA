@@ -70,3 +70,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menuEngine = MenuBarEngine()
     }
 }
+
+extension AppDelegate {
+    private func startSpotifyPollingLoop() async {
+        let bridge = SpotifyBridge()
+        var currentTrackKey = ""
+        
+        while true {
+            do {
+                let state = try await bridge.fetchCurrentState()
+                // Staged loop logic...
+            } catch {
+                // Handle errors...
+            }
+            try? await Task.sleep(nanoseconds: UInt64(pollingInterval * 1_000_000_000))
+        }
+    }
+}
