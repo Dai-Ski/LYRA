@@ -87,3 +87,14 @@ extension AppDelegate {
         }
     }
 }
+
+extension AppDelegate {
+    private func startUpdateLoop() async {
+        while true {
+            let playbackState = await stateActor.getState()
+            let (lyrics, status) = await stateActor.getLyrics()
+            menuEngine.update(state: playbackState, lyrics: lyrics, status: status)
+            try? await Task.sleep(nanoseconds: 100_000_000)
+        }
+    }
+}
