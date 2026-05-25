@@ -38,17 +38,6 @@ lyra
 ```
 The background daemon will boot, and the active lyric line will appear in your top menu bar.
 
-### CLI Options
-
-| Flag | Description |
-|---|---|
-| `-d, --debug` | Prints network requests and AppleScript metadata events in the terminal. |
-| `--interval <seconds>` | Overrides the default Spotify metadata polling rate (default: `2.0`s). |
-| `-v, --version` | Prints the version information. |
-| `-h, --help` | Displays the help manual. |
-
-To close Lyra, click the status item in the menu bar and select **Quit Lyra**.
-
 ---
 
 ## Future
