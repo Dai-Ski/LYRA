@@ -41,3 +41,19 @@ extension MenuBarEngine {
         return image
     }
 }
+
+extension MenuBarEngine {
+    private func setupMenu() {
+        let menu = NSMenu()
+        
+        let quitItem = NSMenuItem(
+            title: "Quit Lyra",
+            action: #selector(NSApplication.terminate(_:)),
+            keyEquivalent: ""
+        )
+        quitItem.target = NSApp
+        menu.addItem(quitItem)
+        
+        statusItem.menu = menu
+    }
+}
