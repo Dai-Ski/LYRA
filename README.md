@@ -18,11 +18,16 @@ If you don't want to build from source, you can download the precompiled binary 
 
 1. Download `Lyra.zip` from the [Latest Releases Page](https://github.com/Dai-Ski/LYRA/releases/latest).
 2. Unzip `Lyra.zip` to extract the `Lyra` binary.
-3. Open Terminal, navigate to the extracted folder, and make the binary executable:
+3. Open Terminal and navigate to the extracted folder.
+4. Remove the macOS quarantine flag (since this is an ad-hoc signed open-source binary, Gatekeeper will restrict execution by default):
+   ```bash
+   xattr -d com.apple.quarantine Lyra
+   ```
+5. Make the binary executable:
    ```bash
    chmod +x Lyra
    ```
-4. Start playing a song on Spotify and run it:
+6. Start playing a song on Spotify and run it:
    ```bash
    ./Lyra
    ```
