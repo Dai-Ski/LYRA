@@ -49,3 +49,24 @@ struct CLIArguments {
         return args
     }
 }
+
+@MainActor
+final class AppDelegate: NSObject, NSApplicationDelegate {
+    private var stateActor: AppStateActor!
+    private var client: LyricsClient!
+    private var menuEngine: MenuBarEngine!
+    private let pollingInterval: Double
+    private let debugMode: Bool
+    
+    init(interval: Double, debug: Bool) {
+        self.pollingInterval = interval
+        self.debugMode = debug
+        super.init()
+    }
+    
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        stateActor = AppStateActor()
+        client = LyricsClient()
+        menuEngine = MenuBarEngine()
+    }
+}
