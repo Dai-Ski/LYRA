@@ -66,3 +66,93 @@ public struct AppPlaybackState: Sendable, Equatable {
         return "\(artist) - \(title)"
     }
 }
+
+/// A thread-safe Actor that coordinates playback state and lyric caching.
+public actor AppStateActor {
+    private var currentState = AppPlaybackState()
+    private var currentLyrics: [LyricLine] = []
+    private var lyricsStatus: LyricsStatus = .none
+    private var lyricsCache: [String: [LyricLine]] = [:]
+    
+    public init() {}
+    
+    /// Retrieves a copy of the current playback state.
+    public func getState() -> AppPlaybackState {
+        return currentState
+    }
+    
+    /// Retrieves the current lyrics and their loading status.
+    public func getLyrics() -> ([LyricLine], LyricsStatus) {
+        return (currentLyrics, lyricsStatus)
+    }
+    
+    /// Updates the playback state. Triggered by the Spotify polling loop.
+    public func updatePlayback(
+        isSpotifyRunning: Bool,
+        isPlaying: Bool,
+        title: String,
+        artist: String,
+        album: String,
+        position: TimeInterval,
+        duration: TimeInterval
+    ) {
+        let oldKey = currentState.trackKey
+        let oldRunning = currentState.isSpotifyRunning
+        
+        currentState.isSpotifyRunning = isSpotifyRunning
+        currentState.isPlaying = isPlaying
+        currentState.title = title
+        currentState.artist = artist
+        currentState.album = album
+        currentState.position = position
+        currentState.duration = duration
+        currentState.lastUpdated = Date()
+        
+        // If track changed, manage cached lyrics transition
+        if isSpotifyRunning && (!title.isEmpty || !artist.isEmpty) {
+            let newKey = currentState.trackKey
+            if oldKey != newKey || !oldRunning {
+                if let cached = lyricsCache[newKey] {
+                    currentLyrics = cached
+                    lyricsStatus = .loaded
+                } else {
+                    currentLyrics = []
+                    lyricsStatus = .none
+                }
+            }
+        } else {
+            currentLyrics = []
+            lyricsStatus = .none
+        }
+    }
+    
+    /// Marks lyrics as currently loading.
+    public func setLyricsLoading() {
+        lyricsStatus = .loading
+    }
+    
+    /// Sets loaded lyrics for a given track, updating the active lyrics if the track is still current.
+    public func setLyricsLoaded(_ lyrics: [LyricLine], forKey key: String) {
+        lyricsCache[key] = lyrics
+        if currentState.trackKey == key {
+            currentLyrics = lyrics
+            lyricsStatus = .loaded
+        }
+    }
+    
+    /// Marks lyrics as not found, caching this state to prevent redundant requests.
+    public func setLyricsNotFound(forKey key: String) {
+        lyricsCache[key] = []
+        if currentState.trackKey == key {
+            currentLyrics = []
+            lyricsStatus = .notFound
+        }
+    }
+    
+    /// Handles lyric loading error, setting status appropriately.
+    public func setLyricsError(_ errorMessage: String, forKey key: String) {
+        if currentState.trackKey == key {
+            lyricsStatus = .error(errorMessage)
+        }
+    }
+}
