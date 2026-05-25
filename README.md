@@ -12,31 +12,7 @@ Built natively in **Swift 6** using AppKit and zero third-party dependencies, Ly
 
 ---
 
-## Quick Start (Precompiled Binary)
 
-If you don't want to build from source, you can download the precompiled binary directly:
-
-1. Download `Lyra.zip` from the [Latest Releases Page](https://github.com/Dai-Ski/LYRA/releases/latest).
-2. Unzip `Lyra.zip` to extract the `Lyra` binary.
-3. Open Terminal and navigate to the extracted folder.
-4. Remove the macOS quarantine flag (since this is an ad-hoc signed open-source binary, Gatekeeper will restrict execution by default):
-   ```bash
-   xattr -d com.apple.quarantine Lyra
-   ```
-5. Make the binary executable:
-   ```bash
-   chmod +x Lyra
-   ```
-6. Start playing a song on Spotify and run it:
-   ```bash
-   ./Lyra
-   ```
-   *(Optional) Move it to your local system path to launch it from anywhere:*
-   ```bash
-   sudo mv Lyra /usr/local/bin/lyra
-   ```
-
----
 
 ## Installation & Build
 
@@ -88,14 +64,7 @@ To close Lyra, click the status item in the menu bar and select **Quit Lyra**.
 
 ---
 
-## Releases & Swift Package Integration
 
-Lyra is published as a Swift Package. You can download pre-compiled releases, view tags, or import the package using the [GitHub Releases Page](https://github.com/Dai-Ski/LYRA/releases).
-
-### Version checking
-Lyra features an automatic update checker. On application startup, it queries GitHub Releases asynchronously. If a newer version tag (e.g. `v1.0.1`) is available, it dynamically prepends **"Update Lyra (vX.Y.Z)"** to the status bar dropdown. Clicking it opens the web browser directly to the release page.
-
----
 
 ## Required macOS Permissions
 
