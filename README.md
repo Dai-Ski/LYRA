@@ -103,14 +103,12 @@ To close Lyra, click the status item in the menu bar and select **Quit Lyra**.
 
 ---
 
-## Releases & Updates
+## Releases & Swift Package Integration
 
-Lyra features an automatic update check system. You can view, download, or inspect historical binaries on the [GitHub Releases Page](https://github.com/Dai-Ski/LYRA/releases).
+Lyra is published as a Swift Package. You can download pre-compiled releases, view tags, or import the package using the [GitHub Releases Page](https://github.com/Dai-Ski/LYRA/releases).
 
-When a new version is published:
-1. On startup, the app checks if the remote version tag is greater than your local version.
-2. If an update is available, a dynamic option **"Update Lyra (vX.Y.Z)"** appears at the top of your menu dropdown.
-3. Clicking it opens the web browser to the latest release page so you can download the updated build.
+### Version checking
+Lyra features an automatic update checker. On application startup, it queries GitHub Releases asynchronously. If a newer version tag (e.g. `v1.0.1`) is available, it dynamically prepends **"Update Lyra (vX.Y.Z)"** to the status bar dropdown. Clicking it opens the web browser directly to the release page.
 
 ---
 
@@ -133,16 +131,16 @@ Since Lyra communicates with the Spotify application via `NSAppleScript`, macOS 
 
 We plan to expand Lyra's capabilities to more music sources, platforms, and integrations:
 
-### 1. Apple Music Integration
+### 1. Apple Music
 - Extend AppleScript automation triggers to read metadata from the native macOS **Music** app when active.
 - Seamlessly transition between Spotify and Apple Music depending on which app is currently playing.
 
-### 2. YouTube Music Integration
+### 2. YouTube Music
 - Read YouTube Music track playback status and metadata from browsers or desktop wrapper apps.
 
 ### 3. Browser Extension
 - Develop a lightweight Chrome/Firefox/Safari browser extension to extract tab music states (YouTube Music, Soundcloud, etc.) and forward them to Lyra.
 
-### 4. Windows Taskbar Support
+### 4. Windows Taskbar
 - Port the lightweight core logic to Windows using C#/.NET or Rust.
 - Display synchronized lyrics directly in the Windows Taskbar or system tray.
