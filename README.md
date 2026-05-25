@@ -40,6 +40,18 @@ The background daemon will boot, and the active lyric line will appear in your t
 
 ---
 
+## Uninstall
+
+To remove Lyra from your system:
+
+1. Close the application by selecting **Quit Lyra** from the menu dropdown (or run `killall Lyra` in the Terminal).
+2. Delete the binary from your local path:
+   ```bash
+   sudo rm /usr/local/bin/lyra
+   ```
+
+---
+
 ## Future
 
 I plan to expand Lyra's capabilities to more music sources, platforms, and integrations:
