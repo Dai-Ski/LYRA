@@ -11,6 +11,28 @@ Built natively in **Swift 6** using AppKit and zero third-party dependencies, Ly
 ![Lyra Preview](Assets/preview.png)
 
 ---
+
+## Quick Start (Precompiled Binary)
+
+If you don't want to build from source, you can download the precompiled binary directly:
+
+1. Download `Lyra.zip` from the [Latest Releases Page](https://github.com/Dai-Ski/LYRA/releases/latest).
+2. Unzip `Lyra.zip` to extract the `Lyra` binary.
+3. Open Terminal, navigate to the extracted folder, and make the binary executable:
+   ```bash
+   chmod +x Lyra
+   ```
+4. Start playing a song on Spotify and run it:
+   ```bash
+   ./Lyra
+   ```
+   *(Optional) Move it to your local system path to launch it from anywhere:*
+   ```bash
+   sudo mv Lyra /usr/local/bin/lyra
+   ```
+
+---
+
 ## Installation & Build
 
 ### Prerequisites
