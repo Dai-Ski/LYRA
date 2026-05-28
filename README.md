@@ -44,43 +44,13 @@ Packaging Lyra as a `.app` bundle enables a visual setup onboarding screen, requ
 
 ---
 
-### Method 2: Command-Line Binary (For Developers)
-
-If you prefer running Lyra directly from the terminal as a background daemon:
-
-1. **Clone the repository & build:**
-   ```bash
-   git clone https://github.com/Dai-Ski/LYRA.git
-   cd LYRA
-   swift build -c release
-   ```
-2. **Install the binary:**
-   Copy the compiled binary into your system execution path:
-   ```bash
-   sudo cp .build/release/Lyra /usr/local/bin/lyra
-   ```
-3. **Verify installation:**
-   ```bash
-   lyra --version
-   ```
-4. **Run Lyra:**
-   Ensure Spotify or Apple Music is playing a track, then launch the daemon:
-   ```bash
-   lyra
-   ```
-   *Optional CLI Arguments:*
-   * `--interval <seconds>`: Override polling frequency (default: `2.0` seconds).
-   * `-d`, `--debug`: Enable verbose debug logging to print track updates and raw lyrics search queries.
-
----
-
 ## Uninstall
 
 ### To Uninstall the macOS App Bundle
 
 1. Click on the Lyra menu bar icon (or click the active lyric) and select **Quit Lyra**.
 2. Open your `/Applications/` folder and drag **Lyra.app** to the Trash (or run `rm -rf /Applications/Lyra.app`).
-3. (Optional) Disable automatic startup:
+3. Disable automatic startup:
    - Go to **System Settings > General > Login Items & Extensions**.
    - Under **Open at Login**, locate **Lyra** and toggle it off (or click the `-` button to remove it).
 
