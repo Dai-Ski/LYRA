@@ -92,3 +92,87 @@ func cleanQueryString(_ str: String) -> String {
     
     return cleaned
 }
+
+guard let track = getTrackInfo() else {
+    print("No active track playing.")
+    exit(0)
+}
+
+print("Active Track:")
+print("  Raw Title: \(track.title)")
+print("  Raw Artist: \(track.artist)")
+
+let cleanTitle = cleanQueryString(track.title)
+let cleanArtist = cleanQueryString(track.artist)
+print("  Cleaned Title: \(cleanTitle)")
+print("  Cleaned Artist: \(cleanArtist)")
+
+// Test both queries
+let queries = [
+    "\(track.title) \(track.artist)",
+    "\(cleanTitle) \(cleanArtist)",
+    "\(cleanTitle)",
+    "\(track.title)"
+]
+
+let semaphore = DispatchSemaphore(value: 0)
+
+func tryQuery(q: String, completion: @escaping () -> Void) {
+    guard let encoded = q.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+        completion()
+        return
+    }
+    let urlString = "https://www.jiosaavn.com/api.php?__call=search.getResults&_format=json&_marker=0&cc=in&includeMetaTags=1&q=\(encoded)"
+    let url = URL(string: urlString)!
+    
+    var request = URLRequest(url: url)
+    request.timeoutInterval = 8.0
+    
+    print("\nTrying query: '\(q)'...")
+    URLSession.shared.dataTask(with: request) { data, response, error in
+        defer { completion() }
+        if let error = error {
+            print("  Error: \(error.localizedDescription)")
+            return
+        }
+        guard let data = data else {
+            print("  No data received")
+            return
+        }
+        
+        do {
+            if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let results = json["results"] as? [[String: Any]], !results.isEmpty {
+                print("  Success! Found \(results.count) results.")
+                for (idx, song) in results.prefix(3).enumerated() {
+                    let sName = song["song"] as? String ?? ""
+                    let sId = song["id"] as? String ?? ""
+                    let sArtists = song["primary_artists"] as? String ?? ""
+                    let hasLyr = song["has_lyrics"] as? String ?? ""
+                    print("    [\(idx + 1)] Song: \(sName) | Artist: \(sArtists) | ID: \(sId) | HasLyrics: \(hasLyr)")
+                }
+            } else {
+                print("  No results found.")
+            }
+        } catch {
+            print("  JSON Parse error: \(error.localizedDescription)")
+        }
+    }.resume()
+}
+
+var idx = 0
+func runNext() {
+    if idx >= queries.count {
+        semaphore.signal()
+        return
+    }
+    let q = queries[idx]
+    idx += 1
+    tryQuery(q: q) {
+        runNext()
+    }
+}
+
+runNext()
+semaphore.wait()
+exit(0)
