@@ -1,17 +1,18 @@
 import AppKit
+import ServiceManagement
 
 // 1. CLI Metadata & Help Manual
 let VERSION = "1.0.0"
 let GITHUB_REPO = "Dai-Ski/LYRA"
 let HELP_MESSAGE = """
-Lyra - Real-time Spotify Lyrics Menu Bar App for macOS
+Lyra - Real-time Spotify & Apple Music Lyrics Menu Bar App for macOS
 Version: \(VERSION)
 
 Usage: lyra [options]
 
 Options:
   -d, --debug             Print raw API responses and internal state changes
-  --interval <seconds>    Override Spotify polling interval (default: 2.0s)
+  --interval <seconds>    Override player polling interval (default: 2.0s)
   -v, --version           Print version information
   -h, --help              Print usage information
 """
@@ -59,6 +60,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var menuEngine: MenuBarEngine!
     private let pollingInterval: Double
     private let debugMode: Bool
+    private var pollingTask: Task<Void, Never>?
+    private var setupWindowController: SetupWindowController?
     
     init(interval: Double, debug: Bool) {
         self.pollingInterval = interval
@@ -71,10 +74,32 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         client = LyricsClient()
         menuEngine = MenuBarEngine()
         
-        // Polling loop task
-        Task {
-            await startSpotifyPollingLoop()
+        menuEngine.modeChangeHandler = { [weak self] mode in
+            guard let self = self else { return }
+            Task {
+                await self.stateActor.setLyricMode(mode)
+            }
         }
+        
+        // 1. Run onboarding setup flow if needed (first launch permissions)
+        runSetupFlowIfNeeded()
+        
+        // 2. Set up workspace observers to monitor music app launch and termination
+        NSWorkspace.shared.notificationCenter.addObserver(
+            self,
+            selector: #selector(handleAppChange(_:)),
+            name: NSWorkspace.didLaunchApplicationNotification,
+            object: nil
+        )
+        NSWorkspace.shared.notificationCenter.addObserver(
+            self,
+            selector: #selector(handleAppChange(_:)),
+            name: NSWorkspace.didTerminateApplicationNotification,
+            object: nil
+        )
+        
+        // 3. Determine initial visibility and start polling if any music app is already active
+        updateAppVisibilityAndPolling()
         
         // Menu update loop task
         Task {
@@ -90,146 +115,77 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    private func startSpotifyPollingLoop() async {
-        let bridge = SpotifyBridge()
-        var currentTrackKey = ""
+    @objc private func handleAppChange(_ notification: Notification) {
+        guard let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication else {
+            return
+        }
         
-        while true {
-            do {
-                let state = try await bridge.fetchCurrentState()
-                
-                switch state {
-                case .notRunning:
-                    await stateActor.updatePlayback(
-                        isSpotifyRunning: false,
-                        isPlaying: false,
-                        title: "",
-                        artist: "",
-                        album: "",
-                        position: 0.0,
-                        duration: 0.0
-                    )
-                    currentTrackKey = ""
-                    
-                case .stopped:
-                    await stateActor.updatePlayback(
-                        isSpotifyRunning: true,
-                        isPlaying: false,
-                        title: "",
-                        artist: "",
-                        album: "",
-                        position: 0.0,
-                        duration: 0.0
-                    )
-                    currentTrackKey = ""
-                    
-                case .paused(let track, let position), .playing(let track, let position):
-                    var isPlaying = false
-                    if case .playing = state {
-                        isPlaying = true
-                    }
-                    
-                    await stateActor.updatePlayback(
-                        isSpotifyRunning: true,
-                        isPlaying: isPlaying,
-                        title: track.title,
-                        artist: track.artist,
-                        album: track.album,
-                        position: position,
-                        duration: track.duration
-                    )
-                    
-                    let newTrackKey = track.trackKey
-                    if newTrackKey != currentTrackKey && !newTrackKey.isEmpty {
-                        currentTrackKey = newTrackKey
-                        
-                        await stateActor.setLyricsLoading()
-                        
-                        let trackTitle = track.title
-                        let trackArtist = track.artist
-                        let trackAlbum = track.album
-                        let trackDuration = track.duration
-                        
-                        Task {
-                            if trackTitle == "Advertisement??" {
-                                await stateActor.setLyricsNotFound(forKey: newTrackKey)
-                                return
-                            }
-                            do {
-                                let lyrics = try await client.fetchLyrics(
-                                    track: trackTitle,
-                                    artist: trackArtist,
-                                    album: trackAlbum,
-                                    duration: trackDuration,
-                                    debug: debugMode
-                                )
-                                await stateActor.setLyricsLoaded(lyrics, forKey: newTrackKey)
-                            } catch let err as LyricsError {
-                                if case .notFound = err {
-                                    await stateActor.setLyricsNotFound(forKey: newTrackKey)
-                                } else {
-                                    await stateActor.setLyricsError(err.localizedDescription, forKey: newTrackKey)
-                                }
-                            } catch {
-                                await stateActor.setLyricsError(error.localizedDescription, forKey: newTrackKey)
-                            }
-                        }
-                    }
-                }
-            } catch {
-                await stateActor.updatePlayback(
-                    isSpotifyRunning: true,
-                    isPlaying: false,
-                    title: "",
-                    artist: "",
-                    album: "",
-                    position: 0.0,
-                    duration: 0.0
-                )
-                await stateActor.setLyricsError(error.localizedDescription, forKey: "")
-            }
-            
-            do {
-                try await Task.sleep(nanoseconds: UInt64(pollingInterval * 1_000_000_000))
-            } catch {
-                break
-            }
+        if let bundleID = app.bundleIdentifier,
+           bundleID == "com.spotify.client" || bundleID == "com.apple.Music" {
+            updateAppVisibilityAndPolling()
         }
     }
     
-    private func startUpdateLoop() async {
-        while true {
-            let playbackState = await stateActor.getState()
-            let (lyrics, status) = await stateActor.getLyrics()
-            
-            menuEngine.update(state: playbackState, lyrics: lyrics, status: status)
-            
-            do {
-                try await Task.sleep(nanoseconds: 100_000_000) // 100ms update rate
-            } catch {
-                break
-            }
+    private func updateAppVisibilityAndPolling() {
+        guard UserDefaults.standard.bool(forKey: "SetupCompleted") else {
+            menuEngine.setVisible(false)
+            return
+        }
+        
+        let (spotifyRunning, musicRunning) = checkRunningApps()
+        let isAnyRunning = spotifyRunning || musicRunning
+        
+        menuEngine.setVisible(isAnyRunning)
+        
+        if isAnyRunning {
+            startPollingIfNeeded()
+        } else {
+            stopPolling()
         }
     }
+    
+    private func startPollingIfNeeded() {
+        guard pollingTask == nil else { return }
+        pollingTask = Task {
+            await startMusicPollingLoop()
+        }
+    }
+    
+    private func stopPolling() {
+        pollingTask?.cancel()
+        pollingTask = nil
+    }
+    
+    private func runSetupFlowIfNeeded() {
+        let userDefaults = UserDefaults.standard
+        if userDefaults.bool(forKey: "SetupCompleted") {
+            return
+        }
+        
+        setupWindowController = SetupWindowController(debug: debugMode) { [weak self] success in
+            guard let self = self else { return }
+            if success {
+                userDefaults.set(true, forKey: "SetupCompleted")
+                self.updateAppVisibilityAndPolling()
+            } else {
+                NSApplication.shared.terminate(nil)
+            }
+        }
+        setupWindowController?.show()
+    }
+    
+    private func checkRunningApps() -> (spotify: Bool, music: Bool) {
+        let runningApps = NSWorkspace.shared.runningApplications
+        var spotifyRunning = false
+        var musicRunning = false
+        for app in runningApps {
+            if app.bundleIdentifier == "com.spotify.client" {
+                spotifyRunning = true
+            } else if app.bundleIdentifier == "com.apple.Music" {
+                musicRunning = true
+            }
+        }
+        return (spotifyRunning, musicRunning)
+    }
+    
 }
-
-// 4. Execution Core
-let args = CLIArguments.parse()
-
-if args.showHelp {
-    print(HELP_MESSAGE)
-    exit(0)
-}
-if args.showVersion {
-    print("Lyra version \(VERSION)")
-    exit(0)
-}
-
-let app = NSApplication.shared
-let delegate = AppDelegate(interval: args.interval, debug: args.debug)
-app.delegate = delegate
-
-// Configure the app to run as a background accessory (no Dock icon, no window activation)
-app.setActivationPolicy(.accessory)
-
-app.run()
