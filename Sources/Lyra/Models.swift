@@ -64,3 +64,11 @@ public struct AppPlaybackState: Sendable, Equatable {
     public var trackKey: String {
         guard !title.isEmpty || !artist.isEmpty else { return "" }
         return "\(artist) - \(title)"
+    }
+}
+
+/// Supported lyric display modes.
+public enum LyricMode: String, Codable, Sendable {
+    case original
+    case romanized
+}
