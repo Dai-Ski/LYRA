@@ -118,4 +118,114 @@ public struct LyricsClient: Sendable {
         ]
         for pattern in bracketPatterns {
             if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) {
+                let range = NSRange(s.startIndex..., in: s)
+                s = regex.stringByReplacingMatches(in: s, range: range, withTemplate: "")
+            }
+        }
+        return s.trimmingCharacters(in: .whitespaces)
+    }
+
+    // MARK: - Source 1: LRCLIB /api/get
+
+    private func tryLRCLIBGet(
+        track: String, artist: String, album: String, duration: Double,
+        maxRetries: Int, debug: Bool
+    ) async -> String? {
+        var attempt = 0
+        var delay: TimeInterval = 1.0
+        while attempt < maxRetries {
+            do {
+                return try await lrclibGet(track: track, artist: artist,
+                                           album: album, duration: duration)
+            } catch let error as LyricsError {
+                if case .notFound = error { return nil }
+                if case .rateLimited = error {
+                    attempt += 1
+                    try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+                    delay *= 2.0
+                    continue
+                }
+                return nil
+            } catch {
+                attempt += 1
+                try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+                delay *= 2.0
+            }
+        }
+        return nil
+    }
+
+    private func lrclibGet(track: String, artist: String, album: String, duration: Double) async throws -> String {
+        var components = URLComponents(string: "https://lrclib.net/api/get")!
+        var queryItems = [
+            URLQueryItem(name: "track_name", value: track),
+            URLQueryItem(name: "artist_name", value: artist)
+        ]
+        if !album.isEmpty {
+            queryItems.append(URLQueryItem(name: "album_name", value: album))
+        }
+        if duration > 0 {
+            queryItems.append(URLQueryItem(name: "duration", value: String(Int(duration))))
+        }
+        components.queryItems = queryItems
+
+        guard let url = components.url else { throw LyricsError.invalidURL }
+        var request = URLRequest(url: url)
+        request.timeoutInterval = 8.0
+        request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+        guard let http = response as? HTTPURLResponse else { throw LyricsError.malformedResponse }
+
+        switch http.statusCode {
+        case 200:
+            struct LRCPayload: Decodable {
+                let syncedLyrics: String?
+                let plainLyrics:  String?
+            }
+            let decoded = try JSONDecoder().decode(LRCPayload.self, from: data)
+            if let synced = decoded.syncedLyrics, !synced.isEmpty { return synced }
+            if let plain  = decoded.plainLyrics,  !plain.isEmpty  { return plain  }
+            throw LyricsError.notFound
+        case 404: throw LyricsError.notFound
+        case 429: throw LyricsError.rateLimited
+        default:  throw LyricsError.serverError(statusCode: http.statusCode)
+        }
+    }
+
+    // MARK: - Source 2: LRCLIB /api/search
+
+    private func tryLRCLIBSearch(track: String, artist: String, debug: Bool) async -> String? {
+        // Try "track artist" combined query, then track-only
+        let queries = [
+            "\(track) \(artist)",
+            track
+        ]
+        for q in queries {
+            if let result = await lrclibSearch(query: q, track: track, artist: artist, debug: debug) {
+                return result
+            }
+        }
+        return nil
+    }
+
+    private func lrclibSearch(query: String, track: String, artist: String, debug: Bool) async -> String? {
+        var components = URLComponents(string: "https://lrclib.net/api/search")!
+        components.queryItems = [URLQueryItem(name: "q", value: query)]
+        guard let url = components.url else { return nil }
+
+        var request = URLRequest(url: url)
+        request.timeoutInterval = 8.0
+        request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
+
+        guard let (data, response) = try? await URLSession.shared.data(for: request),
+              let http = response as? HTTPURLResponse, http.statusCode == 200 else { return nil }
+
+        struct SearchHit: Decodable {
+            let artistName:   String?
+            let trackName:    String?
+            let syncedLyrics: String?
+            let plainLyrics:  String?
+        }
+
 }
