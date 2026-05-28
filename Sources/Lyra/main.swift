@@ -188,4 +188,199 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         return (spotifyRunning, musicRunning)
     }
     
+    private func startMusicPollingLoop() async {
+        let spotifyBridge = SpotifyBridge()
+        let musicBridge = AppleMusicBridge()
+        var currentTrackKey = ""
+        
+        while !Task.isCancelled {
+            do {
+                let (spotifyRunning, musicRunning) = checkRunningApps()
+                
+                var activeState: MusicPlayerState = .notRunning
+                
+                if spotifyRunning && musicRunning {
+                    let spotifyState = try await spotifyBridge.fetchCurrentState(isRunning: spotifyRunning)
+                    let musicState = try await musicBridge.fetchCurrentState(isRunning: musicRunning)
+                    
+                    switch (spotifyState, musicState) {
+                    case (.playing, _):
+                        activeState = spotifyState
+                    case (_, .playing):
+                        activeState = musicState
+                    case (.paused, _):
+                        activeState = spotifyState
+                    case (_, .paused):
+                        activeState = musicState
+                    default:
+                        activeState = spotifyState
+                    }
+                } else if spotifyRunning {
+                    activeState = try await spotifyBridge.fetchCurrentState(isRunning: spotifyRunning)
+                } else if musicRunning {
+                    activeState = try await musicBridge.fetchCurrentState(isRunning: musicRunning)
+                } else {
+                    activeState = .notRunning
+                }
+                
+                if debugMode {
+                    print("[DEBUG] Running apps - Spotify: \(spotifyRunning), Music: \(musicRunning)")
+                    switch activeState {
+                    case .notRunning:
+                        print("[DEBUG] Active State: notRunning")
+                    case .stopped:
+                        print("[DEBUG] Active State: stopped")
+                    case .paused(let track, let pos):
+                        print("[DEBUG] Active State: paused (\(track.artist) - \(track.title)) at position \(pos)")
+                    case .playing(let track, let pos):
+                        print("[DEBUG] Active State: playing (\(track.artist) - \(track.title)) at position \(pos)")
+                    }
+                }
+                
+                switch activeState {
+                case .notRunning:
+                    await stateActor.updatePlayback(
+                        isMusicRunning: false,
+                        isPlaying: false,
+                        title: "",
+                        artist: "",
+                        album: "",
+                        position: 0.0,
+                        duration: 0.0
+                    )
+                    currentTrackKey = ""
+                    
+                case .stopped:
+                    await stateActor.updatePlayback(
+                        isMusicRunning: true,
+                        isPlaying: false,
+                        title: "",
+                        artist: "",
+                        album: "",
+                        position: 0.0,
+                        duration: 0.0
+                    )
+                    currentTrackKey = ""
+                    
+                case .paused(let track, let position), .playing(let track, let position):
+                    var isPlaying = false
+                    if case .playing = activeState {
+                        isPlaying = true
+                    }
+                    
+                    await stateActor.updatePlayback(
+                        isMusicRunning: true,
+                        isPlaying: isPlaying,
+                        title: track.title,
+                        artist: track.artist,
+                        album: track.album,
+                        position: position,
+                        duration: track.duration
+                    )
+                    
+                    let newTrackKey = track.trackKey
+                    if newTrackKey != currentTrackKey && !newTrackKey.isEmpty {
+                        currentTrackKey = newTrackKey
+                        
+                        await stateActor.setLyricsLoading()
+                        
+                        let trackTitle = track.title
+                        let trackArtist = track.artist
+                        let trackAlbum = track.album
+                        let trackDuration = track.duration
+                        
+                        Task {
+                            if trackTitle == "Advertisement??" {
+                                await stateActor.setLyricsNotFound(forKey: newTrackKey)
+                                return
+                            }
+                            do {
+                                let lyricSet = try await client.fetchLyrics(
+                                    track: trackTitle,
+                                    artist: trackArtist,
+                                    album: trackAlbum,
+                                    duration: trackDuration,
+                                    debug: debugMode
+                                )
+                                await stateActor.setLyricsLoaded(
+                                    original: lyricSet.original,
+                                    romanized: lyricSet.romanized,
+                                    forKey: newTrackKey
+                                )
+                            } catch let err as LyricsError {
+                                if case .notFound = err {
+                                    await stateActor.setLyricsNotFound(forKey: newTrackKey)
+                                } else {
+                                    await stateActor.setLyricsError(err.localizedDescription, forKey: newTrackKey)
+                                }
+                            } catch {
+                                await stateActor.setLyricsError(error.localizedDescription, forKey: newTrackKey)
+                            }
+                        }
+                    }
+                }
+            } catch {
+                if debugMode { print("[DEBUG] Error in polling loop: \(error.localizedDescription)") }
+                await stateActor.updatePlayback(
+                    isMusicRunning: true,
+                    isPlaying: false,
+                    title: "",
+                    artist: "",
+                    album: "",
+                    position: 0.0,
+                    duration: 0.0
+                )
+                await stateActor.setLyricsError(error.localizedDescription, forKey: "")
+            }
+            
+            do {
+                try await Task.sleep(nanoseconds: UInt64(pollingInterval * 1_000_000_000))
+            } catch {
+                break
+            }
+        }
+    }
+    
+    private func startUpdateLoop() async {
+        while true {
+            let playbackState = await stateActor.getState()
+            let (lyrics, status, mode, availableModes) = await stateActor.getLyrics()
+            
+            menuEngine.update(
+                state: playbackState,
+                lyrics: lyrics,
+                status: status,
+                mode: mode,
+                availableModes: availableModes
+            )
+            
+            do {
+                try await Task.sleep(nanoseconds: 100_000_000) // 100ms update rate
+            } catch {
+                break
+            }
+        }
+    }
 }
+
+// 4. Execution Core
+setvbuf(stdout, nil, _IONBF, 0)
+let args = CLIArguments.parse()
+
+if args.showHelp {
+    print(HELP_MESSAGE)
+    exit(0)
+}
+if args.showVersion {
+    print("Lyra version \(VERSION)")
+    exit(0)
+}
+
+let app = NSApplication.shared
+let delegate = AppDelegate(interval: args.interval, debug: args.debug)
+app.delegate = delegate
+
+// Configure the app to run as a background accessory (no Dock icon, no window activation)
+app.setActivationPolicy(.accessory)
+
+app.run()
