@@ -3,6 +3,11 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
+# Find the repository root directory relative to the script location
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ROOT_DIR="$(dirname "$SCRIPT_DIR")"
+cd "$ROOT_DIR"
+
 echo "=== Building Lyra in Release Configuration ==="
 swift build -c release
 
@@ -44,6 +49,6 @@ cat << 'EOF' > "${CONTENTS_DIR}/Info.plist"
 EOF
 
 echo "=== Lyra.app Packaged Successfully! ==="
-echo "You can find your application at: $(pwd)/Lyra.app"
+echo "You can find your application at: ${ROOT_DIR}/Lyra.app"
 echo "To install, move it to your Applications folder:"
 echo "  mv Lyra.app /Applications/"

@@ -38,6 +38,13 @@ lyra
 ```
 The background daemon will boot, and the active lyric line will appear in your top menu bar.
 
+### Package as a macOS App Bundle
+To build and package Lyra into a standalone macOS `.app` bundle (which supports automatic launch at login and graphical onboarding dialogs):
+```bash
+./Scripts/package.sh
+```
+This will compile the project and generate `Lyra.app` in your repository root, which you can move into `/Applications/`.
+
 ---
 
 ## Uninstall

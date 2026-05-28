@@ -8,5 +8,3 @@ DerivedData/
 .netrc
 
 /Lyra.app
-/git_backup_dir
-/run_commits.py
