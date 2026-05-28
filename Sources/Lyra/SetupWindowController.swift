@@ -104,4 +104,64 @@ final class SetupWindowController: NSObject, NSWindowDelegate {
         window.contentView = visualEffectView
     }
     
+    /// Displays the setup window and makes it key.
+    public func show() {
+        NSApp.setActivationPolicy(.regular)
+        NSApp.activate(ignoringOtherApps: true)
+        window.makeKeyAndOrderFront(nil)
+    }
+    
+    @objc private func grantClicked() {
+        requestAutomationPermissions()
+        registerLoginItem()
+        
+        let successAlert = NSAlert()
+        successAlert.messageText = "Setup Complete"
+        successAlert.informativeText = "Permissions requested and auto-launch enabled! Lyra will now run in the background. It will automatically appear in your menu bar when Spotify or Apple Music is active, and disappear when they are closed."
+        successAlert.addButton(withTitle: "Start Lyra")
+        successAlert.window.level = .floating
+        successAlert.window.orderFrontRegardless()
+        successAlert.runModal()
+        
+        isSetupCompleted = true
+        window.close()
+        NSApp.setActivationPolicy(.accessory)
+        completionHandler(true)
+    }
+    
+    @objc private func quitClicked() {
+        window.close()
+        completionHandler(false)
+    }
+    
+    func windowWillClose(_ notification: Notification) {
+        if !isSetupCompleted {
+            completionHandler(false)
+        }
+    }
+    
+    private func requestAutomationPermissions() {
+        let spotifyScript = NSAppleScript(source: "tell application \"Spotify\" to get player state")
+        var errorInfo: NSDictionary? = nil
+        _ = spotifyScript?.executeAndReturnError(&errorInfo)
+        
+        let musicScript = NSAppleScript(source: "tell application \"Music\" to get player state")
+        errorInfo = nil
+        _ = musicScript?.executeAndReturnError(&errorInfo)
+    }
+    
+    private func registerLoginItem() {
+        guard Bundle.main.bundleIdentifier == "com.daiski.lyra" else {
+            if debugMode { print("[DEBUG] Not running from the packaged app bundle, skipping login item registration.") }
+            return
+        }
+        let appService = SMAppService.mainApp
+        do {
+            if appService.status == .notRegistered {
+                try appService.register()
+            }
+        } catch {
+            if debugMode { print("[DEBUG] Failed to register login item: \(error.localizedDescription)") }
+        }
+    }
 }
