@@ -46,7 +46,7 @@ public struct UpdateChecker: Sendable {
         return nil
     }
 
-    private func isVersionNewer(remote: String, current: String) -> Bool {
+    func isVersionNewer(remote: String, current: String) -> Bool {
         let remoteParts = remote.split(separator: ".").compactMap { Int($0) }
         let currentParts = current.split(separator: ".").compactMap { Int($0) }
 
