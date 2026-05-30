@@ -13,12 +13,6 @@ Lyra is a macOS-only (for now) menu bar application that displays real-time, syn
 
 ## Installation
 
-Lyra can be installed either as a standard macOS application bundle (recommended for most users) or as a command-line binary.
-
-### Method 1: Package as a macOS App Bundle (Recommended)
-
-Packaging Lyra as a `.app` bundle enables a visual setup onboarding screen, requests macOS system permissions gracefully, and registers the app to launch automatically when you log in.
-
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/Dai-Ski/LYRA.git
