@@ -49,9 +49,3 @@ swift test
 * **Code Style**: Adhere to the official [Swift API Design Guidelines](https://swift.org/documentation/api-design-guidelines/).
 * **Branch Naming**: Use clean prefixes: `feature/` (new features), `bugfix/` (fixes), or `docs/` (documentation).
 * **Commit Messages**: Write concise, imperative commit descriptions (e.g., `fix: handle missing metadata gracefully`).
-
----
-
-> [!IMPORTANT]
-> **Code of Conduct**
-> By participating in this project, you agree to abide by the terms of our [Code of Conduct](CODE_OF_CONDUCT.md). Please report any unacceptable behavior to [ado@daiski.dev](mailto:ado@daiski.dev)
