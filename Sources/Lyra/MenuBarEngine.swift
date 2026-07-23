@@ -11,21 +11,18 @@ public final class MenuBarEngine: NSObject {
     
     public var modeChangeHandler: ((LyricMode) -> Void)?
     
-    // Base64 encoded 32x32 transparent lyre icon (retina status bar size, 16x16 pt)
+    // Base64 encoded 36x36 retina stencil lyre icon (18x18 pt menu bar size)
     private static let lyreIconBase64 = """
-    iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACsElEQVR4nO2Xy4vNYRjHP+85c0OR
-    kUguG4Q/QCxESbIR5bJHUkqztBLZKblkYTVbCyupURMLKREjpSxQyCWTaQwmY26+epzvaX6dzpnp
-    /Mwhl6d+vef9ve/v+T7P930u74H/8pslTYcSSaGnUBUgpXH+WgYkpZSSJC0A1gCzMzrHgBHgekrp
-    2/SYWyGSimGEpEuqLt2SCvHQCJEVS7otaVzSvKQhSaOSnmbWUyO9X2vweLJyp2HgZQM8dhkwvB+T
-    dFrSJ0kvGsaAJsC3GHzEY4/f35X0TdISz2vGQCEH+A9vJLUAZ4Fx67kH3LJx3c6G9VPhFOo1ACi6
-    uBxz6hX97ABeAe3ADe/dPJWypnqQw7uUUpzzOuCove8FbjrvB4Gg/WFsBzaYsZrVMOUot23AA2Cl
-    l3YCUWj67X1Up6uSXgMLgcUppXcRB9UKUiEH9ecN/gHoBIaAr8Ac4D0QVTHkmY9m2WTOFuqkfg+w
-    z6/PASeB5QZuNwtzvf7GY9kgchmgUgpFSi0CLvh1p8GCkVnAZwN/9Dykz2P0h59iIEXDMfh84ARw
-    xME2aMA4hpnAF6DV3416LOZmQCXqo8TucrBdTikdB2YALQZpMRNtnjdXZNhoLgNUivqgPsDOAG+B
-    g6akz6DDbrn9GcBypM/zOFBWWW8dKDrwtkYqAR0ppQFJUXw6gN3ANhvSY+CoBdGgwrGlFbGQuxCt
-    tvWrJB1yGgbNzx35EeVXgCfARWdEq7NDGQOqMlBTMp0s2m1WHkna6HbcLGl7FB2vxXhN0gHPe2NP
-    7o6oicazSdIpSfsltVbZt0LS4wpDoz0PStrrPZNmQ02pZnlWWdkgSYdrXMviXtDkq1mqOwZS6dIZ
-    gAWPxyuu2mM+rpdAl4Ox6DG+ue/f0SPqi4NfIWm6FJmF9Ef+Ofm35TvSMhD+Qi3FHgAAAABJRU5E
+    iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAACBUlEQVR4nO2WT0hUURTGf5NKGRZj
+    IUYhLooYnI1Ci1azSpLaKgVtBaUgAnFfuJMg+rOXIQiC2rUS3bgJQRfRMhfioinNmf4PU44jF74r
+    h8dAE9z3ZvM+eHzvnXvfvR/nnnvOgRQpUsSLTAxrjgGDQLe+/wINYBt4RcK4oc2bPXdbWaAzsKDz
+    wB89HWLnqSLwhDbgC1AH9iLeud/qAkcCipkCTgM1fX8AHund2RPHNx3Rb3nlpOzufTVpMY+1cVW8
+    ZsY2dYSJoV8ifojnZC+In8qeT0rQhgliHz8Ot8RXNfYgCTHz2szFzjIwAlzQ2LS4S3Pexi0mb8Q4
+    Pi77NbFNhFUFe6zXfkVlwR3ZOHBO9l6xDeQtU0piEfQGOKXjuAy8BnIaO2G8YgU59MVROiaA6yqW
+    C8aeFR8TV8zYZ/EZYCe0oKI4p02vAEtG0L64bP6ptrrf/x7ZomJhwnjAx8xRsb/6FZOtXaFFdS6Y
+    oAIwCjyM9DU9YnfTrDd2jddcvDl8DynoueJmNmK/GImdj+bIfCoYEJcIhKw84GqWx4y84FuMn8Bt
+    4J6ZMyz+ajwYBENacF1BvKpvVzifAS8VH17cJf3nc1ND3UBQlCJNl2tXm+WnhhF/07S174kBd4DJ
+    f8x5YcqJf2o6trO0CWUJqUf4XdJNvscvkyQzEuRy0afDGSlSpKA9OABSaI94Z9c52QAAAABJRU5E
     RkJggg==
     """
     
@@ -280,6 +277,7 @@ public final class MenuBarEngine: NSObject {
         guard let image = NSImage(data: data) else {
             return nil
         }
+        image.size = NSSize(width: 18, height: 18)
         image.isTemplate = true
         return image
     }
