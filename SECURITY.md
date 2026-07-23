@@ -11,14 +11,14 @@ Only the latest active major version receives security updates.
 
 | Version | Security Support Status |
 | :--- | :--- |
-| **Lyra-v.m.s/am-01** | Supported |
-| **Lyra-v.1.1** | Unsupported |
+| **v1.x** | Supported |
+| **v0.x** | Unsupported |
 
 ## Reporting a Vulnerability
 
 If you discover a security vulnerability, **please do not open a public GitHub issue**. Instead, report it privately:
 
-1. Send an email to **[ado@daiski.dev](mailto:ado@daiski.dev)** with the subject line `Security Vulnerability - Lyra` or explain your issue on Telegram at **[dai_ski](https://t.me/dai_ski)**.
+1. Send an email to **[ado@daiski.dev](mailto:ado@daiski.dev)** with the subject line `Security Vulnerability - Lyra` or reach out on Telegram at **[dai_ski](https://t.me/dai_ski)**.
 2. Include a description of the issue, steps to reproduce, and any proof-of-concept code.
 
 ## Response & Disclosure Process

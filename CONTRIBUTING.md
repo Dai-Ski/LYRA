@@ -35,7 +35,7 @@ Lyra is a macOS-only project built using the **Swift Package Manager (SPM)**.
 * **Via Terminal**:
   Build and compile the standalone `.app` bundle in the repository root:
   ```bash
-  ./Scripts/package.sh
+  ./Scripts/create_dmg.sh
   ```
 
 ### Running Tests
