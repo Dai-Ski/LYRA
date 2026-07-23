@@ -61,6 +61,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let pollingInterval: Double
     private let debugMode: Bool
     private var pollingTask: Task<Void, Never>?
+    private var installerWindowController: InstallerWindowController?
     private var setupWindowController: SetupWindowController?
     
     init(interval: Double, debug: Bool) {
@@ -81,7 +82,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         
-        // 1. Run onboarding setup flow if needed (first launch permissions)
+        // 1. Check if running outside /Applications directory -> launch Drag & Drop installer
+        let isInsideApplications = Bundle.main.bundlePath.hasPrefix("/Applications")
+        if !isInsideApplications && !debugMode {
+            installerWindowController = InstallerWindowController { _ in
+                NSApplication.shared.terminate(nil)
+            }
+            installerWindowController?.show()
+            return
+        }
+        
+        // 2. Run onboarding setup flow if needed (first launch permissions)
         runSetupFlowIfNeeded()
         
         // 2. Set up workspace observers to monitor music app launch and termination
@@ -194,6 +205,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         var currentTrackKey = ""
         
         while !Task.isCancelled {
+            var isPlayingNow = false
             do {
                 let (spotifyRunning, musicRunning) = checkRunningApps()
                 
@@ -263,14 +275,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                     currentTrackKey = ""
                     
                 case .paused(let track, let position), .playing(let track, let position):
-                    var isPlaying = false
                     if case .playing = activeState {
-                        isPlaying = true
+                        isPlayingNow = true
                     }
                     
                     await stateActor.updatePlayback(
                         isMusicRunning: true,
-                        isPlaying: isPlaying,
+                        isPlaying: isPlayingNow,
                         title: track.title,
                         artist: track.artist,
                         album: track.album,
@@ -333,8 +344,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 await stateActor.setLyricsError(error.localizedDescription, forKey: "")
             }
             
+            let sleepSec = isPlayingNow ? min(1.0, pollingInterval) : pollingInterval
             do {
-                try await Task.sleep(nanoseconds: UInt64(pollingInterval * 1_000_000_000))
+                try await Task.sleep(nanoseconds: UInt64(sleepSec * 1_000_000_000))
             } catch {
                 break
             }
