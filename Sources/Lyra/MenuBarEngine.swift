@@ -13,23 +13,20 @@ public final class MenuBarEngine: NSObject {
     
     // Base64 encoded 32x32 transparent lyre icon (retina status bar size, 16x16 pt)
     private static let lyreIconBase64 = """
-    iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAGxlWElmTU0A
-    KgAAAAgABAEaAAUAAAABAAAAPgEbAAUAAAABAAAARgEoAAMAAAABAAIAAIdpAAQAAAABAAAATgAA
-    AAAAAACQAAAAAQAAAJAAAAABAAKgAgAEAAAAAQAAACCgAwAEAAAAAQAAACAAAAAAxqyL9QAAAAlw
-    SFlzAAAWJQAAFiUBSVIk8AAAAsRJREFUWAm1lstLV0EUx83Kkiw3pRgVSLSQkhYRhglhRlEt0qCg
-    2gRBkD3B6PUvCOIiKFCjXYsei1qYPSDRzEAoCgysEItei4KemI/y840GLj9n5s7vev3Ch3vvmTPn
-    zp05M+fm5Ni1C/MTGIdjdpd0rLmOMB+w58FtaHf4pGKe5YjSjf0h9MOQwycVs2sGTPAibuJ8jG+i
-    qy/4LyLWw75EkQM7zfT41dA2D3aC/LQkqcs3A7N5WwfUwRE4D74B05y9fAMYJlwhPIUNUAHXoABS
-    k28Av3nLX5gBg7AR/sAdWAzTqgVEfwAvYQUYaTCN8AJWGuN0XPMJegW6wPa1h7BrVqphSnIl1RhR
-    l4IOqhug56j6eBiAi/AZnkMi+XJAAeeApt0mHdHaIafhlM0hxOYbgJJQW9GnZzRuga3QDL54NE9W
-    XAcVJNcMmGgqXNuhGJQ3OrymrLlEuAtfoTIwmtkh9/EvCezjdFOws6Djd6HTy96gU1NJusreHG7d
-    i2sHJJnSHfRTflRBYu2mp5ahIGGEdfTrAeVHItXSqxOSDkAvXQ3KCVVUq3y7QP8DvnZrwAyjluEg
-    7IfNkJXO4f0e1mfVa7KzEno5XIdoXfnn6fonVGMZ5IEChEgluxq0ZL1wE0ZAFXUIWkEfdQBUVWOl
-    47UL4nJgLT76e9aLoqhvKRjN5+YxyD9IR/FSArkGoGP6DPwEvfgjXIKT0ATvQGW7HDSLy+ATaCli
-    pZe2wGvQEZupCgz3wHzxBe6XZDgt4lkx3kAbaFmGIahwrcHxO+gFmsoTsAeOwy3QGqpNZXgbuKQc
-    U3s7aEc0Qj7ESrXgKoyC+crodQB7A+jPKVTWLe3aBUoYVblv0AeaRgV4Cz3/+cE1GwVlvhJrE2i6
-    xkFf/QUOgysZaUpPSiazd6NTrvtHoAGmqswluEz0QYjaa3hWVXsFY5CqJgAePol+FZY1PQAAAABJ
-    RU5ErkJggg==
+    iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACsElEQVR4nO2Xy4vNYRjHP+85c0OR
+    kUguG4Q/QCxESbIR5bJHUkqztBLZKblkYTVbCyupURMLKREjpSxQyCWTaQwmY26+epzvaX6dzpnp
+    /Mwhl6d+vef9ve/v+T7P930u74H/8pslTYcSSaGnUBUgpXH+WgYkpZSSJC0A1gCzMzrHgBHgekrp
+    2/SYWyGSimGEpEuqLt2SCvHQCJEVS7otaVzSvKQhSaOSnmbWUyO9X2vweLJyp2HgZQM8dhkwvB+T
+    dFrSJ0kvGsaAJsC3GHzEY4/f35X0TdISz2vGQCEH+A9vJLUAZ4Fx67kH3LJx3c6G9VPhFOo1ACi6
+    uBxz6hX97ABeAe3ADe/dPJWypnqQw7uUUpzzOuCove8FbjrvB4Gg/WFsBzaYsZrVMOUot23AA2Cl
+    l3YCUWj67X1Up6uSXgMLgcUppXcRB9UKUiEH9ecN/gHoBIaAr8Ac4D0QVTHkmY9m2WTOFuqkfg+w
+    z6/PASeB5QZuNwtzvf7GY9kgchmgUgpFSi0CLvh1p8GCkVnAZwN/9Dykz2P0h59iIEXDMfh84ARw
+    xME2aMA4hpnAF6DV3416LOZmQCXqo8TucrBdTikdB2YALQZpMRNtnjdXZNhoLgNUivqgPsDOAG+B
+    g6akz6DDbrn9GcBypM/zOFBWWW8dKDrwtkYqAR0ppQFJUXw6gN3ANhvSY+CoBdGgwrGlFbGQuxCt
+    tvWrJB1yGgbNzx35EeVXgCfARWdEq7NDGQOqMlBTMp0s2m1WHkna6HbcLGl7FB2vxXhN0gHPe2NP
+    7o6oicazSdIpSfsltVbZt0LS4wpDoz0PStrrPZNmQ02pZnlWWdkgSYdrXMviXtDkq1mqOwZS6dIZ
+    gAWPxyuu2mM+rpdAl4Ox6DG+ue/f0SPqi4NfIWm6FJmF9Ef+Ofm35TvSMhD+Qi3FHgAAAABJRU5E
+    RkJggg==
     """
     
     private lazy var lyreIcon: NSImage? = {
@@ -167,7 +164,7 @@ public final class MenuBarEngine: NSObject {
         originalModeItem.state = (mode == .original) ? .on : .off
         romanizedModeItem.state = (mode == .romanized) ? .on : .off
         
-        romanizedModeItem.isEnabled = availableModes.contains(.romanized)
+        romanizedModeItem.isEnabled = true
         
         let title: String
         var showOnlyIcon = false
@@ -187,7 +184,7 @@ public final class MenuBarEngine: NSObject {
             showOnlyIcon = true
         } else {
             // Playing state -> Expand and display text/lyrics
-            let currentPos = getCurrentPosition(state: state) + 0.2
+            let currentPos = getCurrentPosition(state: state) + 0.1
             
             if state.title == "Advertisement??" {
                 title = "Advertisement??"
@@ -216,6 +213,8 @@ public final class MenuBarEngine: NSObject {
                             
                             if chunks.isEmpty {
                                 title = ""
+                            } else if chunks.count == 1 {
+                                title = chunks[0]
                             } else {
                                 // Calculate start and end timestamps for the current lyric line
                                 let tStart = lyrics[activeIdx].timestamp
@@ -226,13 +225,29 @@ public final class MenuBarEngine: NSObject {
                                     tEnd = state.duration > tStart ? state.duration : tStart + 8.0
                                 }
                                 
-                                let lineDuration = max(1.0, tEnd - tStart)
+                                let gap = max(0.5, tEnd - tStart)
                                 let elapsed = max(0.0, currentPos - tStart)
                                 
-                                // Display the appropriate chunk sequentially based on elapsed time within this line
-                                let chunkIndex = Int(elapsed / (lineDuration / Double(chunks.count)))
-                                let safeIndex = max(0, min(chunks.count - 1, chunkIndex))
-                                title = chunks[safeIndex]
+                                // Allocate active singing time window for advancing chunks
+                                let minTimePerChunk = 2.2
+                                let activeWindow = min(gap, max(minTimePerChunk * Double(chunks.count), gap * 0.65))
+                                
+                                // Distribute activeWindow proportionally by character length
+                                let totalChars = chunks.reduce(0) { $0 + max(1, $1.count) }
+                                var currentOffset = 0.0
+                                var selectedChunkIndex = chunks.count - 1
+                                
+                                for (i, chunk) in chunks.enumerated() {
+                                    let chunkWeight = Double(max(1, chunk.count)) / Double(totalChars)
+                                    let chunkDuration = activeWindow * chunkWeight
+                                    if elapsed < currentOffset + chunkDuration {
+                                        selectedChunkIndex = i
+                                        break
+                                    }
+                                    currentOffset += chunkDuration
+                                }
+                                
+                                title = chunks[selectedChunkIndex]
                             }
                         }
                     } else {
