@@ -158,7 +158,6 @@ public actor AppStateActor {
         if isMusicRunning && (!title.isEmpty || !artist.isEmpty) {
             let newKey = currentState.trackKey
             if oldKey != newKey || !oldRunning {
-                currentLyricMode = .original
                 refreshActiveLyrics()
                 if activeLyrics.isEmpty {
                     lyricsStatus = .none
