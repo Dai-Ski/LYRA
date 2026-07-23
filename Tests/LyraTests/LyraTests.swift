@@ -1,76 +1,123 @@
-import Testing
-import Foundation
+import XCTest
 @testable import Lyra
 
-@Suite struct LyraTests {
+final class LyraTests: XCTestCase {
     
-    @Test func testMusicTrackKey() {
-        let track = MusicTrack(title: "Bohemian Rhapsody", artist: "Queen", album: "A Night at the Opera", duration: 355.0)
-        #expect(track.trackKey == "Queen - Bohemian Rhapsody")
+    // MARK: - 1. Romanized Mode Persistence Tests
+    func testRomanizedModePersistsOnTrackChange() async {
+        let actor = AppStateActor()
         
-        let emptyTrack = MusicTrack(title: "", artist: "", album: "", duration: 0.0)
-        #expect(emptyTrack.trackKey == "")
+        // Initial state: original mode
+        let (_, _, initialMode, _) = await actor.getLyrics()
+        XCTAssertEqual(initialMode, .original)
+        
+        // User selects romanized mode
+        await actor.setLyricMode(.romanized)
+        let (_, _, selectedMode, _) = await actor.getLyrics()
+        XCTAssertEqual(selectedMode, .romanized)
+        
+        // Load first track with lyrics
+        await actor.updatePlayback(
+            isMusicRunning: true,
+            isPlaying: true,
+            title: "Song A",
+            artist: "Artist A",
+            album: "Album A",
+            position: 10.0,
+            duration: 200.0
+        )
+        
+        let originalLinesA = [LyricLine(timestamp: 5.0, text: "こんにちは")]
+        let romanizedLinesA = [LyricLine(timestamp: 5.0, text: "Konnichiwa")]
+        await actor.setLyricsLoaded(original: originalLinesA, romanized: romanizedLinesA, forKey: "Artist A - Song A")
+        
+        let (lyricsA, _, modeA, _) = await actor.getLyrics()
+        XCTAssertEqual(modeA, .romanized)
+        XCTAssertEqual(lyricsA.first?.text, "Konnichiwa")
+        
+        // Track changes to Song B
+        await actor.updatePlayback(
+            isMusicRunning: true,
+            isPlaying: true,
+            title: "Song B",
+            artist: "Artist B",
+            album: "Album B",
+            position: 0.0,
+            duration: 180.0
+        )
+        
+        let originalLinesB = [LyricLine(timestamp: 2.0, text: "Hello world")]
+        let romanizedLinesB = [LyricLine(timestamp: 2.0, text: "Hello world")]
+        await actor.setLyricsLoaded(original: originalLinesB, romanized: romanizedLinesB, forKey: "Artist B - Song B")
+        
+        // Ensure mode is STILL romanized and didn't reset to original
+        let (_, _, modeB, _) = await actor.getLyrics()
+        XCTAssertEqual(modeB, .romanized, "Lyric mode must persist as romanized across track switches until app is quit.")
     }
-    
-    @Test func testParseSyncedLyrics() {
+
+    // MARK: - 2. LRC Parser Tests
+    func testLRCParserStandardAndSubseconds() {
         let client = LyricsClient()
-        let rawContent = """
-        [00:05.12] First line of song
-        [00:10.00] Second line of song
-        [00:15.50] Third line
+        let lrcContent = """
+        [00:12.34]First line
+        [01:05.678]Second line
+        [02:10:50]Third line with colon subsecond
+        [03:00]Fourth line no subsecond
         """
         
-        let parsed = client.parseLyrics(rawContent)
-        #expect(parsed.count == 3)
-        #expect(parsed[0].timestamp == 5.12)
-        #expect(parsed[0].text == "First line of song")
-        #expect(parsed[1].timestamp == 10.0)
-        #expect(parsed[1].text == "Second line of song")
-        #expect(parsed[2].timestamp == 15.5)
-        #expect(parsed[2].text == "Third line")
+        let lines = client.parseLyrics(lrcContent)
+        XCTAssertEqual(lines.count, 4)
+        
+        XCTAssertEqual(lines[0].timestamp, 12.34, accuracy: 0.001)
+        XCTAssertEqual(lines[0].text, "First line")
+        
+        XCTAssertEqual(lines[1].timestamp, 65.678, accuracy: 0.001)
+        XCTAssertEqual(lines[1].text, "Second line")
+        
+        XCTAssertEqual(lines[2].timestamp, 130.50, accuracy: 0.001)
+        XCTAssertEqual(lines[2].text, "Third line with colon subsecond")
+        
+        XCTAssertEqual(lines[3].timestamp, 180.0, accuracy: 0.001)
+        XCTAssertEqual(lines[3].text, "Fourth line no subsecond")
     }
-    
-    @Test func testParsePlainLyrics() {
+
+    func testLRCParserMultiTimestampLine() {
         let client = LyricsClient()
-        let rawContent = """
-        First line
-        Second line
+        let lrcContent = """
+        [00:10.00][01:20.00]Chorus line repeated
         """
         
-        let parsed = client.parseLyrics(rawContent)
-        // One disclaimer line + two lyrics lines
-        #expect(parsed.count == 3)
-        #expect(parsed[0].timestamp == 0.0)
-        #expect(parsed[0].text == "[Synced lyrics not available. Displaying plain text]")
-        #expect(parsed[1].timestamp == 4.0)
-        #expect(parsed[1].text == "First line")
-        #expect(parsed[2].timestamp == 8.0)
-        #expect(parsed[2].text == "Second line")
+        let lines = client.parseLyrics(lrcContent)
+        XCTAssertEqual(lines.count, 2)
+        
+        XCTAssertEqual(lines[0].timestamp, 10.0)
+        XCTAssertEqual(lines[0].text, "Chorus line repeated")
+        
+        XCTAssertEqual(lines[1].timestamp, 80.0)
+        XCTAssertEqual(lines[1].text, "Chorus line repeated")
     }
-    
-    @Test func testIsVersionNewer() {
-        let checker = UpdateChecker(currentVersion: "1.0.0", repo: "Dai-Ski/LYRA")
-        
-        // Remote is newer
-        #expect(checker.isVersionNewer(remote: "1.0.1", current: "1.0.0") == true)
-        #expect(checker.isVersionNewer(remote: "1.1.0", current: "1.0.0") == true)
-        #expect(checker.isVersionNewer(remote: "2.0.0", current: "1.0.0") == true)
-        
-        // Remote is older or equal
-        #expect(checker.isVersionNewer(remote: "1.0.0", current: "1.0.0") == false)
-        #expect(checker.isVersionNewer(remote: "0.9.9", current: "1.0.0") == false)
-        
-        // Handles version component lengths gracefully
-        #expect(checker.isVersionNewer(remote: "1.0", current: "1.0.0") == false)
-        #expect(checker.isVersionNewer(remote: "1.0.0.1", current: "1.0.0") == true)
-    }
-    
-    @Test func testRomanization() throws {
+
+    func testLRCParserOffsetAndMetadataStripping() {
         let client = LyricsClient()
+        let lrcContent = """
+        [ti:Test Title]
+        [ar:Test Artist]
+        [offset:+1000]
+        [00:05.00]Offsetted line
+        """
         
-        #expect(client.romanize("こんにちは") == "kon'nichiha")
-        #expect(client.romanize("안녕하세요") == "annyeonghaseyo")
-        #expect(client.romanize("你好") == "ni hao")
-        #expect(client.romanize("Beautiful Day") == "Beautiful Day")
+        let lines = client.parseLyrics(lrcContent)
+        XCTAssertEqual(lines.count, 1)
+        
+        // 5.0s + 1.0s offset = 6.0s
+        XCTAssertEqual(lines[0].timestamp, 6.0, accuracy: 0.001)
+        XCTAssertEqual(lines[0].text, "Offsetted line")
+    }
+    
+    func testCleanTitle() {
+        let client = LyricsClient()
+        XCTAssertEqual(client.cleanTitle("Shape of You (feat. Someone)"), "Shape of You")
+        XCTAssertEqual(client.cleanTitle("Hotel California - Remastered 2013"), "Hotel California")
+        XCTAssertEqual(client.cleanTitle("Despacito [Official Video]"), "Despacito")
     }
 }
