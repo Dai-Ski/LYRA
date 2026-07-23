@@ -58,9 +58,21 @@ public struct LyricsClient: Sendable {
             return (original: parsed, romanized: romanized)
         }
 
+        // Fallback: try LRCLIB get without album constraint
+        if !album.isEmpty {
+            if let lrc = await tryLRCLIBGet(track: cleanTrack, artist: cleanArtist,
+                                             album: "", duration: duration,
+                                             maxRetries: maxRetries, debug: debug) {
+                if debug { print("[LYRA] ✓ LRCLIB get (no album filter) succeeded") }
+                let parsed   = parseLyrics(lrc)
+                let romanized = generateRomanized(parsed)
+                return (original: parsed, romanized: romanized)
+            }
+        }
+
         // ── Source 2: LRCLIB /api/search (fuzzy) ──────────────────────────────
         if debug { print("[LYRA] Trying LRCLIB search: '\(cleanTrack)' by '\(cleanArtist)'") }
-        if let lrc = await tryLRCLIBSearch(track: cleanTrack, artist: cleanArtist, debug: debug) {
+        if let lrc = await tryLRCLIBSearch(track: cleanTrack, artist: cleanArtist, targetDuration: duration, debug: debug) {
             if debug { print("[LYRA] ✓ LRCLIB search succeeded") }
             let parsed   = parseLyrics(lrc)
             let romanized = generateRomanized(parsed)
@@ -113,8 +125,8 @@ public struct LyricsClient: Sendable {
             #"\s*\[audio[^\]]*\]"#,
             #"\s*\(remaster[^)]*\)"#,
             #"\s*\[remaster[^\]]*\]"#,
-            #"\s*-\s*remaster\w*"#,
-            #"\s*-\s*live\b"#,
+            #"\s*-\s*remaster.*"#,
+            #"\s*-\s*live.*"#,
         ]
         for pattern in bracketPatterns {
             if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) {
@@ -195,21 +207,21 @@ public struct LyricsClient: Sendable {
 
     // MARK: - Source 2: LRCLIB /api/search
 
-    private func tryLRCLIBSearch(track: String, artist: String, debug: Bool) async -> String? {
+    private func tryLRCLIBSearch(track: String, artist: String, targetDuration: Double, debug: Bool) async -> String? {
         // Try "track artist" combined query, then track-only
         let queries = [
             "\(track) \(artist)",
             track
         ]
         for q in queries {
-            if let result = await lrclibSearch(query: q, track: track, artist: artist, debug: debug) {
+            if let result = await lrclibSearch(query: q, track: track, artist: artist, targetDuration: targetDuration, debug: debug) {
                 return result
             }
         }
         return nil
     }
 
-    private func lrclibSearch(query: String, track: String, artist: String, debug: Bool) async -> String? {
+    private func lrclibSearch(query: String, track: String, artist: String, targetDuration: Double, debug: Bool) async -> String? {
         var components = URLComponents(string: "https://lrclib.net/api/search")!
         components.queryItems = [URLQueryItem(name: "q", value: query)]
         guard let url = components.url else { return nil }
@@ -222,8 +234,11 @@ public struct LyricsClient: Sendable {
               let http = response as? HTTPURLResponse, http.statusCode == 200 else { return nil }
 
         struct SearchHit: Decodable {
+            let id: Int?
             let artistName:   String?
             let trackName:    String?
+            let albumName:    String?
+            let duration:     Double?
             let syncedLyrics: String?
             let plainLyrics:  String?
         }
@@ -231,24 +246,71 @@ public struct LyricsClient: Sendable {
         guard let hits = try? JSONDecoder().decode([SearchHit].self, from: data),
               !hits.isEmpty else { return nil }
 
-        // Score hits: prefer ones whose track/artist name fuzzy-matches ours
+        var bestHit: SearchHit? = nil
+        var bestScore: Double = -1000.0
+
         let cleanTrackLow  = track.lowercased()
         let cleanArtistLow = artist.lowercased()
 
         for hit in hits {
-            let hitTrack  = (hit.trackName  ?? "").lowercased()
-            let hitArtist = (hit.artistName ?? "").lowercased()
-            // Must share at least the first meaningful word of the track name
-            let firstWord = cleanTrackLow.components(separatedBy: " ").first ?? cleanTrackLow
-            guard hitTrack.contains(firstWord) || hitArtist.contains(cleanArtistLow) else { continue }
-            if let synced = hit.syncedLyrics, !synced.isEmpty { return synced }
-            if let plain  = hit.plainLyrics,  !plain.isEmpty  { return plain  }
+            let hitTrack  = cleanTitle(hit.trackName  ?? "").lowercased()
+            let hitArtist = cleanTitle(hit.artistName ?? "").lowercased()
+            let hasSynced = hit.syncedLyrics != nil && !(hit.syncedLyrics!.isEmpty)
+            let hasPlain  = hit.plainLyrics  != nil && !(hit.plainLyrics!.isEmpty)
+
+            if !hasSynced && !hasPlain { continue }
+
+            var score: Double = 0.0
+
+            // 1. Synced lyrics bonus
+            if hasSynced { score += 50.0 }
+
+            // 2. Track title matching
+            if hitTrack == cleanTrackLow {
+                score += 40.0
+            } else if hitTrack.contains(cleanTrackLow) || cleanTrackLow.contains(hitTrack) {
+                score += 20.0
+            } else {
+                let firstWord = cleanTrackLow.components(separatedBy: " ").first ?? cleanTrackLow
+                if hitTrack.contains(firstWord) {
+                    score += 10.0
+                } else {
+                    score -= 30.0
+                }
+            }
+
+            // 3. Artist title matching
+            if hitArtist == cleanArtistLow {
+                score += 30.0
+            } else if hitArtist.contains(cleanArtistLow) || cleanArtistLow.contains(hitArtist) {
+                score += 15.0
+            }
+
+            // 4. Duration matching (critical for correct timestamp sync)
+            if let hitDur = hit.duration, targetDuration > 0 {
+                let durDiff = abs(hitDur - targetDuration)
+                if durDiff <= 2.0 {
+                    score += 50.0
+                } else if durDiff <= 5.0 {
+                    score += 30.0
+                } else if durDiff <= 10.0 {
+                    score += 10.0
+                } else if durDiff > 20.0 {
+                    score -= 60.0
+                }
+            }
+
+            if score > bestScore {
+                bestScore = score
+                bestHit = hit
+            }
         }
 
-        // Last resort: just take the first hit's lyrics
-        let first = hits[0]
-        if let synced = first.syncedLyrics, !synced.isEmpty { return synced }
-        if let plain  = first.plainLyrics,  !plain.isEmpty  { return plain  }
+        if let best = bestHit, bestScore > 0 {
+            if let synced = best.syncedLyrics, !synced.isEmpty { return synced }
+            if let plain  = best.plainLyrics,  !plain.isEmpty  { return plain  }
+        }
+
         return nil
     }
 
@@ -442,50 +504,79 @@ public struct LyricsClient: Sendable {
     func parseLyrics(_ content: String) -> [LyricLine] {
         let rawLines = content.components(separatedBy: .newlines)
         var lines: [LyricLine] = []
+        var globalOffsetSeconds: Double = 0.0
 
-        // Detect if the payload contains synchronized tags e.g. [00:12.34]
-        var isSynced = false
+        let offsetRegex = try? NSRegularExpression(pattern: #"\[offset:\s*([+-]?\d+)\]"#, options: .caseInsensitive)
+        let timeRegex   = try? NSRegularExpression(pattern: #"\[(\d+):(\d+)(?:[\.:](\d+))?\]"#)
+
         for rawLine in rawLines {
             let trimmed = rawLine.trimmingCharacters(in: .whitespaces)
-            if trimmed.hasPrefix("[") && trimmed.contains("]") {
-                if let closeBracket = trimmed.firstIndex(of: "]"),
-                   trimmed[..<closeBracket].contains(":") {
-                    isSynced = true
-                    break
+            if trimmed.isEmpty { continue }
+
+            // Extract [offset: ms] if present
+            if let offsetRegex = offsetRegex {
+                let nsRange = NSRange(trimmed.startIndex..., in: trimmed)
+                if let match = offsetRegex.firstMatch(in: trimmed, range: nsRange),
+                   let msRange = Range(match.range(at: 1), in: trimmed),
+                   let ms = Double(trimmed[msRange]) {
+                    globalOffsetSeconds = ms / 1000.0
+                    continue
+                }
+            }
+
+            guard let timeRegex = timeRegex else { continue }
+            let nsRange = NSRange(trimmed.startIndex..., in: trimmed)
+            let matches = timeRegex.matches(in: trimmed, range: nsRange)
+
+            if !matches.isEmpty {
+                // Strip out all time brackets to leave clean lyric text
+                var lyricText = timeRegex.stringByReplacingMatches(in: trimmed, range: nsRange, withTemplate: "").trimmingCharacters(in: .whitespaces)
+                
+                if lyricText.hasPrefix("[") && lyricText.hasSuffix("]") && !lyricText.contains(":") {
+                    lyricText = ""
+                }
+
+                for match in matches {
+                    guard let minRange = Range(match.range(at: 1), in: trimmed),
+                          let secRange = Range(match.range(at: 2), in: trimmed),
+                          let minVal = Double(trimmed[minRange]),
+                          let secVal = Double(trimmed[secRange]) else { continue }
+
+                    var subVal = 0.0
+                    if match.numberOfRanges > 3, let subRange = Range(match.range(at: 3), in: trimmed) {
+                        let subStr = String(trimmed[subRange])
+                        if let num = Double(subStr) {
+                            if subStr.count == 1 {
+                                subVal = num / 10.0
+                            } else if subStr.count == 2 {
+                                subVal = num / 100.0
+                            } else {
+                                subVal = num / 1000.0
+                            }
+                        }
+                    }
+
+                    let timestamp = (minVal * 60.0) + secVal + subVal + globalOffsetSeconds
+                    lines.append(LyricLine(timestamp: max(0.0, timestamp), text: lyricText))
                 }
             }
         }
 
-        if isSynced {
-            for rawLine in rawLines {
-                let trimmed = rawLine.trimmingCharacters(in: .whitespaces)
-                guard trimmed.hasPrefix("["),
-                      let closingBracketIndex = trimmed.firstIndex(of: "]") else { continue }
-
-                let timestampPart = trimmed[trimmed.index(after: trimmed.startIndex)..<closingBracketIndex]
-                let lyricPart     = trimmed[trimmed.index(after: closingBracketIndex)...].trimmingCharacters(in: .whitespaces)
-
-                let timeComponents = timestampPart.split(separator: ":")
-                guard timeComponents.count == 2,
-                      let minutes = Double(timeComponents[0]),
-                      let seconds = Double(timeComponents[1]) else { continue }
-
-                let totalSeconds = (minutes * 60.0) + seconds
-                lines.append(LyricLine(timestamp: totalSeconds, text: lyricPart))
-            }
-        } else {
-            // Plain text: spread lines out by 4 seconds
-            lines.append(LyricLine(timestamp: -1.0, text: "♪ Lyrics (not time-synced)"))
-            var validIndex = 0
-            for rawLine in rawLines {
-                let trimmed = rawLine.trimmingCharacters(in: .whitespaces)
-                if !trimmed.isEmpty {
-                    lines.append(LyricLine(timestamp: Double(validIndex) * 4.0, text: trimmed))
-                    validIndex += 1
-                }
-            }
+        if !lines.isEmpty {
+            return lines.sorted { $0.timestamp < $1.timestamp }
         }
 
-        return lines.sorted { $0.timestamp < $1.timestamp }
+        // Plain text fallback
+        lines.append(LyricLine(timestamp: -1.0, text: "♪ Lyrics (not time-synced)"))
+        var validIndex = 0
+        for rawLine in rawLines {
+            let trimmed = rawLine.trimmingCharacters(in: .whitespaces)
+            if trimmed.hasPrefix("[") && trimmed.hasSuffix("]") && trimmed.contains(":") { continue }
+            if !trimmed.isEmpty {
+                lines.append(LyricLine(timestamp: Double(validIndex) * 4.0, text: trimmed))
+                validIndex += 1
+            }
+        }
+        return lines
     }
 }
