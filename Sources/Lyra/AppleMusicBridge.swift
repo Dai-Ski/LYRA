@@ -75,6 +75,7 @@ public struct AppleMusicBridge: Sendable {
     public func fetchCurrentState(isRunning: Bool) async throws -> MusicPlayerState {
         guard isRunning else { return .notRunning }
 
+        let startTime = Date()
         let stateStr: String
         do {
             stateStr = try await executeAppleScript(Self.getPlaybackStateScript)
@@ -90,6 +91,8 @@ public struct AppleMusicBridge: Sendable {
         }
 
         if stateStr == "stopped" { return .stopped }
+
+        let execDuration = Date().timeIntervalSince(startTime)
 
         // Split on ASCII unit separator (0x1F) — safe against special chars in metadata
         let sep = "\u{1F}"
@@ -114,7 +117,8 @@ public struct AppleMusicBridge: Sendable {
         // Apple Music returns duration already in seconds (as a decimal float)
         // Use 0.0 as fallback if parsing fails (e.g. radio streams)
         let durationSec  = Double(parts[3]) ?? 0.0
-        let positionSec  = Double(parts[4]) ?? 0.0
+        let rawPosition  = Double(parts[4]) ?? 0.0
+        let positionSec  = rawPosition > 0 ? rawPosition + execDuration : 0.0
 
         // Detect radio streams / internet radio (no duration, or kind contains "internet audio stream")
         let isStream = durationSec <= 0 || trackKind.contains("internet") || trackKind.contains("stream")

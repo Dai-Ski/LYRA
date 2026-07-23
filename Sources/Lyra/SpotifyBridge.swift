@@ -75,6 +75,7 @@ public struct SpotifyBridge: Sendable {
     public func fetchCurrentState(isRunning: Bool) async throws -> MusicPlayerState {
         guard isRunning else { return .notRunning }
 
+        let startTime = Date()
         let stateStr: String
         do {
             stateStr = try await executeAppleScript(Self.getPlaybackStateScript)
@@ -91,6 +92,8 @@ public struct SpotifyBridge: Sendable {
         }
 
         if stateStr == "stopped" { return .stopped }
+
+        let execDuration = Date().timeIntervalSince(startTime)
 
         // Split on ASCII unit separator (0x1F) — safe against special chars in metadata
         let sep = "\u{1F}"
@@ -114,7 +117,7 @@ public struct SpotifyBridge: Sendable {
 
         // Spotify returns duration in milliseconds → convert to seconds
         let durationMs  = Double(parts[3]) ?? 0.0
-        let positionSec = Double(parts[4]) ?? 0.0
+        let positionSec = (Double(parts[4]) ?? 0.0) + execDuration
         let durationSec = durationMs / 1000.0
 
         // Detect advertisements:
