@@ -8,3 +8,5 @@ DerivedData/
 .netrc
 
 /Lyra.app
+/dist
+Assets/AppIcon.iconset/
