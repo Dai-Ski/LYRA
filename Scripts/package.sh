@@ -41,27 +41,43 @@ cat << 'EOF' > "${CONTENTS_DIR}/Info.plist"
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
     <key>CFBundleExecutable</key>
     <string>Lyra</string>
     <key>CFBundleIconFile</key>
     <string>AppIcon</string>
     <key>CFBundleIdentifier</key>
     <string>com.daiski.lyra</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
     <key>CFBundleName</key>
+    <string>Lyra</string>
+    <key>CFBundleDisplayName</key>
     <string>Lyra</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
     <string>1.0.0</string>
+    <key>CFBundleVersion</key>
+    <string>1.0.0</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>13.0</string>
     <key>LSUIElement</key>
     <string>1</string>
     <key>NSAppleEventsUsageDescription</key>
     <string>Lyra needs permission to control Spotify and Apple Music to display synchronized lyrics in your menu bar.</string>
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright © 2026 Dai-Ski. All rights reserved.</string>
 </dict>
 </plist>
 EOF
 
-echo "=== Lyra.app Packaged Successfully! ==="
+echo "=== Clearing Extended Attributes & Ad-Hoc Code Signing ==="
+xattr -cr "${APP_DIR}"
+codesign --force --deep --options runtime --sign - "${APP_DIR}"
+
+echo "=== Lyra.app Packaged & Code-Signed Successfully! ==="
 echo "You can find your application at: ${ROOT_DIR}/Lyra.app"
 echo "To install, move it to your Applications folder:"
 echo "  mv Lyra.app /Applications/"

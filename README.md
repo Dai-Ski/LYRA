@@ -20,6 +20,12 @@ Installing Lyra is as simple as 1-2-3:
 2. Open **`Lyra.dmg`** and drag **Lyra** into your **Applications** folder *(musical note emojis will pop up continuously as you drag!)*.
 3. Open **Lyra** from your Applications folder and click **GRANT PERMISSIONS & START**.
 
+> [!TIP]
+> **First Launch Note (macOS Gatekeeper)**:  
+> If macOS displays a notice when opening Lyra for the first time (*"unidentified developer"* or *"damaged"*):
+> - **Right-click** (or Control-click) **Lyra.app** in Applications → select **Open** → click **Open**.
+> - Or clear web quarantine attributes by running: `xattr -cr /Applications/Lyra.app`
+
 > [!NOTE]
 > Once setup is completed, Lyra runs silently in your top menu bar whenever Spotify or Apple Music is playing, and automatically hides when music stops.
 

@@ -27,6 +27,10 @@ mkdir -p "${STAGING_DIR}"
 # Copy Lyra.app bundle into staging
 cp -R "${ROOT_DIR}/Lyra.app" "${STAGING_DIR}/Lyra.app"
 
+# Clean extended attributes and re-sign ad-hoc
+xattr -cr "${STAGING_DIR}/Lyra.app"
+codesign --force --deep --options runtime --sign - "${STAGING_DIR}/Lyra.app"
+
 # Create symlink to /Applications for Finder drag-and-drop
 ln -s /Applications "${STAGING_DIR}/Applications"
 
