@@ -16,13 +16,24 @@ APP_DIR="Lyra.app"
 CONTENTS_DIR="${APP_DIR}/Contents"
 MACOS_DIR="${CONTENTS_DIR}/MacOS"
 
+RESOURCES_DIR="${CONTENTS_DIR}/Resources"
+
 # Recreate directories
 rm -rf "${APP_DIR}"
 mkdir -p "${MACOS_DIR}"
+mkdir -p "${RESOURCES_DIR}"
 
 # Copy release binary
 cp ".build/release/Lyra" "${MACOS_DIR}/Lyra"
 chmod +x "${MACOS_DIR}/Lyra"
+
+# Copy AppIcon resources if available
+if [ -f "Assets/AppIcon.icns" ]; then
+    cp "Assets/AppIcon.icns" "${RESOURCES_DIR}/AppIcon.icns"
+fi
+if [ -f "Assets/AppIcon.png" ]; then
+    cp "Assets/AppIcon.png" "${RESOURCES_DIR}/AppIcon.png"
+fi
 
 # Write Info.plist
 cat << 'EOF' > "${CONTENTS_DIR}/Info.plist"
@@ -32,6 +43,8 @@ cat << 'EOF' > "${CONTENTS_DIR}/Info.plist"
 <dict>
     <key>CFBundleExecutable</key>
     <string>Lyra</string>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
     <key>CFBundleIdentifier</key>
     <string>com.daiski.lyra</string>
     <key>CFBundleName</key>
