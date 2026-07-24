@@ -23,7 +23,7 @@ final class IntricateDesignBackgroundView: NSView {
     private func startAnimation() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0 / 30.0, repeats: true) { [weak self] _ in
             MainActor.assumeIsolated {
-                self?.phase += 0.02
+                self?.phase += 0.025
                 self?.needsDisplay = true
             }
         }
@@ -35,10 +35,10 @@ final class IntricateDesignBackgroundView: NSView {
         let bounds = self.bounds
         
         // 1. Rich Shifting Mesh Gradient (Deep Violet -> Royal Magenta -> Midnight Teal -> Electric Purple)
-        let color1 = NSColor(calibratedRed: 0.12 + 0.04 * sin(phase), green: 0.05, blue: 0.28 + 0.05 * cos(phase), alpha: 1.0)
-        let color2 = NSColor(calibratedRed: 0.45 + 0.08 * cos(phase), green: 0.08, blue: 0.55 + 0.08 * sin(phase), alpha: 1.0)
-        let color3 = NSColor(calibratedRed: 0.05, green: 0.25 + 0.06 * sin(phase * 0.7), blue: 0.42, alpha: 1.0)
-        let color4 = NSColor(calibratedRed: 0.25 + 0.05 * sin(phase * 1.2), green: 0.05, blue: 0.48, alpha: 1.0)
+        let color1 = NSColor(calibratedRed: 0.16 + 0.05 * sin(phase), green: 0.06, blue: 0.35 + 0.06 * cos(phase), alpha: 1.0)
+        let color2 = NSColor(calibratedRed: 0.50 + 0.09 * cos(phase), green: 0.10, blue: 0.60 + 0.09 * sin(phase), alpha: 1.0)
+        let color3 = NSColor(calibratedRed: 0.06, green: 0.32 + 0.07 * sin(phase * 0.8), blue: 0.48, alpha: 1.0)
+        let color4 = NSColor(calibratedRed: 0.30 + 0.06 * sin(phase * 1.2), green: 0.06, blue: 0.55, alpha: 1.0)
         
         guard let gradient = NSGradient(colors: [color1, color2, color3, color4]) else { return }
         let angle = 40.0 + 20.0 * sin(phase * 0.4)
@@ -53,56 +53,55 @@ final class IntricateDesignBackgroundView: NSView {
         let midY = bounds.height * 0.5
         wave1.move(to: NSPoint(x: 0, y: midY))
         for x in stride(from: 0, to: bounds.width, by: 4) {
-            let y = midY + sin(x * 0.015 + phase * 2.0) * 35.0 + cos(x * 0.025 + phase) * 15.0
+            let y = midY + sin(x * 0.015 + phase * 2.2) * 38.0 + cos(x * 0.025 + phase) * 18.0
             wave1.line(to: NSPoint(x: x, y: y))
         }
-        NSColor(calibratedRed: 0.2, green: 0.9, blue: 1.0, alpha: 0.25).setStroke()
-        wave1.lineWidth = 2.5
+        NSColor(calibratedRed: 0.2, green: 0.95, blue: 1.0, alpha: 0.40).setStroke()
+        wave1.lineWidth = 3.0
         wave1.stroke()
         
         // Wave 2: Neon Pink/Magenta Soundwave
         let wave2 = NSBezierPath()
         wave2.move(to: NSPoint(x: 0, y: midY))
         for x in stride(from: 0, to: bounds.width, by: 4) {
-            let y = midY + cos(x * 0.018 - phase * 1.8) * 40.0 + sin(x * 0.01 + phase * 0.5) * 20.0
+            let y = midY + cos(x * 0.018 - phase * 2.0) * 42.0 + sin(x * 0.01 + phase * 0.6) * 22.0
             wave2.line(to: NSPoint(x: x, y: y))
         }
-        NSColor(calibratedRed: 1.0, green: 0.3, blue: 0.85, alpha: 0.25).setStroke()
-        wave2.lineWidth = 2.0
+        NSColor(calibratedRed: 1.0, green: 0.35, blue: 0.90, alpha: 0.40).setStroke()
+        wave2.lineWidth = 2.5
         wave2.stroke()
         
         // Wave 3: Golden Glow Soundwave
         let wave3 = NSBezierPath()
         wave3.move(to: NSPoint(x: 0, y: midY))
         for x in stride(from: 0, to: bounds.width, by: 4) {
-            let y = midY + sin(x * 0.022 + phase * 1.2) * 25.0
+            let y = midY + sin(x * 0.022 + phase * 1.4) * 28.0
             wave3.line(to: NSPoint(x: x, y: y))
         }
-        NSColor(calibratedRed: 1.0, green: 0.85, blue: 0.3, alpha: 0.20).setStroke()
-        wave3.lineWidth = 1.5
+        NSColor(calibratedRed: 1.0, green: 0.88, blue: 0.35, alpha: 0.35).setStroke()
+        wave3.lineWidth = 2.0
         wave3.stroke()
         
         // 3. Draw Animated Equalizer Soundbar Visualizer at Bottom
-        let barCount = 28
+        let barCount = 30
         let barWidth: CGFloat = 8.0
         let gap: CGFloat = (bounds.width - CGFloat(barCount) * barWidth) / CGFloat(barCount + 1)
         
         for i in 0..<barCount {
             let x = gap + CGFloat(i) * (barWidth + gap)
-            let baseH: CGFloat = 12.0
-            let flexH: CGFloat = abs(sin(phase * 3.0 + CGFloat(i) * 0.4) * 45.0) + abs(cos(phase * 2.0 + CGFloat(i) * 0.3) * 25.0)
+            let baseH: CGFloat = 14.0
+            let flexH: CGFloat = abs(sin(phase * 3.5 + CGFloat(i) * 0.4) * 50.0) + abs(cos(phase * 2.2 + CGFloat(i) * 0.3) * 28.0)
             let height = baseH + flexH
             
             let rect = NSRect(x: x, y: 12, width: barWidth, height: height)
             let path = NSBezierPath(roundedRect: rect, xRadius: 4, yRadius: 4)
             
-            // Gradient color per bar
             let ratio = CGFloat(i) / CGFloat(barCount)
             let barColor = NSColor(
                 calibratedRed: 0.3 + 0.7 * ratio,
                 green: 0.6 + 0.4 * (1.0 - ratio),
-                blue: 0.95,
-                alpha: 0.35 + 0.25 * sin(phase + CGFloat(i))
+                blue: 0.98,
+                alpha: 0.50 + 0.30 * sin(phase * 2.0 + CGFloat(i))
             )
             barColor.setFill()
             path.fill()
@@ -120,8 +119,8 @@ final class IntricateDesignBackgroundView: NSView {
         cornerPath.line(to: NSPoint(x: bounds.width - 20, y: bounds.height - 20))
         cornerPath.line(to: NSPoint(x: bounds.width - 20, y: bounds.height - 40))
         
-        NSColor.white.withAlphaComponent(0.20).setStroke()
-        cornerPath.lineWidth = 1.5
+        NSColor.white.withAlphaComponent(0.35).setStroke()
+        cornerPath.lineWidth = 2.0
         cornerPath.stroke()
         
         context?.restoreGState()
@@ -139,9 +138,9 @@ final class EmojiParticleView: NSTextField {
     var vr: CGFloat = 0
     
     init(emoji: String, origin: NSPoint) {
-        super.init(frame: NSRect(x: origin.x - 20, y: origin.y - 20, width: 40, height: 40))
+        super.init(frame: NSRect(x: origin.x - 22, y: origin.y - 22, width: 44, height: 44))
         self.stringValue = emoji
-        self.font = NSFont.systemFont(ofSize: 26)
+        self.font = NSFont.systemFont(ofSize: 28)
         self.isEditable = false
         self.isSelectable = false
         self.isBezeled = false
@@ -150,12 +149,12 @@ final class EmojiParticleView: NSTextField {
         self.wantsLayer = true
         
         // Random velocities & rotation
-        self.vx = CGFloat.random(in: -3.5...3.5)
-        self.vy = CGFloat.random(in: 2.5...5.5) // floats upward
+        self.vx = CGFloat.random(in: -4.0...4.0)
+        self.vy = CGFloat.random(in: 3.0...6.5) // floats upward
         self.alphaVal = CGFloat.random(in: 0.95...1.0)
-        self.scaleVal = CGFloat.random(in: 0.9...1.7)
-        self.rotationVal = CGFloat.random(in: -0.7...0.7)
-        self.vr = CGFloat.random(in: -0.15...0.15)
+        self.scaleVal = CGFloat.random(in: 1.0...1.8)
+        self.rotationVal = CGFloat.random(in: -0.8...0.8)
+        self.vr = CGFloat.random(in: -0.18...0.18)
         
         updateTransform()
     }
@@ -170,8 +169,8 @@ final class EmojiParticleView: NSTextField {
         frame.origin.y += vy
         self.frame = frame
         
-        alphaVal -= 0.018
-        scaleVal += 0.012
+        alphaVal -= 0.020
+        scaleVal += 0.015
         rotationVal += vr
         
         self.alphaValue = max(0, alphaVal)
@@ -244,30 +243,22 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         let artworkBackground = IntricateDesignBackgroundView(frame: rect)
         artworkBackground.autoresizingMask = [.width, .height]
         
-        // 2. Glassmorphism Visual Effect Overlay
-        let visualEffectView = NSVisualEffectView(frame: rect)
-        visualEffectView.material = .hudWindow
-        visualEffectView.blendingMode = .withinWindow
-        visualEffectView.state = .active
-        visualEffectView.autoresizingMask = [.width, .height]
-        artworkBackground.addSubview(visualEffectView)
-        
         containerView = NSView(frame: rect)
         containerView.autoresizingMask = [.width, .height]
-        visualEffectView.addSubview(containerView)
+        artworkBackground.addSubview(containerView)
         
         // Header Title
         let titleLabel = NSTextField(labelWithString: "✨ L Y R A ✨")
-        titleLabel.font = NSFont.systemFont(ofSize: 26, weight: .black)
+        titleLabel.font = NSFont.systemFont(ofSize: 28, weight: .black)
         titleLabel.textColor = .white
         titleLabel.alignment = .center
-        titleLabel.frame = NSRect(x: 20, y: 328, width: 580, height: 34)
+        titleLabel.frame = NSRect(x: 20, y: 328, width: 580, height: 36)
         containerView.addSubview(titleLabel)
         
         // Subtitle instructions
         let subtitleLabel = NSTextField(labelWithString: "Drag the Lyra icon into Applications to start synchronized lyrics")
         subtitleLabel.font = NSFont.systemFont(ofSize: 13, weight: .heavy)
-        subtitleLabel.textColor = NSColor(calibratedRed: 0.92, green: 0.85, blue: 1.0, alpha: 0.95)
+        subtitleLabel.textColor = NSColor(calibratedRed: 0.95, green: 0.88, blue: 1.0, alpha: 0.95)
         subtitleLabel.alignment = .center
         subtitleLabel.frame = NSRect(x: 20, y: 300, width: 580, height: 22)
         containerView.addSubview(subtitleLabel)
@@ -276,10 +267,10 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         initialAppIconFrame = NSRect(x: 90, y: 130, width: 145, height: 152)
         appIconView = NSBox(frame: initialAppIconFrame)
         appIconView.boxType = .custom
-        appIconView.borderColor = NSColor(calibratedRed: 1.0, green: 0.45, blue: 0.88, alpha: 0.9) // Glowing Magenta
-        appIconView.borderWidth = 2.5
+        appIconView.borderColor = NSColor(calibratedRed: 1.0, green: 0.45, blue: 0.88, alpha: 0.95) // Glowing Magenta
+        appIconView.borderWidth = 3.0
         appIconView.cornerRadius = 20.0
-        appIconView.fillColor = NSColor.black.withAlphaComponent(0.45)
+        appIconView.fillColor = NSColor.black.withAlphaComponent(0.50)
         
         let iconPath = Bundle.main.path(forResource: "AppIcon", ofType: "png") ?? ""
         if let iconImage = NSImage(contentsOfFile: iconPath) ?? NSApp.applicationIconImage {
@@ -313,19 +304,19 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         
         // --- 2. Guidance Arrow (Center) ---
         let arrowLabel = NSTextField(labelWithString: "➔")
-        arrowLabel.font = NSFont.systemFont(ofSize: 46, weight: .black)
-        arrowLabel.textColor = NSColor(calibratedRed: 0.95, green: 0.75, blue: 1.0, alpha: 0.8)
+        arrowLabel.font = NSFont.systemFont(ofSize: 48, weight: .black)
+        arrowLabel.textColor = NSColor(calibratedRed: 0.98, green: 0.78, blue: 1.0, alpha: 0.9)
         arrowLabel.alignment = .center
-        arrowLabel.frame = NSRect(x: 260, y: 178, width: 100, height: 52)
+        arrowLabel.frame = NSRect(x: 260, y: 178, width: 100, height: 54)
         containerView.addSubview(arrowLabel)
         
         // --- 3. Drop Target Box (Right: Applications) ---
         dropTargetBox = NSBox(frame: NSRect(x: 385, y: 130, width: 145, height: 152))
         dropTargetBox.boxType = .custom
-        dropTargetBox.borderColor = NSColor(calibratedRed: 0.2, green: 0.9, blue: 1.0, alpha: 0.9) // Glowing Neon Cyan
-        dropTargetBox.borderWidth = 2.5
+        dropTargetBox.borderColor = NSColor(calibratedRed: 0.2, green: 0.95, blue: 1.0, alpha: 0.95) // Glowing Neon Cyan
+        dropTargetBox.borderWidth = 3.0
         dropTargetBox.cornerRadius = 20.0
-        dropTargetBox.fillColor = NSColor(calibratedRed: 0.0, green: 0.45, blue: 0.85, alpha: 0.25)
+        dropTargetBox.fillColor = NSColor(calibratedRed: 0.0, green: 0.45, blue: 0.85, alpha: 0.35)
         
         let folderEmojiLabel = NSTextField(labelWithString: "📁")
         folderEmojiLabel.font = NSFont.systemFont(ofSize: 56)
@@ -351,8 +342,8 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         
         // Status Message
         statusLabel = NSTextField(labelWithString: "Drag Lyra into Applications to start making musical magic!")
-        statusLabel.font = NSFont.systemFont(ofSize: 13, weight: .bold)
-        statusLabel.textColor = NSColor.white.withAlphaComponent(0.9)
+        statusLabel.font = NSFont.systemFont(ofSize: 13, weight: .black)
+        statusLabel.textColor = .white
         statusLabel.alignment = .center
         statusLabel.frame = NSRect(x: 20, y: 78, width: 580, height: 24)
         containerView.addSubview(statusLabel)
@@ -415,7 +406,7 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         if appIconView.frame.contains(point) {
             isDragging = true
             dragOffset = NSPoint(x: point.x - appIconView.frame.origin.x, y: point.y - appIconView.frame.origin.y)
-            spawnNotes(at: point, count: 6)
+            spawnNotes(at: point, count: 8)
         }
     }
     
@@ -427,15 +418,15 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         appIconView.frame.origin = NSPoint(x: newX, y: newY)
         
         // POP VIBRANT COLORFUL MUSICAL NOTE EMOJIS CONTINUOUSLY WHILE DRAGGING!
-        spawnNotes(at: point, count: 4)
+        spawnNotes(at: point, count: 6)
         
         // Highlight drop target when overlapping
         if appIconView.frame.intersects(dropTargetBox.frame) {
-            dropTargetBox.fillColor = NSColor.systemGreen.withAlphaComponent(0.45)
+            dropTargetBox.fillColor = NSColor.systemGreen.withAlphaComponent(0.55)
             dropTargetBox.borderColor = NSColor.systemGreen
         } else {
-            dropTargetBox.fillColor = NSColor(calibratedRed: 0.0, green: 0.45, blue: 0.85, alpha: 0.25)
-            dropTargetBox.borderColor = NSColor(calibratedRed: 0.2, green: 0.9, blue: 1.0, alpha: 0.9)
+            dropTargetBox.fillColor = NSColor(calibratedRed: 0.0, green: 0.45, blue: 0.85, alpha: 0.35)
+            dropTargetBox.borderColor = NSColor(calibratedRed: 0.2, green: 0.95, blue: 1.0, alpha: 0.95)
         }
     }
     
@@ -450,8 +441,8 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
                 context.duration = 0.25
                 self.appIconView.animator().frame = self.initialAppIconFrame
             }
-            dropTargetBox.fillColor = NSColor(calibratedRed: 0.0, green: 0.45, blue: 0.85, alpha: 0.25)
-            dropTargetBox.borderColor = NSColor(calibratedRed: 0.2, green: 0.9, blue: 1.0, alpha: 0.9)
+            dropTargetBox.fillColor = NSColor(calibratedRed: 0.0, green: 0.45, blue: 0.85, alpha: 0.35)
+            dropTargetBox.borderColor = NSColor(calibratedRed: 0.2, green: 0.95, blue: 1.0, alpha: 0.95)
         }
     }
     
@@ -459,11 +450,11 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         for _ in 0..<count {
             let emoji = Self.noteEmojis.randomElement() ?? "🎵"
             let offsetPoint = NSPoint(
-                x: point.x + CGFloat.random(in: -28...28),
-                y: point.y + CGFloat.random(in: -28...28)
+                x: point.x + CGFloat.random(in: -30...30),
+                y: point.y + CGFloat.random(in: -30...30)
             )
             let particle = EmojiParticleView(emoji: emoji, origin: offsetPoint)
-            containerView.addSubview(particle, positioned: .above, relativeTo: appIconView)
+            containerView.addSubview(particle, positioned: .above, relativeTo: nil)
             particles.append(particle)
         }
     }
@@ -474,7 +465,7 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
             x: dropTargetBox.frame.midX,
             y: dropTargetBox.frame.midY
         )
-        spawnNotes(at: targetCenter, count: 60)
+        spawnNotes(at: targetCenter, count: 70)
         
         appIconView.frame.origin = NSPoint(
             x: dropTargetBox.frame.origin.x + 5,
