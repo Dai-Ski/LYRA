@@ -6,7 +6,7 @@
   <title>Lyra — Real-time Lyrics for macOS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     /* Warm Apple Cream Theme (#f5efdd) */
     :root {
@@ -33,71 +33,133 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 2.5rem 1rem;
-      cursor: none; /* Custom vanishing emoji cursor trail */
+      justify-content: flex-start;
       overflow-x: hidden;
+      cursor: auto; /* Normal cursor */
     }
 
-    /* Pointy Finger Pointer Cursor on Interactive Elements */
-    a, button, input, select, .copy-btn, .download-btn, [role="button"] {
-      cursor: pointer !important;
+    /* Apple-styled Top Navigation Bar */
+    .apple-navbar {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0.8rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-dark);
+    }
+
+    .nav-logo {
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    .nav-brand {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .icon-link {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--card-white);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dark);
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+
+    .icon-link:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .nav-download-btn {
+      background: var(--apple-blue);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 7px 16px;
+      border-radius: 20px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25);
+    }
+
+    .nav-download-btn:hover {
+      background: var(--apple-blue-hover);
+    }
+
+    /* Main Container */
     .container {
       max-width: 620px;
       width: 100%;
       text-align: center;
+      padding: 3rem 1rem 2.5rem;
       position: relative;
-      z-index: 10;
-    }
-
-    /* Apple Minimal Header Badge */
-    .apple-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--card-white);
-      border: 1px solid var(--border-subtle);
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--apple-blue);
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      margin-bottom: 1.2rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     }
 
     .title {
-      font-size: 2.6rem;
+      font-size: 2.5rem;
       font-weight: 800;
       letter-spacing: -0.5px;
-      margin-bottom: 0.5rem;
+      margin-bottom: 2rem;
       color: var(--text-dark);
     }
 
-    .subtitle {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      margin-bottom: 1.6rem;
-      font-weight: 400;
-    }
-
-    .status-card {
-      background: rgba(0, 113, 227, 0.06);
-      border: 1px solid rgba(0, 113, 227, 0.2);
-      border-radius: 16px;
-      padding: 1rem 1.2rem;
-      margin-bottom: 1.6rem;
+    /* Doodly Arrow & Handwritten Text Section */
+    .doodle-container {
+      margin-bottom: 0.6rem;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text-dark);
+    }
+
+    .handwritten-text {
+      font-family: 'Caveat', cursive;
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--apple-blue);
+      transform: rotate(-3deg);
+      margin-bottom: 2px;
+    }
+
+    .doodly-arrow {
+      width: 48px;
+      height: 48px;
+      stroke: var(--apple-blue);
+      stroke-width: 2.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transform: rotate(5deg);
     }
 
     .download-btn {
@@ -107,9 +169,9 @@
       background: var(--apple-blue);
       color: #ffffff;
       text-decoration: none;
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 700;
-      padding: 12px 28px;
+      padding: 13px 32px;
       border-radius: 30px;
       transition: all 0.25s ease;
       box-shadow: 0 4px 16px rgba(0, 113, 227, 0.25);
@@ -217,6 +279,7 @@
       font-size: 0.8rem;
       font-weight: 700;
       transition: all 0.2s ease;
+      cursor: pointer;
       flex-shrink: 0;
     }
 
@@ -224,33 +287,44 @@
       background: #ffffff;
       color: #000000;
     }
-
-    /* Emoji Cursor Trail Elements */
-    .cursor-particle {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      font-size: 1.3rem;
-      transform: translate(-50%, -50%);
-      transition: transform 0.8s ease-out, opacity 0.8s ease-out;
-      user-select: none;
-    }
   </style>
 </head>
 <body>
 
+  <!-- Apple-styled Top Navigation Bar -->
+  <nav class="apple-navbar">
+    <a href="#" class="nav-left">
+      <span class="nav-logo">🎵</span>
+      <span class="nav-brand">Lyra</span>
+    </a>
+    
+    <div class="nav-right">
+      <a href="https://github.com/Dai-Ski/LYRA" target="_blank" rel="noopener" class="icon-link" title="GitHub Repository">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+      <a href="https://daiski.dev" target="_blank" rel="noopener" class="icon-link" title="Portfolio daiski.dev">
+        🌐
+      </a>
+      <a href="https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg" class="nav-download-btn">
+        ⬇️ Re-download
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
   <div class="container">
-    <div class="apple-badge"><span>🎵</span> Lyra for macOS</div>
+    <h1 class="title">Lyra has started to download.</h1>
     
-    <h1 class="title">Downloading Lyra</h1>
-    <p class="subtitle">Real-time synchronized lyrics in your menu bar</p>
-    
-    <div class="status-card">
-      <span>🚀 Your download has started automatically</span>
+    <!-- Doodly Arrow & Handwritten Text -->
+    <div class="doodle-container">
+      <div class="handwritten-text">click here if the download hasn't started yet</div>
+      <svg class="doodly-arrow" viewBox="0 0 50 50">
+        <path d="M25 5 Q 35 25, 25 40 M 15 32 L 25 42 L 35 32" />
+      </svg>
     </div>
 
     <a href="https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg" id="manual-btn" class="download-btn">
-      ⬇️ Click if download didn't start
+      ⬇️ Download Lyra.dmg
     </a>
 
     <div class="apple-card">
@@ -304,36 +378,6 @@
         }, 2200);
       });
     }
-
-    // 3. Vanishing Emoji Cursor Trail Effect
-    const emojis = ['🎵', '🎶', '🎼', '✨', '🎤', '🎧', '🎹', '💫', '🌟', '💜', '💖', '💙', '🌈', '🎉', '🔥', '⚡️'];
-    let lastTime = 0;
-
-    document.addEventListener('mousemove', (e) => {
-      const now = Date.now();
-      if (now - lastTime < 45) return; // Rate-limit particle creation
-      lastTime = now;
-
-      const p = document.createElement('div');
-      p.className = 'cursor-particle';
-      p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-      p.style.left = e.clientX + 'px';
-      p.style.top = e.clientY + 'px';
-      p.style.opacity = '1';
-
-      document.body.appendChild(p);
-
-      requestAnimationFrame(() => {
-        const offsetY = (Math.random() - 0.8) * 35;
-        const offsetX = (Math.random() - 0.5) * 30;
-        p.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px)) scale(0.4)`;
-        p.style.opacity = '0';
-      });
-
-      setTimeout(() => {
-        p.remove();
-      }, 800);
-    });
   </script>
 </body>
 </html>
