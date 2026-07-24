@@ -3,18 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Downloading Lyra for macOS 🎵</title>
+  <title>Lyra — Real-time Lyrics for macOS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
+    /* Apple Duo-Color Scheme: Obsidian Black & Electric Apple Blue */
     :root {
-      --bg-gradient: linear-gradient(135deg, #0f0728 0%, #1b0c3f 40%, #0d1e3d 100%);
-      --accent-pink: #ff4da6;
-      --accent-cyan: #00f2fe;
-      --accent-purple: #7b2cbf;
-      --card-bg: rgba(255, 255, 255, 0.07);
-      --card-border: rgba(255, 255, 255, 0.18);
+      --bg-dark: #0b0c10;
+      --bg-card: rgba(255, 255, 255, 0.05);
+      --border-apple: rgba(255, 255, 255, 0.12);
+      --apple-blue: #2997ff;
+      --apple-blue-hover: #0071e3;
+      --text-white: #f5f5f7;
+      --text-gray: #86868b;
     }
 
     * {
@@ -24,249 +26,261 @@
     }
 
     body {
-      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg-gradient);
-      color: #ffffff;
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 50% 20%, rgba(41, 151, 255, 0.12) 0%, transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(123, 44, 191, 0.08) 0%, transparent 50%);
+      color: var(--text-white);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 2.5rem 1rem;
+      cursor: none; /* Custom emoji cursor trail */
       overflow-x: hidden;
-      position: relative;
-      padding: 2rem 1rem;
     }
 
-    /* Floating Musical Particle Canvas */
-    #particles-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
+    /* Restore Pointy Finger Cursor on Interactive Elements */
+    a, button, input, select, .copy-btn, .download-btn, [role="button"] {
+      cursor: pointer !important;
     }
 
     .container {
-      position: relative;
-      z-index: 2;
-      max-width: 680px;
+      max-width: 620px;
       width: 100%;
       text-align: center;
+      position: relative;
+      z-index: 10;
     }
 
-    /* Header Badge & Title */
-    .header-badge {
+    /* Apple Minimal Header Badge */
+    .apple-badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      padding: 6px 18px;
-      border-radius: 30px;
-      font-size: 0.9rem;
+      gap: 6px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-apple);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
       font-weight: 600;
-      letter-spacing: 1px;
+      color: var(--apple-blue);
+      letter-spacing: 0.5px;
       text-transform: uppercase;
-      margin-bottom: 1.5rem;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      margin-bottom: 1.2rem;
+      backdrop-filter: blur(20px);
+    }
+
+    .apple-badge span {
+      font-size: 0.9rem;
     }
 
     .title {
-      font-size: 2.8rem;
-      font-weight: 900;
-      line-height: 1.2;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #ffffff 0%, #e0c3fc 50%, #8ec5fc 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.6rem;
+      color: #ffffff;
     }
 
-    .status-box {
-      background: rgba(0, 242, 254, 0.12);
-      border: 2px solid var(--accent-cyan);
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-gray);
+      margin-bottom: 1.8rem;
+      font-weight: 400;
+    }
+
+    .status-card {
+      background: rgba(41, 151, 255, 0.08);
+      border: 1px solid rgba(41, 151, 255, 0.3);
       border-radius: 16px;
-      padding: 1.2rem;
-      margin: 1.5rem 0 2rem;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1.8rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      font-size: 1.15rem;
+      gap: 10px;
+      font-size: 1rem;
       font-weight: 600;
-      box-shadow: 0 0 30px rgba(0, 242, 254, 0.25);
-      animation: pulseGlow 2s infinite alternate;
-    }
-
-    @keyframes pulseGlow {
-      from { box-shadow: 0 0 15px rgba(0, 242, 254, 0.2); }
-      to { box-shadow: 0 0 35px rgba(0, 242, 254, 0.5); }
+      color: var(--text-white);
+      backdrop-filter: blur(20px);
     }
 
     .download-btn {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+      gap: 8px;
+      background: var(--apple-blue);
       color: #ffffff;
       text-decoration: none;
-      font-size: 1.1rem;
-      font-weight: 800;
-      padding: 14px 32px;
-      border-radius: 40px;
-      box-shadow: 0 10px 30px rgba(255, 77, 166, 0.4);
-      transition: all 0.3s ease;
-      margin-bottom: 2.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 30px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 20px rgba(41, 151, 255, 0.35);
+      margin-bottom: 2.2rem;
     }
 
     .download-btn:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 15px 40px rgba(255, 77, 166, 0.6);
+      background: var(--apple-blue-hover);
+      transform: scale(1.02);
+      box-shadow: 0 6px 25px rgba(41, 151, 255, 0.5);
     }
 
-    /* Steps Section */
-    .steps-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 24px;
-      padding: 2rem;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    /* Apple Style Card */
+    .apple-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-apple);
+      border-radius: 20px;
+      padding: 1.8rem;
+      backdrop-filter: blur(30px);
       text-align: left;
     }
 
-    .steps-card h2 {
-      font-size: 1.5rem;
-      font-weight: 800;
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #ffffff;
+    .apple-card h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1.4rem;
+      color: var(--text-white);
     }
 
-    .step-item {
+    .step-row {
       display: flex;
       align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 1.5rem;
+      gap: 14px;
+      margin-bottom: 1.4rem;
     }
 
-    .step-number {
-      background: linear-gradient(135deg, var(--accent-cyan), #0072ff);
-      color: #000;
-      font-weight: 900;
-      font-size: 1.1rem;
-      width: 36px;
-      height: 36px;
+    .step-icon {
+      width: 28px;
+      height: 28px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .step-content h3 {
-      font-size: 1.1rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      margin-bottom: 4px;
+      color: var(--apple-blue);
+      flex-shrink: 0;
+      margin-top: 2px;
     }
 
-    .step-content p {
-      font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.8);
-      line-height: 1.5;
+    .step-info h3 {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 3px;
     }
 
-    /* Terminal Fix Box */
+    .step-info p {
+      font-size: 0.88rem;
+      color: var(--text-gray);
+      line-height: 1.45;
+    }
+
+    /* Terminal Code Box */
     .terminal-box {
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin-top: 10px;
+      background: #000000;
+      border: 1px solid var(--border-apple);
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-top: 8px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      font-family: monospace;
-      font-size: 0.95rem;
-      color: var(--accent-cyan);
+      gap: 10px;
+    }
+
+    .terminal-box code {
+      font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.85rem;
+      color: var(--apple-blue);
     }
 
     .copy-btn {
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: #fff;
-      padding: 6px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
       transition: all 0.2s ease;
       flex-shrink: 0;
     }
 
     .copy-btn:hover {
       background: #ffffff;
-      color: #000;
+      color: #000000;
+    }
+
+    /* Emoji Cursor Trail Elements */
+    .cursor-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      font-size: 1.3rem;
+      transform: translate(-50%, -50%);
+      transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+      user-select: none;
     }
   </style>
 </head>
 <body>
 
-  <canvas id="particles-canvas"></canvas>
-
   <div class="container">
-    <div class="header-badge">🎵 Lyra for macOS</div>
+    <div class="apple-badge"><span>🎵</span> Lyra for macOS</div>
     
-    <h1 class="title">Downloading Lyra.dmg</h1>
+    <h1 class="title">Downloading Lyra</h1>
+    <p class="subtitle">Real-time synchronized lyrics in your menu bar</p>
     
-    <div class="status-box">
-      <span>🚀 Your download has started automatically!</span>
+    <div class="status-card">
+      <span>🚀 Your download has started automatically</span>
     </div>
 
-    <a href="https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg" id="manual-download-btn" class="download-btn">
-      ⬇️ Click Here if Download Didn't Start
+    <a href="https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg" id="manual-btn" class="download-btn">
+      ⬇️ Click if download didn't start
     </a>
 
-    <div class="steps-card">
-      <h2>✨ What to do after downloading:</h2>
+    <div class="apple-card">
+      <h2>Installation Steps</h2>
 
-      <div class="step-item">
-        <div class="step-number">1</div>
-        <div class="step-content">
+      <div class="step-row">
+        <div class="step-icon">1</div>
+        <div class="step-info">
           <h3>Open Lyra.dmg</h3>
-          <p>Double-click <strong>Lyra.dmg</strong> in your Downloads folder to open the installer.</p>
+          <p>Double-click <strong>Lyra.dmg</strong> in your Downloads folder to mount the installer.</p>
         </div>
       </div>
 
-      <div class="step-item">
-        <div class="step-number">2</div>
-        <div class="step-content">
+      <div class="step-row">
+        <div class="step-icon">2</div>
+        <div class="step-info">
           <h3>Drag to Applications</h3>
-          <p>Drag the <strong>Lyra</strong> icon into <strong>Applications</strong> <em>(enjoy musical note emojis glittering around as you drag!)</em>.</p>
+          <p>Drag <strong>Lyra</strong> into <strong>Applications</strong>.</p>
         </div>
       </div>
 
-      <div class="step-item">
-        <div class="step-number">3</div>
-        <div class="step-content">
-          <h3>First Launch Security Notice (Gatekeeper)</h3>
-          <p>If macOS displays <em>"Apple could not verify Lyra is free of malware"</em>, choose one:</p>
-          <ul style="margin-top: 6px; margin-left: 20px; font-size: 0.9rem; color: rgba(255,255,255,0.85);">
-            <li><strong>Option A</strong>: Go to <strong>System Settings → Privacy & Security</strong> and click <strong>Open Anyway</strong>.</li>
-            <li><strong>Option B</strong>: Right-click <strong>Lyra.app</strong> in Applications → Select <strong>Open</strong>.</li>
-            <li><strong>Option C (Terminal)</strong>: Run this 1-line command in Terminal:</li>
+      <div class="step-row">
+        <div class="step-icon">3</div>
+        <div class="step-info">
+          <h3>First Launch (Gatekeeper Notice)</h3>
+          <p>If macOS shows <em>"Apple could not verify Lyra is free of malware"</em>, choose one:</p>
+          <ul style="margin-top: 6px; margin-left: 18px; font-size: 0.85rem; color: var(--text-gray);">
+            <li>Go to <strong>System Settings → Privacy & Security</strong> and click <strong>Open Anyway</strong>.</li>
+            <li>Right-click <strong>Lyra.app</strong> in Applications → select <strong>Open</strong>.</li>
+            <li>Or copy & run this command in Terminal:</li>
           </ul>
 
           <div class="terminal-box">
             <code id="cmd-text">xattr -cr /Applications/Lyra.app</code>
-            <button class="copy-btn" onclick="copyCommand()">📋 Copy Command</button>
+            <button class="copy-btn" onclick="copyCommand()">📋 Copy</button>
           </div>
         </div>
       </div>
@@ -274,74 +288,56 @@
   </div>
 
   <script>
-    // 1. Automatic Download Trigger
-    const downloadUrl = "https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg";
+    // 1. Auto Trigger Download
     setTimeout(() => {
-      window.location.href = downloadUrl;
-    }, 800);
+      window.location.href = "https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg";
+    }, 700);
 
     // 2. Copy Command Function
     function copyCommand() {
       const text = document.getElementById('cmd-text').innerText;
       navigator.clipboard.writeText(text).then(() => {
         const btn = document.querySelector('.copy-btn');
-        btn.innerText = '✅ Copied!';
-        btn.style.background = '#00f2fe';
-        btn.style.color = '#000';
+        btn.innerText = '✅ Copied';
+        btn.style.background = '#2997ff';
+        btn.style.color = '#ffffff';
         setTimeout(() => {
-          btn.innerText = '📋 Copy Command';
-          btn.style.background = 'rgba(255, 255, 255, 0.15)';
-          btn.style.color = '#fff';
-        }, 2500);
+          btn.innerText = '📋 Copy';
+          btn.style.background = 'rgba(255, 255, 255, 0.12)';
+          btn.style.color = '#ffffff';
+        }, 2200);
       });
     }
 
-    // 3. Floating Musical Emoji Particles Canvas Animation
-    const canvas = document.getElementById('particles-canvas');
-    const ctx = canvas.getContext('2d');
-    
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
+    // 3. Vanishing Emoji Cursor Trail Effect
     const emojis = ['🎵', '🎶', '🎼', '✨', '🎤', '🎧', '🎹', '💫', '🌟', '💜', '💖', '💙', '🌈', '🎉', '🔥', '⚡️'];
-    const particles = [];
+    let lastTime = 0;
 
-    for (let i = 0; i < 45; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        emoji: emojis[Math.floor(Math.random() * emojis.length)],
-        size: 20 + Math.random() * 24,
-        vy: -0.8 - Math.random() * 1.5,
-        vx: (Math.random() - 0.5) * 1.2,
-        alpha: 0.3 + Math.random() * 0.7
-      });
-    }
+    document.addEventListener('mousemove', (e) => {
+      const now = Date.now();
+      if (now - lastTime < 45) return; // Rate-limit particle creation
+      lastTime = now;
 
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      particles.forEach(p => {
-        p.y += p.vy;
-        p.x += p.vx;
+      const p = document.createElement('div');
+      p.className = 'cursor-particle';
+      p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+      p.style.left = e.clientX + 'px';
+      p.style.top = e.clientY + 'px';
+      p.style.opacity = '1';
 
-        if (p.y < -40) {
-          p.y = canvas.height + 40;
-          p.x = Math.random() * canvas.width;
-        }
+      document.body.appendChild(p);
 
-        ctx.font = `${p.size}px Outfit, sans-serif`;
-        ctx.globalAlpha = p.alpha;
-        ctx.fillText(p.emoji, p.x, p.y);
+      requestAnimationFrame(() => {
+        const offsetY = (Math.random() - 0.8) * 35;
+        const offsetX = (Math.random() - 0.5) * 30;
+        p.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px)) scale(0.4)`;
+        p.style.opacity = '0';
       });
 
-      requestAnimationFrame(animate);
-    }
-    animate();
+      setTimeout(() => {
+        p.remove();
+      }, 800);
+    });
   </script>
 </body>
 </html>
