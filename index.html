@@ -8,15 +8,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    /* Apple Duo-Color Scheme: Obsidian Black & Electric Apple Blue */
+    /* Warm Apple Cream Theme (#f5efdd) */
     :root {
-      --bg-dark: #0b0c10;
-      --bg-card: rgba(255, 255, 255, 0.05);
-      --border-apple: rgba(255, 255, 255, 0.12);
-      --apple-blue: #2997ff;
-      --apple-blue-hover: #0071e3;
-      --text-white: #f5f5f7;
-      --text-gray: #86868b;
+      --bg-cream: #f5efdd;
+      --card-white: #ffffff;
+      --border-subtle: rgba(0, 0, 0, 0.08);
+      --apple-blue: #0071e3;
+      --apple-blue-hover: #005bb5;
+      --text-dark: #1d1d1f;
+      --text-muted: #6e6e73;
     }
 
     * {
@@ -27,22 +27,19 @@
 
     body {
       font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
-      background: var(--bg-dark);
-      background-image: 
-        radial-gradient(circle at 50% 20%, rgba(41, 151, 255, 0.12) 0%, transparent 60%),
-        radial-gradient(circle at 80% 80%, rgba(123, 44, 191, 0.08) 0%, transparent 50%);
-      color: var(--text-white);
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 2.5rem 1rem;
-      cursor: none; /* Custom emoji cursor trail */
+      cursor: none; /* Custom vanishing emoji cursor trail */
       overflow-x: hidden;
     }
 
-    /* Restore Pointy Finger Cursor on Interactive Elements */
+    /* Pointy Finger Pointer Cursor on Interactive Elements */
     a, button, input, select, .copy-btn, .download-btn, [role="button"] {
       cursor: pointer !important;
     }
@@ -60,52 +57,47 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-apple);
-      padding: 5px 14px;
+      background: var(--card-white);
+      border: 1px solid var(--border-subtle);
+      padding: 6px 16px;
       border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
+      font-size: 0.82rem;
+      font-weight: 700;
       color: var(--apple-blue);
       letter-spacing: 0.5px;
       text-transform: uppercase;
       margin-bottom: 1.2rem;
-      backdrop-filter: blur(20px);
-    }
-
-    .apple-badge span {
-      font-size: 0.9rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     }
 
     .title {
       font-size: 2.6rem;
       font-weight: 800;
       letter-spacing: -0.5px;
-      margin-bottom: 0.6rem;
-      color: #ffffff;
+      margin-bottom: 0.5rem;
+      color: var(--text-dark);
     }
 
     .subtitle {
       font-size: 1.05rem;
-      color: var(--text-gray);
-      margin-bottom: 1.8rem;
+      color: var(--text-muted);
+      margin-bottom: 1.6rem;
       font-weight: 400;
     }
 
     .status-card {
-      background: rgba(41, 151, 255, 0.08);
-      border: 1px solid rgba(41, 151, 255, 0.3);
+      background: rgba(0, 113, 227, 0.06);
+      border: 1px solid rgba(0, 113, 227, 0.2);
       border-radius: 16px;
       padding: 1rem 1.2rem;
-      margin-bottom: 1.8rem;
+      margin-bottom: 1.6rem;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
       font-size: 1rem;
       font-weight: 600;
-      color: var(--text-white);
-      backdrop-filter: blur(20px);
+      color: var(--text-dark);
     }
 
     .download-btn {
@@ -116,80 +108,93 @@
       color: #ffffff;
       text-decoration: none;
       font-size: 1rem;
-      font-weight: 600;
+      font-weight: 700;
       padding: 12px 28px;
       border-radius: 30px;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 4px 20px rgba(41, 151, 255, 0.35);
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 16px rgba(0, 113, 227, 0.25);
       margin-bottom: 2.2rem;
     }
 
     .download-btn:hover {
       background: var(--apple-blue-hover);
       transform: scale(1.02);
-      box-shadow: 0 6px 25px rgba(41, 151, 255, 0.5);
+      box-shadow: 0 6px 20px rgba(0, 113, 227, 0.35);
     }
 
-    /* Apple Style Card */
+    /* Apple White Card */
     .apple-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-apple);
+      background: var(--card-white);
+      border: 1px solid var(--border-subtle);
       border-radius: 20px;
-      padding: 1.8rem;
-      backdrop-filter: blur(30px);
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
       text-align: left;
     }
 
     .apple-card h2 {
-      font-size: 1.25rem;
-      font-weight: 700;
+      font-size: 1.3rem;
+      font-weight: 800;
       margin-bottom: 1.4rem;
-      color: var(--text-white);
+      color: var(--text-dark);
     }
 
-    .step-row {
+    .option-block {
+      background: #fbfbfd;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 14px;
+      padding: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .option-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--apple-blue);
+      margin-bottom: 0.8rem;
+    }
+
+    .step-item {
       display: flex;
       align-items: flex-start;
-      gap: 14px;
-      margin-bottom: 1.4rem;
+      gap: 12px;
+      margin-bottom: 0.8rem;
     }
 
-    .step-icon {
-      width: 28px;
-      height: 28px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      font-weight: 700;
+    .step-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-badge {
+      background: rgba(0, 113, 227, 0.1);
       color: var(--apple-blue);
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
       flex-shrink: 0;
       margin-top: 2px;
     }
 
-    .step-info h3 {
-      font-size: 0.98rem;
-      font-weight: 600;
-      color: #ffffff;
-      margin-bottom: 3px;
+    .step-text {
+      font-size: 0.92rem;
+      color: var(--text-dark);
+      line-height: 1.45;
     }
 
-    .step-info p {
-      font-size: 0.88rem;
-      color: var(--text-gray);
-      line-height: 1.45;
+    .step-text strong {
+      font-weight: 700;
     }
 
     /* Terminal Code Box */
     .terminal-box {
-      background: #000000;
-      border: 1px solid var(--border-apple);
+      background: #111115;
+      border: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 10px;
       padding: 10px 14px;
-      margin-top: 8px;
+      margin-top: 0.4rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -198,19 +203,19 @@
 
     .terminal-box code {
       font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 0.85rem;
-      color: var(--apple-blue);
+      font-size: 0.88rem;
+      color: #34c759; /* Apple Green */
     }
 
     .copy-btn {
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       color: #ffffff;
       padding: 5px 12px;
       border-radius: 6px;
       font-family: inherit;
       font-size: 0.8rem;
-      font-weight: 600;
+      font-weight: 700;
       transition: all 0.2s ease;
       flex-shrink: 0;
     }
@@ -249,39 +254,30 @@
     </a>
 
     <div class="apple-card">
-      <h2>Installation Steps</h2>
+      <h2>Installing Steps</h2>
 
-      <div class="step-row">
-        <div class="step-icon">1</div>
-        <div class="step-info">
-          <h3>Open Lyra.dmg</h3>
-          <p>Double-click <strong>Lyra.dmg</strong> in your Downloads folder to mount the installer.</p>
+      <!-- Option 1 -->
+      <div class="option-block">
+        <div class="option-title">Option 1</div>
+
+        <div class="step-item">
+          <div class="step-badge">Step 1</div>
+          <div class="step-text">Go to <strong>System Settings → Privacy & Security</strong> and click <strong>Open Anyway</strong>.</div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-badge">Step 2</div>
+          <div class="step-text">Right-click <strong>Lyra.app</strong> in Applications → select <strong>Open</strong>.</div>
         </div>
       </div>
 
-      <div class="step-row">
-        <div class="step-icon">2</div>
-        <div class="step-info">
-          <h3>Drag to Applications</h3>
-          <p>Drag <strong>Lyra</strong> into <strong>Applications</strong>.</p>
-        </div>
-      </div>
+      <!-- Option 2 -->
+      <div class="option-block" style="margin-bottom: 0;">
+        <div class="option-title">Option 2 (Terminal Command)</div>
 
-      <div class="step-row">
-        <div class="step-icon">3</div>
-        <div class="step-info">
-          <h3>First Launch (Gatekeeper Notice)</h3>
-          <p>If macOS shows <em>"Apple could not verify Lyra is free of malware"</em>, choose one:</p>
-          <ul style="margin-top: 6px; margin-left: 18px; font-size: 0.85rem; color: var(--text-gray);">
-            <li>Go to <strong>System Settings → Privacy & Security</strong> and click <strong>Open Anyway</strong>.</li>
-            <li>Right-click <strong>Lyra.app</strong> in Applications → select <strong>Open</strong>.</li>
-            <li>Or copy & run this command in Terminal:</li>
-          </ul>
-
-          <div class="terminal-box">
-            <code id="cmd-text">xattr -cr /Applications/Lyra.app</code>
-            <button class="copy-btn" onclick="copyCommand()">📋 Copy</button>
-          </div>
+        <div class="terminal-box">
+          <code id="cmd-text">xattr -cr /Applications/Lyra.app</code>
+          <button class="copy-btn" onclick="copyCommand()">📋 Copy</button>
         </div>
       </div>
     </div>
@@ -299,11 +295,11 @@
       navigator.clipboard.writeText(text).then(() => {
         const btn = document.querySelector('.copy-btn');
         btn.innerText = '✅ Copied';
-        btn.style.background = '#2997ff';
+        btn.style.background = '#34c759';
         btn.style.color = '#ffffff';
         setTimeout(() => {
           btn.innerText = '📋 Copy';
-          btn.style.background = 'rgba(255, 255, 255, 0.12)';
+          btn.style.background = 'rgba(255, 255, 255, 0.18)';
           btn.style.color = '#ffffff';
         }, 2200);
       });
