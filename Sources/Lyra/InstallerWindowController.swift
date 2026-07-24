@@ -222,8 +222,8 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
     }
     
     private func setupWindow() {
-        let windowWidth: CGFloat = 620
-        let windowHeight: CGFloat = 390
+        let windowWidth: CGFloat = 560
+        let windowHeight: CGFloat = 360
         let rect = NSRect(x: 0, y: 0, width: windowWidth, height: windowHeight)
         
         window = NSWindow(
@@ -249,40 +249,40 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         
         // Header Title
         let titleLabel = NSTextField(labelWithString: "✨ L Y R A ✨")
-        titleLabel.font = NSFont.systemFont(ofSize: 28, weight: .black)
+        titleLabel.font = NSFont.systemFont(ofSize: 26, weight: .black)
         titleLabel.textColor = .white
         titleLabel.alignment = .center
-        titleLabel.frame = NSRect(x: 20, y: 328, width: 580, height: 36)
+        titleLabel.frame = NSRect(x: 20, y: 305, width: 520, height: 34)
         containerView.addSubview(titleLabel)
         
         // Subtitle instructions
-        let subtitleLabel = NSTextField(labelWithString: "Drag the Lyra icon into Applications to start synchronized lyrics")
-        subtitleLabel.font = NSFont.systemFont(ofSize: 13, weight: .heavy)
+        let subtitleLabel = NSTextField(labelWithString: "Drag Lyra icon to Applications (Hover to see musical notes burst!)")
+        subtitleLabel.font = NSFont.systemFont(ofSize: 12, weight: .black)
         subtitleLabel.textColor = NSColor(calibratedRed: 0.95, green: 0.88, blue: 1.0, alpha: 0.95)
         subtitleLabel.alignment = .center
-        subtitleLabel.frame = NSRect(x: 20, y: 300, width: 580, height: 22)
+        subtitleLabel.frame = NSRect(x: 20, y: 280, width: 520, height: 20)
         containerView.addSubview(subtitleLabel)
         
-        // --- 1. Source App Icon Box (Left) ---
-        initialAppIconFrame = NSRect(x: 90, y: 130, width: 145, height: 152)
+        // --- 1. Source App Icon Box (Left - Big 128px style) ---
+        initialAppIconFrame = NSRect(x: 65, y: 110, width: 155, height: 160)
         appIconView = NSBox(frame: initialAppIconFrame)
         appIconView.boxType = .custom
         appIconView.borderColor = NSColor(calibratedRed: 1.0, green: 0.45, blue: 0.88, alpha: 0.95) // Glowing Magenta
         appIconView.borderWidth = 3.0
-        appIconView.cornerRadius = 20.0
-        appIconView.fillColor = NSColor.black.withAlphaComponent(0.50)
+        appIconView.cornerRadius = 22.0
+        appIconView.fillColor = NSColor.black.withAlphaComponent(0.55)
         
         let iconPath = Bundle.main.path(forResource: "AppIcon", ofType: "png") ?? ""
         if let iconImage = NSImage(contentsOfFile: iconPath) ?? NSApp.applicationIconImage {
-            let iconImageView = NSImageView(frame: NSRect(x: 40, y: 64, width: 65, height: 65))
+            let iconImageView = NSImageView(frame: NSRect(x: 35, y: 55, width: 85, height: 85))
             iconImageView.image = iconImage
             iconImageView.imageScaling = .scaleProportionallyUpOrDown
             appIconView.addSubview(iconImageView)
         } else {
             let appEmojiLabel = NSTextField(labelWithString: "🎵")
-            appEmojiLabel.font = NSFont.systemFont(ofSize: 56)
+            appEmojiLabel.font = NSFont.systemFont(ofSize: 64)
             appEmojiLabel.alignment = .center
-            appEmojiLabel.frame = NSRect(x: 10, y: 62, width: 125, height: 62)
+            appEmojiLabel.frame = NSRect(x: 10, y: 55, width: 135, height: 75)
             appIconView.addSubview(appEmojiLabel)
         }
         
@@ -290,69 +290,69 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         appNameLabel.font = NSFont.systemFont(ofSize: 14, weight: .black)
         appNameLabel.textColor = .white
         appNameLabel.alignment = .center
-        appNameLabel.frame = NSRect(x: 5, y: 26, width: 135, height: 22)
+        appNameLabel.frame = NSRect(x: 5, y: 26, width: 145, height: 22)
         appIconView.addSubview(appNameLabel)
         
-        let dragHintLabel = NSTextField(labelWithString: "(Drag Me! 🎵)")
+        let dragHintLabel = NSTextField(labelWithString: "(Hover/Drag Me! 🎵)")
         dragHintLabel.font = NSFont.systemFont(ofSize: 11, weight: .black)
         dragHintLabel.textColor = NSColor(calibratedRed: 1.0, green: 0.75, blue: 0.95, alpha: 1.0)
         dragHintLabel.alignment = .center
-        dragHintLabel.frame = NSRect(x: 5, y: 6, width: 135, height: 16)
+        dragHintLabel.frame = NSRect(x: 5, y: 6, width: 145, height: 16)
         appIconView.addSubview(dragHintLabel)
         
         containerView.addSubview(appIconView)
         
         // --- 2. Guidance Arrow (Center) ---
         let arrowLabel = NSTextField(labelWithString: "➔")
-        arrowLabel.font = NSFont.systemFont(ofSize: 48, weight: .black)
+        arrowLabel.font = NSFont.systemFont(ofSize: 44, weight: .black)
         arrowLabel.textColor = NSColor(calibratedRed: 0.98, green: 0.78, blue: 1.0, alpha: 0.9)
         arrowLabel.alignment = .center
-        arrowLabel.frame = NSRect(x: 260, y: 178, width: 100, height: 54)
+        arrowLabel.frame = NSRect(x: 235, y: 160, width: 90, height: 50)
         containerView.addSubview(arrowLabel)
         
-        // --- 3. Drop Target Box (Right: Applications) ---
-        dropTargetBox = NSBox(frame: NSRect(x: 385, y: 130, width: 145, height: 152))
+        // --- 3. Drop Target Box (Right: Applications - Big 128px style) ---
+        dropTargetBox = NSBox(frame: NSRect(x: 340, y: 110, width: 155, height: 160))
         dropTargetBox.boxType = .custom
         dropTargetBox.borderColor = NSColor(calibratedRed: 0.2, green: 0.95, blue: 1.0, alpha: 0.95) // Glowing Neon Cyan
         dropTargetBox.borderWidth = 3.0
-        dropTargetBox.cornerRadius = 20.0
+        dropTargetBox.cornerRadius = 22.0
         dropTargetBox.fillColor = NSColor(calibratedRed: 0.0, green: 0.45, blue: 0.85, alpha: 0.35)
         
         let folderEmojiLabel = NSTextField(labelWithString: "📁")
-        folderEmojiLabel.font = NSFont.systemFont(ofSize: 56)
+        folderEmojiLabel.font = NSFont.systemFont(ofSize: 64)
         folderEmojiLabel.alignment = .center
-        folderEmojiLabel.frame = NSRect(x: 10, y: 62, width: 125, height: 62)
+        folderEmojiLabel.frame = NSRect(x: 10, y: 55, width: 135, height: 75)
         dropTargetBox.addSubview(folderEmojiLabel)
         
         let folderNameLabel = NSTextField(labelWithString: "Applications")
         folderNameLabel.font = NSFont.systemFont(ofSize: 14, weight: .black)
         folderNameLabel.textColor = .white
         folderNameLabel.alignment = .center
-        folderNameLabel.frame = NSRect(x: 5, y: 26, width: 135, height: 22)
+        folderNameLabel.frame = NSRect(x: 5, y: 26, width: 145, height: 22)
         dropTargetBox.addSubview(folderNameLabel)
         
         let dropHereLabel = NSTextField(labelWithString: "Drop Here ✨")
         dropHereLabel.font = NSFont.systemFont(ofSize: 11, weight: .black)
         dropHereLabel.textColor = NSColor(calibratedRed: 0.4, green: 0.95, blue: 1.0, alpha: 1.0)
         dropHereLabel.alignment = .center
-        dropHereLabel.frame = NSRect(x: 5, y: 6, width: 135, height: 16)
+        dropHereLabel.frame = NSRect(x: 5, y: 6, width: 145, height: 16)
         dropTargetBox.addSubview(dropHereLabel)
         
         containerView.addSubview(dropTargetBox)
         
         // Status Message
         statusLabel = NSTextField(labelWithString: "Drag Lyra into Applications to start making musical magic!")
-        statusLabel.font = NSFont.systemFont(ofSize: 13, weight: .black)
+        statusLabel.font = NSFont.systemFont(ofSize: 12, weight: .black)
         statusLabel.textColor = .white
         statusLabel.alignment = .center
-        statusLabel.frame = NSRect(x: 20, y: 78, width: 580, height: 24)
+        statusLabel.frame = NSRect(x: 20, y: 68, width: 520, height: 22)
         containerView.addSubview(statusLabel)
         
         // --- Action Buttons after copy ---
         // 1. Primary Button: Move DMG to Trash & Launch
-        trashLaunchButton = NSButton(frame: NSRect(x: 95, y: 24, width: 235, height: 40))
+        trashLaunchButton = NSButton(frame: NSRect(x: 65, y: 20, width: 220, height: 38))
         trashLaunchButton.title = "🗑️ MOVE DMG TO TRASH & LAUNCH"
-        trashLaunchButton.font = NSFont.systemFont(ofSize: 11, weight: .black)
+        trashLaunchButton.font = NSFont.systemFont(ofSize: 10, weight: .black)
         trashLaunchButton.bezelStyle = .regularSquare
         trashLaunchButton.isBordered = true
         trashLaunchButton.isHidden = true
@@ -361,9 +361,9 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         containerView.addSubview(trashLaunchButton)
         
         // 2. Secondary Button: Launch Lyra (Keep DMG)
-        launchOnlyButton = NSButton(frame: NSRect(x: 345, y: 24, width: 180, height: 40))
+        launchOnlyButton = NSButton(frame: NSRect(x: 300, y: 20, width: 175, height: 38))
         launchOnlyButton.title = "🚀 LAUNCH LYRA"
-        launchOnlyButton.font = NSFont.systemFont(ofSize: 11, weight: .black)
+        launchOnlyButton.font = NSFont.systemFont(ofSize: 10, weight: .black)
         launchOnlyButton.bezelStyle = .regularSquare
         launchOnlyButton.isBordered = true
         launchOnlyButton.isHidden = true
@@ -373,7 +373,7 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         
         window.contentView = artworkBackground
         
-        // Register mouse drag tracking overlay
+        // Register mouse drag & hover tracking overlay
         let dragTrackingView = DragTrackingView(frame: rect, controller: self)
         containerView.addSubview(dragTrackingView, positioned: .above, relativeTo: nil)
     }
@@ -399,6 +399,29 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
                 particle.removeFromSuperview()
             }
             return !keep
+        }
+    }
+    
+    fileprivate func handleMouseMoved(at point: NSPoint) {
+        guard !isDragging else { return }
+        
+        // ON HOVER OVER LYRA APP ICON -> BURST OUT EMOJIS!
+        if appIconView.frame.contains(point) {
+            spawnNotes(at: point, count: 2)
+            appIconView.borderColor = NSColor(calibratedRed: 1.0, green: 0.65, blue: 0.95, alpha: 1.0)
+            appIconView.fillColor = NSColor.black.withAlphaComponent(0.65)
+        } else {
+            appIconView.borderColor = NSColor(calibratedRed: 1.0, green: 0.45, blue: 0.88, alpha: 0.95)
+            appIconView.fillColor = NSColor.black.withAlphaComponent(0.50)
+        }
+        
+        // ON HOVER OVER APPLICATIONS -> HIGHLIGHT ONLY (DO NOT OPEN APPLICATIONS ON HOVER!)
+        if dropTargetBox.frame.contains(point) {
+            dropTargetBox.borderColor = NSColor(calibratedRed: 0.4, green: 1.0, blue: 0.6, alpha: 0.95)
+            dropTargetBox.fillColor = NSColor(calibratedRed: 0.0, green: 0.6, blue: 0.3, alpha: 0.25)
+        } else {
+            dropTargetBox.borderColor = NSColor(calibratedRed: 0.2, green: 0.95, blue: 1.0, alpha: 0.95)
+            dropTargetBox.fillColor = NSColor(calibratedRed: 0.0, green: 0.45, blue: 0.85, alpha: 0.35)
         }
     }
     
@@ -538,7 +561,7 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
     }
 }
 
-/// Transparent overlay view to capture drag events smoothly over the container.
+/// Transparent overlay view to capture drag & hover events smoothly over the container.
 @MainActor
 private final class DragTrackingView: NSView {
     private weak var controller: InstallerWindowController?
@@ -550,6 +573,25 @@ private final class DragTrackingView: NSView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func updateTrackingAreas() {
+        super.updateTrackingAreas()
+        for area in trackingAreas {
+            removeTrackingArea(area)
+        }
+        let area = NSTrackingArea(
+            rect: bounds,
+            options: [.mouseMoved, .activeInKeyWindow, .inVisibleRect],
+            owner: self,
+            userInfo: nil
+        )
+        addTrackingArea(area)
+    }
+    
+    override func mouseMoved(with event: NSEvent) {
+        let loc = convert(event.locationInWindow, from: nil)
+        controller?.handleMouseMoved(at: loc)
     }
     
     override func mouseDown(with event: NSEvent) {
