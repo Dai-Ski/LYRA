@@ -35,13 +35,13 @@
       align-items: center;
       justify-content: flex-start;
       overflow-x: hidden;
-      cursor: auto; /* Normal cursor */
+      cursor: auto;
     }
 
     /* Apple-styled Top Navigation Bar */
     .apple-navbar {
       width: 100%;
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.75);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-subtle);
@@ -62,15 +62,23 @@
       color: var(--text-dark);
     }
 
-    .nav-logo {
-      font-size: 1.4rem;
-      line-height: 1;
+    .nav-logo-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
     }
 
     .nav-brand {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       font-weight: 800;
       letter-spacing: -0.3px;
+    }
+
+    .nav-right-container {
+      position: relative;
+      display: flex;
+      align-items: center;
     }
 
     .nav-right {
@@ -107,7 +115,7 @@
       text-decoration: none;
       font-size: 0.88rem;
       font-weight: 700;
-      padding: 7px 16px;
+      padding: 8px 18px;
       border-radius: 20px;
       transition: all 0.2s ease;
       box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25);
@@ -117,12 +125,42 @@
       background: var(--apple-blue-hover);
     }
 
+    /* Top Right Doodly Arrow & Handwritten Annotation */
+    .top-doodle-wrapper {
+      position: absolute;
+      top: 48px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      pointer-events: none;
+    }
+
+    .top-handwritten-text {
+      font-family: 'Caveat', cursive;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--apple-blue);
+      white-space: nowrap;
+      transform: rotate(-2deg);
+    }
+
+    .top-doodly-arrow {
+      width: 40px;
+      height: 40px;
+      stroke: var(--apple-blue);
+      stroke-width: 2.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     /* Main Container */
     .container {
       max-width: 620px;
       width: 100%;
       text-align: center;
-      padding: 3rem 1rem 2.5rem;
+      padding: 5rem 1rem 3rem;
       position: relative;
     }
 
@@ -130,58 +168,8 @@
       font-size: 2.5rem;
       font-weight: 800;
       letter-spacing: -0.5px;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
       color: var(--text-dark);
-    }
-
-    /* Doodly Arrow & Handwritten Text Section */
-    .doodle-container {
-      margin-bottom: 0.6rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .handwritten-text {
-      font-family: 'Caveat', cursive;
-      font-size: 1.65rem;
-      font-weight: 700;
-      color: var(--apple-blue);
-      transform: rotate(-3deg);
-      margin-bottom: 2px;
-    }
-
-    .doodly-arrow {
-      width: 48px;
-      height: 48px;
-      stroke: var(--apple-blue);
-      stroke-width: 2.5;
-      fill: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      transform: rotate(5deg);
-    }
-
-    .download-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--apple-blue);
-      color: #ffffff;
-      text-decoration: none;
-      font-size: 1.05rem;
-      font-weight: 700;
-      padding: 13px 32px;
-      border-radius: 30px;
-      transition: all 0.25s ease;
-      box-shadow: 0 4px 16px rgba(0, 113, 227, 0.25);
-      margin-bottom: 2.2rem;
-    }
-
-    .download-btn:hover {
-      background: var(--apple-blue-hover);
-      transform: scale(1.02);
-      box-shadow: 0 6px 20px rgba(0, 113, 227, 0.35);
     }
 
     /* Apple White Card */
@@ -269,23 +257,31 @@
       color: #34c759; /* Apple Green */
     }
 
-    .copy-btn {
-      background: rgba(255, 255, 255, 0.18);
+    /* Icon-only Copy Button */
+    .icon-copy-btn {
+      background: rgba(255, 255, 255, 0.15);
       border: 1px solid rgba(255, 255, 255, 0.25);
       color: #ffffff;
-      padding: 5px 12px;
-      border-radius: 6px;
-      font-family: inherit;
-      font-size: 0.8rem;
-      font-weight: 700;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: all 0.2s ease;
       cursor: pointer;
       flex-shrink: 0;
     }
 
-    .copy-btn:hover {
+    .icon-copy-btn:hover {
       background: #ffffff;
       color: #000000;
+    }
+
+    .icon-copy-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
     }
   </style>
 </head>
@@ -294,38 +290,36 @@
   <!-- Apple-styled Top Navigation Bar -->
   <nav class="apple-navbar">
     <a href="#" class="nav-left">
-      <span class="nav-logo">🎵</span>
+      <img src="data:image/png;base64,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" class="nav-logo-img" alt="Lyra App Icon">
       <span class="nav-brand">Lyra</span>
     </a>
     
-    <div class="nav-right">
-      <a href="https://github.com/Dai-Ski/LYRA" target="_blank" rel="noopener" class="icon-link" title="GitHub Repository">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-      </a>
-      <a href="https://daiski.dev" target="_blank" rel="noopener" class="icon-link" title="Portfolio daiski.dev">
-        🌐
-      </a>
-      <a href="https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg" class="nav-download-btn">
-        ⬇️ Re-download
-      </a>
+    <div class="nav-right-container">
+      <div class="nav-right">
+        <a href="https://github.com/Dai-Ski/LYRA" target="_blank" rel="noopener" class="icon-link" title="GitHub Repository">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
+        <a href="https://daiski.dev" target="_blank" rel="noopener" class="icon-link" title="Portfolio daiski.dev">
+          🌐
+        </a>
+        <a href="https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg" class="nav-download-btn">
+          ⬇️ Re-download
+        </a>
+      </div>
+
+      <!-- Top Right Handwritten Doodle pointing to Re-download -->
+      <div class="top-doodle-wrapper">
+        <span class="top-handwritten-text">click here if the download hasn't started yet</span>
+        <svg class="top-doodly-arrow" viewBox="0 0 50 50">
+          <path d="M 10 40 Q 25 35, 38 12 M 25 12 L 42 10 L 40 26" />
+        </svg>
+      </div>
     </div>
   </nav>
 
   <!-- Main Container -->
   <div class="container">
     <h1 class="title">Lyra has started to download.</h1>
-    
-    <!-- Doodly Arrow & Handwritten Text -->
-    <div class="doodle-container">
-      <div class="handwritten-text">click here if the download hasn't started yet</div>
-      <svg class="doodly-arrow" viewBox="0 0 50 50">
-        <path d="M25 5 Q 35 25, 25 40 M 15 32 L 25 42 L 35 32" />
-      </svg>
-    </div>
-
-    <a href="https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg" id="manual-btn" class="download-btn">
-      ⬇️ Download Lyra.dmg
-    </a>
 
     <div class="apple-card">
       <h2>Installing Steps</h2>
@@ -351,7 +345,9 @@
 
         <div class="terminal-box">
           <code id="cmd-text">xattr -cr /Applications/Lyra.app</code>
-          <button class="copy-btn" onclick="copyCommand()">📋 Copy</button>
+          <button class="icon-copy-btn" onclick="copyCommand()" title="Copy command" id="copy-btn-el">
+            <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+          </button>
         </div>
       </div>
     </div>
@@ -367,13 +363,15 @@
     function copyCommand() {
       const text = document.getElementById('cmd-text').innerText;
       navigator.clipboard.writeText(text).then(() => {
-        const btn = document.querySelector('.copy-btn');
-        btn.innerText = '✅ Copied';
+        const btn = document.getElementById('copy-btn-el');
+        btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
         btn.style.background = '#34c759';
+        btn.style.borderColor = '#34c759';
         btn.style.color = '#ffffff';
         setTimeout(() => {
-          btn.innerText = '📋 Copy';
-          btn.style.background = 'rgba(255, 255, 255, 0.18)';
+          btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>';
+          btn.style.background = 'rgba(255, 255, 255, 0.15)';
+          btn.style.borderColor = 'rgba(255, 255, 255, 0.25)';
           btn.style.color = '#ffffff';
         }, 2200);
       });
