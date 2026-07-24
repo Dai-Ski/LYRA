@@ -34,7 +34,7 @@ final class IntricateDesignBackgroundView: NSView {
         
         let bounds = self.bounds
         
-        // 1. Rich Shifting Mesh Gradient (Deep Violet -> Royal Magenta -> Midnight Teal -> Electric Purple)
+        // 1. Dreamy Cloudy Mesh Gradient (Deep Violet -> Soft Lavender Cloud -> Midnight Cyan Nebula)
         let color1 = NSColor(calibratedRed: 0.16 + 0.05 * sin(phase), green: 0.06, blue: 0.35 + 0.06 * cos(phase), alpha: 1.0)
         let color2 = NSColor(calibratedRed: 0.50 + 0.09 * cos(phase), green: 0.10, blue: 0.60 + 0.09 * sin(phase), alpha: 1.0)
         let color3 = NSColor(calibratedRed: 0.06, green: 0.32 + 0.07 * sin(phase * 0.8), blue: 0.48, alpha: 1.0)
@@ -44,10 +44,26 @@ final class IntricateDesignBackgroundView: NSView {
         let angle = 40.0 + 20.0 * sin(phase * 0.4)
         gradient.draw(in: bounds, angle: angle)
         
-        // 2. Draw Intricate Glowing Sine Soundwaves
+        // 2. Draw Soft Fluffy Cloud Bubbles
         let context = NSGraphicsContext.current?.cgContext
         context?.saveGState()
         
+        let cloudPath1 = NSBezierPath()
+        cloudPath1.appendOval(in: NSRect(x: -40, y: bounds.height - 120, width: 220, height: 140))
+        cloudPath1.appendOval(in: NSRect(x: 100, y: bounds.height - 140, width: 260, height: 160))
+        cloudPath1.appendOval(in: NSRect(x: 300, y: bounds.height - 110, width: 240, height: 130))
+        cloudPath1.appendOval(in: NSRect(x: 420, y: bounds.height - 130, width: 220, height: 150))
+        NSColor.white.withAlphaComponent(0.08).setFill()
+        cloudPath1.fill()
+        
+        let cloudPath2 = NSBezierPath()
+        cloudPath2.appendOval(in: NSRect(x: -20, y: 10, width: 240, height: 130))
+        cloudPath2.appendOval(in: NSRect(x: 150, y: -30, width: 280, height: 160))
+        cloudPath2.appendOval(in: NSRect(x: 360, y: -10, width: 240, height: 140))
+        NSColor.white.withAlphaComponent(0.06).setFill()
+        cloudPath2.fill()
+        
+        // 3. Draw Intricate Glowing Sine Soundwaves
         // Wave 1: Neon Cyan Soundwave
         let wave1 = NSBezierPath()
         let midY = bounds.height * 0.5
@@ -71,18 +87,7 @@ final class IntricateDesignBackgroundView: NSView {
         wave2.lineWidth = 2.5
         wave2.stroke()
         
-        // Wave 3: Golden Glow Soundwave
-        let wave3 = NSBezierPath()
-        wave3.move(to: NSPoint(x: 0, y: midY))
-        for x in stride(from: 0, to: bounds.width, by: 4) {
-            let y = midY + sin(x * 0.022 + phase * 1.4) * 28.0
-            wave3.line(to: NSPoint(x: x, y: y))
-        }
-        NSColor(calibratedRed: 1.0, green: 0.88, blue: 0.35, alpha: 0.35).setStroke()
-        wave3.lineWidth = 2.0
-        wave3.stroke()
-        
-        // 3. Draw Animated Equalizer Soundbar Visualizer at Bottom
+        // 4. Draw Animated Equalizer Soundbar Visualizer at Bottom
         let barCount = 30
         let barWidth: CGFloat = 8.0
         let gap: CGFloat = (bounds.width - CGFloat(barCount) * barWidth) / CGFloat(barCount + 1)
@@ -106,22 +111,6 @@ final class IntricateDesignBackgroundView: NSView {
             barColor.setFill()
             path.fill()
         }
-        
-        // 4. Intricate Decorative Corner Lines
-        let cornerPath = NSBezierPath()
-        // Top-Left Corner
-        cornerPath.move(to: NSPoint(x: 20, y: bounds.height - 40))
-        cornerPath.line(to: NSPoint(x: 20, y: bounds.height - 20))
-        cornerPath.line(to: NSPoint(x: 40, y: bounds.height - 20))
-        
-        // Top-Right Corner
-        cornerPath.move(to: NSPoint(x: bounds.width - 40, y: bounds.height - 20))
-        cornerPath.line(to: NSPoint(x: bounds.width - 20, y: bounds.height - 20))
-        cornerPath.line(to: NSPoint(x: bounds.width - 20, y: bounds.height - 40))
-        
-        NSColor.white.withAlphaComponent(0.35).setStroke()
-        cornerPath.lineWidth = 2.0
-        cornerPath.stroke()
         
         context?.restoreGState()
     }
@@ -188,7 +177,7 @@ final class EmojiParticleView: NSTextField {
     }
 }
 
-/// Interactive Drag-and-Drop installer window with intricate designs, glowing soundwaves, and popping musical notes.
+/// Interactive Drag-and-Drop installer window with intricate cloudy designs, glowing soundwaves, and popping musical notes.
 @MainActor
 public final class InstallerWindowController: NSObject, NSWindowDelegate {
     private var window: NSWindow!
@@ -393,6 +382,15 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
     }
     
     private func updateParticles() {
+        // Continuous ambient glittering note emojis floating around the window background!
+        if Int.random(in: 0...4) == 0 {
+            let randomPoint = NSPoint(
+                x: CGFloat.random(in: 20...containerView.bounds.width - 20),
+                y: CGFloat.random(in: 20...containerView.bounds.height - 20)
+            )
+            spawnNotes(at: randomPoint, count: 1)
+        }
+        
         particles.removeAll { particle in
             let keep = particle.update()
             if !keep {
@@ -407,7 +405,7 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         
         // ON HOVER OVER LYRA APP ICON -> BURST OUT EMOJIS!
         if appIconView.frame.contains(point) {
-            spawnNotes(at: point, count: 2)
+            spawnNotes(at: point, count: 3)
             appIconView.borderColor = NSColor(calibratedRed: 1.0, green: 0.65, blue: 0.95, alpha: 1.0)
             appIconView.fillColor = NSColor.black.withAlphaComponent(0.65)
         } else {
@@ -429,7 +427,7 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         if appIconView.frame.contains(point) {
             isDragging = true
             dragOffset = NSPoint(x: point.x - appIconView.frame.origin.x, y: point.y - appIconView.frame.origin.y)
-            spawnNotes(at: point, count: 8)
+            spawnNotes(at: point, count: 10)
         }
     }
     
@@ -441,7 +439,7 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         appIconView.frame.origin = NSPoint(x: newX, y: newY)
         
         // POP VIBRANT COLORFUL MUSICAL NOTE EMOJIS CONTINUOUSLY WHILE DRAGGING!
-        spawnNotes(at: point, count: 6)
+        spawnNotes(at: point, count: 8)
         
         // Highlight drop target when overlapping
         if appIconView.frame.intersects(dropTargetBox.frame) {
@@ -473,8 +471,8 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         for _ in 0..<count {
             let emoji = Self.noteEmojis.randomElement() ?? "🎵"
             let offsetPoint = NSPoint(
-                x: point.x + CGFloat.random(in: -30...30),
-                y: point.y + CGFloat.random(in: -30...30)
+                x: point.x + CGFloat.random(in: -35...35),
+                y: point.y + CGFloat.random(in: -35...35)
             )
             let particle = EmojiParticleView(emoji: emoji, origin: offsetPoint)
             containerView.addSubview(particle, positioned: .above, relativeTo: nil)
@@ -488,7 +486,7 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
             x: dropTargetBox.frame.midX,
             y: dropTargetBox.frame.midY
         )
-        spawnNotes(at: targetCenter, count: 70)
+        spawnNotes(at: targetCenter, count: 80)
         
         appIconView.frame.origin = NSPoint(
             x: dropTargetBox.frame.origin.x + 5,

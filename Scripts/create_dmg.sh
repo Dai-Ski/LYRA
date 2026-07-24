@@ -34,6 +34,12 @@ codesign --force --deep --options runtime --sign - "${STAGING_DIR}/Lyra.app"
 # Create symlink to /Applications for Finder drag-and-drop
 ln -s /Applications "${STAGING_DIR}/Applications"
 
+# Copy cloudy background with glittering emojis into hidden .background folder
+if [ -f "${ROOT_DIR}/Assets/dmg_background.png" ]; then
+    mkdir -p "${STAGING_DIR}/.background"
+    cp "${ROOT_DIR}/Assets/dmg_background.png" "${STAGING_DIR}/.background/background.png"
+fi
+
 echo "=== Creating Read/Write Temporary DMG ==="
 hdiutil create \
     -volname "Lyra" \
@@ -49,8 +55,8 @@ MOUNT_DIR=$(hdiutil attach -readwrite -noverify -noautoopen "${TEMP_DMG}" | grep
 if [ -n "$MOUNT_DIR" ]; then
     echo "Mounted at: ${MOUNT_DIR}"
     
-    # Configure Finder window layout using AppleScript
-    echo "=== Applying AppleScript Finder Icon View & 128px Icon Size ==="
+    # Configure Finder window layout and background picture using AppleScript
+    echo "=== Applying AppleScript Finder Cloudy Background & 128px Icon Size ==="
     osascript -e "
     tell application \"Finder\"
         tell disk \"Lyra\"
@@ -62,6 +68,9 @@ if [ -n "$MOUNT_DIR" ]; then
             set theViewOptions to the icon view options of container window
             set icon size of theViewOptions to 128
             set arrangement of theViewOptions to not arranged
+            try
+                set background picture of theViewOptions to file \".background:background.png\"
+            end try
             set position of item \"Lyra.app\" of container window to {140, 180}
             set position of item \"Applications\" of container window to {400, 180}
             update without registering applications
@@ -73,6 +82,7 @@ if [ -n "$MOUNT_DIR" ]; then
     
     sync
     hdiutil detach "${MOUNT_DIR}" -force || true
+    sleep 3
 fi
 
 echo "=== Converting to Compressed Final Lyra.dmg ==="
@@ -81,6 +91,6 @@ rm -f "${TEMP_DMG}"
 rm -rf "${STAGING_DIR}"
 
 echo "========================================================="
-echo "✨ Lyra.dmg Created Successfully with Custom Finder Layout!"
+echo "✨ Lyra.dmg Created Successfully with Cloudy Background & Glittering Emojis!"
 echo "📍 Location: ${DMG_PATH}"
 echo "========================================================="
