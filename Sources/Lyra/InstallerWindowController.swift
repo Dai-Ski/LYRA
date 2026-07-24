@@ -1,6 +1,6 @@
 import AppKit
 
-/// Intricate artwork background with dynamic glowing soundwaves, audio equalizer bars, and vibrant gradients.
+/// Realistic Blue Sky with Fluffy White Clouds Background.
 @MainActor
 final class IntricateDesignBackgroundView: NSView {
     var phase: CGFloat = 0
@@ -23,7 +23,7 @@ final class IntricateDesignBackgroundView: NSView {
     private func startAnimation() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0 / 30.0, repeats: true) { [weak self] _ in
             MainActor.assumeIsolated {
-                self?.phase += 0.025
+                self?.phase += 0.015
                 self?.needsDisplay = true
             }
         }
@@ -34,89 +34,56 @@ final class IntricateDesignBackgroundView: NSView {
         
         let bounds = self.bounds
         
-        // 1. Dreamy Cloudy Mesh Gradient (Deep Violet -> Soft Lavender Cloud -> Midnight Cyan Nebula)
-        let color1 = NSColor(calibratedRed: 0.16 + 0.05 * sin(phase), green: 0.06, blue: 0.35 + 0.06 * cos(phase), alpha: 1.0)
-        let color2 = NSColor(calibratedRed: 0.50 + 0.09 * cos(phase), green: 0.10, blue: 0.60 + 0.09 * sin(phase), alpha: 1.0)
-        let color3 = NSColor(calibratedRed: 0.06, green: 0.32 + 0.07 * sin(phase * 0.8), blue: 0.48, alpha: 1.0)
-        let color4 = NSColor(calibratedRed: 0.30 + 0.06 * sin(phase * 1.2), green: 0.06, blue: 0.55, alpha: 1.0)
+        // 1. Beautiful Azure Blue Sky Gradient
+        let skyTop = NSColor(calibratedRed: 0.12, green: 0.45, blue: 0.85, alpha: 1.0)
+        let skyMid = NSColor(calibratedRed: 0.25, green: 0.62, blue: 0.95, alpha: 1.0)
+        let skyBottom = NSColor(calibratedRed: 0.70, green: 0.85, blue: 0.98, alpha: 1.0)
         
-        guard let gradient = NSGradient(colors: [color1, color2, color3, color4]) else { return }
-        let angle = 40.0 + 20.0 * sin(phase * 0.4)
-        gradient.draw(in: bounds, angle: angle)
+        guard let skyGradient = NSGradient(colors: [skyTop, skyMid, skyBottom]) else { return }
+        skyGradient.draw(in: bounds, angle: 90.0)
         
-        // 2. Draw Soft Fluffy Cloud Bubbles
         let context = NSGraphicsContext.current?.cgContext
         context?.saveGState()
         
-        let cloudPath1 = NSBezierPath()
-        cloudPath1.appendOval(in: NSRect(x: -40, y: bounds.height - 120, width: 220, height: 140))
-        cloudPath1.appendOval(in: NSRect(x: 100, y: bounds.height - 140, width: 260, height: 160))
-        cloudPath1.appendOval(in: NSRect(x: 300, y: bounds.height - 110, width: 240, height: 130))
-        cloudPath1.appendOval(in: NSRect(x: 420, y: bounds.height - 130, width: 220, height: 150))
-        NSColor.white.withAlphaComponent(0.08).setFill()
-        cloudPath1.fill()
+        // 2. Draw Layered Soft Fluffy White Clouds with Slow Horizontal Drift
+        let drift1 = CGFloat(sin(phase * 0.5)) * 15.0
+        let drift2 = CGFloat(cos(phase * 0.4)) * 20.0
         
-        let cloudPath2 = NSBezierPath()
-        cloudPath2.appendOval(in: NSRect(x: -20, y: 10, width: 240, height: 130))
-        cloudPath2.appendOval(in: NSRect(x: 150, y: -30, width: 280, height: 160))
-        cloudPath2.appendOval(in: NSRect(x: 360, y: -10, width: 240, height: 140))
-        NSColor.white.withAlphaComponent(0.06).setFill()
-        cloudPath2.fill()
+        // Top-Left Cloud Cluster
+        let cloud1 = NSBezierPath()
+        cloud1.appendOval(in: NSRect(x: -30 + drift1, y: bounds.height - 110, width: 140, height: 90))
+        cloud1.appendOval(in: NSRect(x: 30 + drift1, y: bounds.height - 130, width: 180, height: 110))
+        cloud1.appendOval(in: NSRect(x: 130 + drift1, y: bounds.height - 100, width: 150, height: 80))
+        NSColor.white.withAlphaComponent(0.85).setFill()
+        cloud1.fill()
         
-        // 3. Draw Intricate Glowing Sine Soundwaves
-        // Wave 1: Neon Cyan Soundwave
-        let wave1 = NSBezierPath()
-        let midY = bounds.height * 0.5
-        wave1.move(to: NSPoint(x: 0, y: midY))
-        for x in stride(from: 0, to: bounds.width, by: 4) {
-            let y = midY + sin(x * 0.015 + phase * 2.2) * 38.0 + cos(x * 0.025 + phase) * 18.0
-            wave1.line(to: NSPoint(x: x, y: y))
-        }
-        NSColor(calibratedRed: 0.2, green: 0.95, blue: 1.0, alpha: 0.40).setStroke()
-        wave1.lineWidth = 3.0
-        wave1.stroke()
+        // Top-Right Cloud Cluster
+        let cloud2 = NSBezierPath()
+        cloud2.appendOval(in: NSRect(x: bounds.width - 240 + drift2, y: bounds.height - 120, width: 160, height: 100))
+        cloud2.appendOval(in: NSRect(x: bounds.width - 150 + drift2, y: bounds.height - 140, width: 190, height: 120))
+        cloud2.appendOval(in: NSRect(x: bounds.width - 60 + drift2, y: bounds.height - 110, width: 140, height: 85))
+        NSColor.white.withAlphaComponent(0.85).setFill()
+        cloud2.fill()
         
-        // Wave 2: Neon Pink/Magenta Soundwave
-        let wave2 = NSBezierPath()
-        wave2.move(to: NSPoint(x: 0, y: midY))
-        for x in stride(from: 0, to: bounds.width, by: 4) {
-            let y = midY + cos(x * 0.018 - phase * 2.0) * 42.0 + sin(x * 0.01 + phase * 0.6) * 22.0
-            wave2.line(to: NSPoint(x: x, y: y))
-        }
-        NSColor(calibratedRed: 1.0, green: 0.35, blue: 0.90, alpha: 0.40).setStroke()
-        wave2.lineWidth = 2.5
-        wave2.stroke()
+        // Bottom Soft Horizon Clouds
+        let cloud3 = NSBezierPath()
+        cloud3.appendOval(in: NSRect(x: -40 - drift1, y: -40, width: 220, height: 120))
+        cloud3.appendOval(in: NSRect(x: 120 - drift1, y: -60, width: 260, height: 140))
+        cloud3.appendOval(in: NSRect(x: 320 - drift1, y: -50, width: 240, height: 130))
+        cloud3.appendOval(in: NSRect(x: 480 - drift1, y: -40, width: 200, height: 110))
+        NSColor.white.withAlphaComponent(0.70).setFill()
+        cloud3.fill()
         
-        // 4. Draw Animated Equalizer Soundbar Visualizer at Bottom
-        let barCount = 30
-        let barWidth: CGFloat = 8.0
-        let gap: CGFloat = (bounds.width - CGFloat(barCount) * barWidth) / CGFloat(barCount + 1)
-        
-        for i in 0..<barCount {
-            let x = gap + CGFloat(i) * (barWidth + gap)
-            let baseH: CGFloat = 14.0
-            let flexH: CGFloat = abs(sin(phase * 3.5 + CGFloat(i) * 0.4) * 50.0) + abs(cos(phase * 2.2 + CGFloat(i) * 0.3) * 28.0)
-            let height = baseH + flexH
-            
-            let rect = NSRect(x: x, y: 12, width: barWidth, height: height)
-            let path = NSBezierPath(roundedRect: rect, xRadius: 4, yRadius: 4)
-            
-            let ratio = CGFloat(i) / CGFloat(barCount)
-            let barColor = NSColor(
-                calibratedRed: 0.3 + 0.7 * ratio,
-                green: 0.6 + 0.4 * (1.0 - ratio),
-                blue: 0.98,
-                alpha: 0.50 + 0.30 * sin(phase * 2.0 + CGFloat(i))
-            )
-            barColor.setFill()
-            path.fill()
-        }
+        // 3. Subtle Sun Rays Glow
+        let sunGlow = NSBezierPath(ovalIn: NSRect(x: bounds.width * 0.5 - 120, y: bounds.height - 80, width: 240, height: 160))
+        NSColor.white.withAlphaComponent(0.18).setFill()
+        sunGlow.fill()
         
         context?.restoreGState()
     }
 }
 
-/// Represents an animated musical note emoji particle during drag and drop.
+/// Represents an animated musical note emoji particle radiating outward from Lyra icon center.
 @MainActor
 final class EmojiParticleView: NSTextField {
     var vx: CGFloat = 0
@@ -129,7 +96,7 @@ final class EmojiParticleView: NSTextField {
     init(emoji: String, origin: NSPoint) {
         super.init(frame: NSRect(x: origin.x - 22, y: origin.y - 22, width: 44, height: 44))
         self.stringValue = emoji
-        self.font = NSFont.systemFont(ofSize: 28)
+        self.font = NSFont.systemFont(ofSize: 30)
         self.isEditable = false
         self.isSelectable = false
         self.isBezeled = false
@@ -137,13 +104,16 @@ final class EmojiParticleView: NSTextField {
         self.alignment = .center
         self.wantsLayer = true
         
-        // Random velocities & rotation
-        self.vx = CGFloat.random(in: -4.0...4.0)
-        self.vy = CGFloat.random(in: 3.0...6.5) // floats upward
+        // 360-degree radial explosion velocity outward from icon center!
+        let angle = CGFloat.random(in: 0...(2 * .pi))
+        let speed = CGFloat.random(in: 3.5...8.5)
+        self.vx = cos(angle) * speed
+        self.vy = sin(angle) * speed + 2.0 // float upward bias
+        
         self.alphaVal = CGFloat.random(in: 0.95...1.0)
-        self.scaleVal = CGFloat.random(in: 1.0...1.8)
+        self.scaleVal = CGFloat.random(in: 1.0...1.9)
         self.rotationVal = CGFloat.random(in: -0.8...0.8)
-        self.vr = CGFloat.random(in: -0.18...0.18)
+        self.vr = CGFloat.random(in: -0.2...0.2)
         
         updateTransform()
     }
@@ -158,7 +128,7 @@ final class EmojiParticleView: NSTextField {
         frame.origin.y += vy
         self.frame = frame
         
-        alphaVal -= 0.020
+        alphaVal -= 0.022
         scaleVal += 0.015
         rotationVal += vr
         
@@ -177,7 +147,7 @@ final class EmojiParticleView: NSTextField {
     }
 }
 
-/// Interactive Drag-and-Drop installer window with intricate cloudy designs, glowing soundwaves, and popping musical notes.
+/// Interactive Drag-and-Drop installer window with blue sky & cloud background and emojis popping from Lyra icon center.
 @MainActor
 public final class InstallerWindowController: NSObject, NSWindowDelegate {
     private var window: NSWindow!
@@ -228,13 +198,13 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         window.backgroundColor = .clear
         window.center()
         
-        // 1. Intricate Artwork Background View (Soundwaves + Equalizer Visualizer)
-        let artworkBackground = IntricateDesignBackgroundView(frame: rect)
-        artworkBackground.autoresizingMask = [.width, .height]
+        // 1. Blue Sky & Fluffy White Clouds Background View
+        let skyBackground = IntricateDesignBackgroundView(frame: rect)
+        skyBackground.autoresizingMask = [.width, .height]
         
         containerView = NSView(frame: rect)
         containerView.autoresizingMask = [.width, .height]
-        artworkBackground.addSubview(containerView)
+        skyBackground.addSubview(containerView)
         
         // Header Title
         let titleLabel = NSTextField(labelWithString: "✨ L Y R A ✨")
@@ -245,21 +215,21 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         containerView.addSubview(titleLabel)
         
         // Subtitle instructions
-        let subtitleLabel = NSTextField(labelWithString: "Drag Lyra icon to Applications (Hover to see musical notes burst!)")
-        subtitleLabel.font = NSFont.systemFont(ofSize: 12, weight: .black)
-        subtitleLabel.textColor = NSColor(calibratedRed: 0.95, green: 0.88, blue: 1.0, alpha: 0.95)
+        let subtitleLabel = NSTextField(labelWithString: "Drag the Lyra icon into Applications to install!")
+        subtitleLabel.font = NSFont.systemFont(ofSize: 13, weight: .bold)
+        subtitleLabel.textColor = NSColor(calibratedRed: 0.05, green: 0.25, blue: 0.45, alpha: 0.95)
         subtitleLabel.alignment = .center
         subtitleLabel.frame = NSRect(x: 20, y: 280, width: 520, height: 20)
         containerView.addSubview(subtitleLabel)
         
         // --- 1. Source App Icon Box (Left - Big 128px style) ---
-        initialAppIconFrame = NSRect(x: 65, y: 110, width: 155, height: 160)
+        initialAppIconFrame = NSRect(x: 65, y: 105, width: 155, height: 160)
         appIconView = NSBox(frame: initialAppIconFrame)
         appIconView.boxType = .custom
-        appIconView.borderColor = NSColor(calibratedRed: 1.0, green: 0.45, blue: 0.88, alpha: 0.95) // Glowing Magenta
+        appIconView.borderColor = NSColor.white.withAlphaComponent(0.9)
         appIconView.borderWidth = 3.0
-        appIconView.cornerRadius = 22.0
-        appIconView.fillColor = NSColor.black.withAlphaComponent(0.55)
+        appIconView.cornerRadius = 24.0
+        appIconView.fillColor = NSColor.black.withAlphaComponent(0.45)
         
         let iconPath = Bundle.main.path(forResource: "AppIcon", ofType: "png") ?? ""
         if let iconImage = NSImage(contentsOfFile: iconPath) ?? NSApp.applicationIconImage {
@@ -282,9 +252,9 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         appNameLabel.frame = NSRect(x: 5, y: 26, width: 145, height: 22)
         appIconView.addSubview(appNameLabel)
         
-        let dragHintLabel = NSTextField(labelWithString: "(Hover/Drag Me! 🎵)")
-        dragHintLabel.font = NSFont.systemFont(ofSize: 11, weight: .black)
-        dragHintLabel.textColor = NSColor(calibratedRed: 1.0, green: 0.75, blue: 0.95, alpha: 1.0)
+        let dragHintLabel = NSTextField(labelWithString: "(Drag Me! 🎵)")
+        dragHintLabel.font = NSFont.systemFont(ofSize: 11, weight: .bold)
+        dragHintLabel.textColor = NSColor(calibratedRed: 1.0, green: 0.9, blue: 0.4, alpha: 1.0)
         dragHintLabel.alignment = .center
         dragHintLabel.frame = NSRect(x: 5, y: 6, width: 145, height: 16)
         appIconView.addSubview(dragHintLabel)
@@ -293,19 +263,19 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         
         // --- 2. Guidance Arrow (Center) ---
         let arrowLabel = NSTextField(labelWithString: "➔")
-        arrowLabel.font = NSFont.systemFont(ofSize: 44, weight: .black)
-        arrowLabel.textColor = NSColor(calibratedRed: 0.98, green: 0.78, blue: 1.0, alpha: 0.9)
+        arrowLabel.font = NSFont.systemFont(ofSize: 46, weight: .black)
+        arrowLabel.textColor = .white
         arrowLabel.alignment = .center
-        arrowLabel.frame = NSRect(x: 235, y: 160, width: 90, height: 50)
+        arrowLabel.frame = NSRect(x: 235, y: 155, width: 90, height: 50)
         containerView.addSubview(arrowLabel)
         
         // --- 3. Drop Target Box (Right: Applications - Big 128px style) ---
-        dropTargetBox = NSBox(frame: NSRect(x: 340, y: 110, width: 155, height: 160))
+        dropTargetBox = NSBox(frame: NSRect(x: 340, y: 105, width: 155, height: 160))
         dropTargetBox.boxType = .custom
-        dropTargetBox.borderColor = NSColor(calibratedRed: 0.2, green: 0.95, blue: 1.0, alpha: 0.95) // Glowing Neon Cyan
+        dropTargetBox.borderColor = NSColor.white.withAlphaComponent(0.9)
         dropTargetBox.borderWidth = 3.0
-        dropTargetBox.cornerRadius = 22.0
-        dropTargetBox.fillColor = NSColor(calibratedRed: 0.0, green: 0.45, blue: 0.85, alpha: 0.35)
+        dropTargetBox.cornerRadius = 24.0
+        dropTargetBox.fillColor = NSColor(calibratedRed: 0.05, green: 0.40, blue: 0.80, alpha: 0.40)
         
         let folderEmojiLabel = NSTextField(labelWithString: "📁")
         folderEmojiLabel.font = NSFont.systemFont(ofSize: 64)
@@ -321,8 +291,8 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         dropTargetBox.addSubview(folderNameLabel)
         
         let dropHereLabel = NSTextField(labelWithString: "Drop Here ✨")
-        dropHereLabel.font = NSFont.systemFont(ofSize: 11, weight: .black)
-        dropHereLabel.textColor = NSColor(calibratedRed: 0.4, green: 0.95, blue: 1.0, alpha: 1.0)
+        dropHereLabel.font = NSFont.systemFont(ofSize: 11, weight: .bold)
+        dropHereLabel.textColor = NSColor(calibratedRed: 0.9, green: 0.95, blue: 1.0, alpha: 1.0)
         dropHereLabel.alignment = .center
         dropHereLabel.frame = NSRect(x: 5, y: 6, width: 145, height: 16)
         dropTargetBox.addSubview(dropHereLabel)
@@ -331,15 +301,15 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         
         // Status Message
         statusLabel = NSTextField(labelWithString: "Drag Lyra into Applications to start making musical magic!")
-        statusLabel.font = NSFont.systemFont(ofSize: 12, weight: .black)
-        statusLabel.textColor = .white
+        statusLabel.font = NSFont.systemFont(ofSize: 13, weight: .bold)
+        statusLabel.textColor = NSColor(calibratedRed: 0.05, green: 0.25, blue: 0.45, alpha: 0.95)
         statusLabel.alignment = .center
-        statusLabel.frame = NSRect(x: 20, y: 68, width: 520, height: 22)
+        statusLabel.frame = NSRect(x: 20, y: 65, width: 520, height: 22)
         containerView.addSubview(statusLabel)
         
         // --- Action Buttons after copy ---
         // 1. Primary Button: Move DMG to Trash & Launch
-        trashLaunchButton = NSButton(frame: NSRect(x: 65, y: 20, width: 220, height: 38))
+        trashLaunchButton = NSButton(frame: NSRect(x: 65, y: 18, width: 220, height: 38))
         trashLaunchButton.title = "🗑️ MOVE DMG TO TRASH & LAUNCH"
         trashLaunchButton.font = NSFont.systemFont(ofSize: 10, weight: .black)
         trashLaunchButton.bezelStyle = .regularSquare
@@ -350,7 +320,7 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         containerView.addSubview(trashLaunchButton)
         
         // 2. Secondary Button: Launch Lyra (Keep DMG)
-        launchOnlyButton = NSButton(frame: NSRect(x: 300, y: 20, width: 175, height: 38))
+        launchOnlyButton = NSButton(frame: NSRect(x: 300, y: 18, width: 175, height: 38))
         launchOnlyButton.title = "🚀 LAUNCH LYRA"
         launchOnlyButton.font = NSFont.systemFont(ofSize: 10, weight: .black)
         launchOnlyButton.bezelStyle = .regularSquare
@@ -360,7 +330,7 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         launchOnlyButton.action = #selector(launchOnlyClicked)
         containerView.addSubview(launchOnlyButton)
         
-        window.contentView = artworkBackground
+        window.contentView = skyBackground
         
         // Register mouse drag & hover tracking overlay
         let dragTrackingView = DragTrackingView(frame: rect, controller: self)
@@ -382,15 +352,6 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
     }
     
     private func updateParticles() {
-        // Continuous ambient glittering note emojis floating around the window background!
-        if Int.random(in: 0...4) == 0 {
-            let randomPoint = NSPoint(
-                x: CGFloat.random(in: 20...containerView.bounds.width - 20),
-                y: CGFloat.random(in: 20...containerView.bounds.height - 20)
-            )
-            spawnNotes(at: randomPoint, count: 1)
-        }
-        
         particles.removeAll { particle in
             let keep = particle.update()
             if !keep {
@@ -403,23 +364,24 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
     fileprivate func handleMouseMoved(at point: NSPoint) {
         guard !isDragging else { return }
         
-        // ON HOVER OVER LYRA APP ICON -> BURST OUT EMOJIS!
+        // ON HOVER OVER LYRA APP ICON -> BURST EMOJIS DIRECTLY FROM LYRA ICON CENTER!
         if appIconView.frame.contains(point) {
-            spawnNotes(at: point, count: 3)
-            appIconView.borderColor = NSColor(calibratedRed: 1.0, green: 0.65, blue: 0.95, alpha: 1.0)
-            appIconView.fillColor = NSColor.black.withAlphaComponent(0.65)
+            let appIconCenter = NSPoint(x: appIconView.frame.midX, y: appIconView.frame.midY)
+            spawnNotesFromIconCenter(at: appIconCenter, count: 2)
+            appIconView.borderColor = .white
+            appIconView.fillColor = NSColor.black.withAlphaComponent(0.60)
         } else {
-            appIconView.borderColor = NSColor(calibratedRed: 1.0, green: 0.45, blue: 0.88, alpha: 0.95)
-            appIconView.fillColor = NSColor.black.withAlphaComponent(0.50)
+            appIconView.borderColor = NSColor.white.withAlphaComponent(0.9)
+            appIconView.fillColor = NSColor.black.withAlphaComponent(0.45)
         }
         
         // ON HOVER OVER APPLICATIONS -> HIGHLIGHT ONLY (DO NOT OPEN APPLICATIONS ON HOVER!)
         if dropTargetBox.frame.contains(point) {
-            dropTargetBox.borderColor = NSColor(calibratedRed: 0.4, green: 1.0, blue: 0.6, alpha: 0.95)
-            dropTargetBox.fillColor = NSColor(calibratedRed: 0.0, green: 0.6, blue: 0.3, alpha: 0.25)
+            dropTargetBox.borderColor = NSColor.systemGreen
+            dropTargetBox.fillColor = NSColor.systemGreen.withAlphaComponent(0.40)
         } else {
-            dropTargetBox.borderColor = NSColor(calibratedRed: 0.2, green: 0.95, blue: 1.0, alpha: 0.95)
-            dropTargetBox.fillColor = NSColor(calibratedRed: 0.0, green: 0.45, blue: 0.85, alpha: 0.35)
+            dropTargetBox.borderColor = NSColor.white.withAlphaComponent(0.9)
+            dropTargetBox.fillColor = NSColor(calibratedRed: 0.05, green: 0.40, blue: 0.80, alpha: 0.40)
         }
     }
     
@@ -427,7 +389,8 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         if appIconView.frame.contains(point) {
             isDragging = true
             dragOffset = NSPoint(x: point.x - appIconView.frame.origin.x, y: point.y - appIconView.frame.origin.y)
-            spawnNotes(at: point, count: 10)
+            let appIconCenter = NSPoint(x: appIconView.frame.midX, y: appIconView.frame.midY)
+            spawnNotesFromIconCenter(at: appIconCenter, count: 12)
         }
     }
     
@@ -438,16 +401,20 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
         let newY = max(10, min(containerView.bounds.height - appIconView.bounds.height - 10, point.y - dragOffset.y))
         appIconView.frame.origin = NSPoint(x: newX, y: newY)
         
-        // POP VIBRANT COLORFUL MUSICAL NOTE EMOJIS CONTINUOUSLY WHILE DRAGGING!
-        spawnNotes(at: point, count: 8)
+        // POP MUSICAL EMOJIS DIRECTLY FROM THE CENTER OF THE LYRA ICON WHILE DRAGGING!
+        let appIconCenter = NSPoint(
+            x: appIconView.frame.midX,
+            y: appIconView.frame.midY
+        )
+        spawnNotesFromIconCenter(at: appIconCenter, count: 6)
         
         // Highlight drop target when overlapping
         if appIconView.frame.intersects(dropTargetBox.frame) {
             dropTargetBox.fillColor = NSColor.systemGreen.withAlphaComponent(0.55)
             dropTargetBox.borderColor = NSColor.systemGreen
         } else {
-            dropTargetBox.fillColor = NSColor(calibratedRed: 0.0, green: 0.45, blue: 0.85, alpha: 0.35)
-            dropTargetBox.borderColor = NSColor(calibratedRed: 0.2, green: 0.95, blue: 1.0, alpha: 0.95)
+            dropTargetBox.fillColor = NSColor(calibratedRed: 0.05, green: 0.40, blue: 0.80, alpha: 0.40)
+            dropTargetBox.borderColor = NSColor.white.withAlphaComponent(0.9)
         }
     }
     
@@ -462,31 +429,27 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
                 context.duration = 0.25
                 self.appIconView.animator().frame = self.initialAppIconFrame
             }
-            dropTargetBox.fillColor = NSColor(calibratedRed: 0.0, green: 0.45, blue: 0.85, alpha: 0.35)
-            dropTargetBox.borderColor = NSColor(calibratedRed: 0.2, green: 0.95, blue: 1.0, alpha: 0.95)
+            dropTargetBox.fillColor = NSColor(calibratedRed: 0.05, green: 0.40, blue: 0.80, alpha: 0.40)
+            dropTargetBox.borderColor = NSColor.white.withAlphaComponent(0.9)
         }
     }
     
-    private func spawnNotes(at point: NSPoint, count: Int) {
+    private func spawnNotesFromIconCenter(at center: NSPoint, count: Int) {
         for _ in 0..<count {
             let emoji = Self.noteEmojis.randomElement() ?? "🎵"
-            let offsetPoint = NSPoint(
-                x: point.x + CGFloat.random(in: -35...35),
-                y: point.y + CGFloat.random(in: -35...35)
-            )
-            let particle = EmojiParticleView(emoji: emoji, origin: offsetPoint)
+            let particle = EmojiParticleView(emoji: emoji, origin: center)
             containerView.addSubview(particle, positioned: .above, relativeTo: nil)
             particles.append(particle)
         }
     }
     
     private func performInstallation() {
-        // 1. Massive Musical Note Celebration Explosion!
+        // 1. Massive Musical Note Celebration Explosion from target center!
         let targetCenter = NSPoint(
             x: dropTargetBox.frame.midX,
             y: dropTargetBox.frame.midY
         )
-        spawnNotes(at: targetCenter, count: 80)
+        spawnNotesFromIconCenter(at: targetCenter, count: 80)
         
         appIconView.frame.origin = NSPoint(
             x: dropTargetBox.frame.origin.x + 5,
@@ -511,12 +474,12 @@ public final class InstallerWindowController: NSObject, NSWindowDelegate {
             try? task.run()
             
             statusLabel.stringValue = "🎉 Lyra Installed! Would you like to move the installer (DMG) to Trash?"
-            statusLabel.textColor = NSColor(calibratedRed: 0.4, green: 1.0, blue: 0.6, alpha: 1.0)
+            statusLabel.textColor = NSColor(calibratedRed: 0.05, green: 0.4, blue: 0.1, alpha: 1.0)
             trashLaunchButton.isHidden = false
             launchOnlyButton.isHidden = false
         } catch {
             statusLabel.stringValue = "Lyra is ready in /Applications! Would you like to delete the DMG?"
-            statusLabel.textColor = .white
+            statusLabel.textColor = .black
             trashLaunchButton.isHidden = false
             launchOnlyButton.isHidden = false
         }

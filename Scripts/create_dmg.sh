@@ -82,7 +82,7 @@ if [ -n "$MOUNT_DIR" ]; then
     
     sync
     hdiutil detach "${MOUNT_DIR}" -force || true
-    sleep 3
+    sleep 5
 fi
 
 echo "=== Converting to Compressed Final Lyra.dmg ==="
