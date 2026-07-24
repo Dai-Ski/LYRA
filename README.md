@@ -3,11 +3,11 @@
 Lyra is a lightweight macOS menu bar application that displays real-time, synchronized scrolling lyrics for the track currently playing in Spotify or Apple Music.
 
 <p align="center">
-  <a href="https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg">
+  <a href="https://dai-ski.github.io/LYRA/">
     <img src="https://img.shields.io/badge/Download-Lyra.dmg%20(macOS)-blue?style=for-the-badge&logo=apple&logoColor=white" alt="Download Lyra.dmg" height="48">
   </a>
   <br>
-  <sub>Or visit the <a href="https://github.com/Dai-Ski/LYRA/releases">GitHub Releases Page</a></sub>
+  <sub><a href="https://dai-ski.github.io/LYRA/">Interactive Download Page</a> | <a href="https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg">Direct DMG Link</a> | <a href="https://github.com/Dai-Ski/LYRA/releases">GitHub Releases</a></sub>
 </p>
 
 ---
@@ -16,7 +16,7 @@ Lyra is a lightweight macOS menu bar application that displays real-time, synchr
 
 Installing Lyra is as simple as 1-2-3:
 
-1. **[Click here to Download Lyra.dmg](https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg)** *(or from [GitHub Releases](https://github.com/Dai-Ski/LYRA/releases))*.
+1. **[Click here to Download Lyra.dmg](https://dai-ski.github.io/LYRA/)** *(or [Direct DMG Link](https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg))*.
 2. Open **`Lyra.dmg`** and drag **Lyra** into your **Applications** folder *(musical note emojis will pop up continuously as you drag!)*.
 3. Open **Lyra** from your Applications folder and click **GRANT PERMISSIONS & START**.
 

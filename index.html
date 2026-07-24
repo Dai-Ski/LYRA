@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Downloading Lyra for macOS 🎵</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f0728 0%, #1b0c3f 40%, #0d1e3d 100%);
+      --accent-pink: #ff4da6;
+      --accent-cyan: #00f2fe;
+      --accent-purple: #7b2cbf;
+      --card-bg: rgba(255, 255, 255, 0.07);
+      --card-border: rgba(255, 255, 255, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-gradient);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+      padding: 2rem 1rem;
+    }
+
+    /* Floating Musical Particle Canvas */
+    #particles-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* Header Badge & Title */
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 6px 18px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .title {
+      font-size: 2.8rem;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ffffff 0%, #e0c3fc 50%, #8ec5fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .status-box {
+      background: rgba(0, 242, 254, 0.12);
+      border: 2px solid var(--accent-cyan);
+      border-radius: 16px;
+      padding: 1.2rem;
+      margin: 1.5rem 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      box-shadow: 0 0 30px rgba(0, 242, 254, 0.25);
+      animation: pulseGlow 2s infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      from { box-shadow: 0 0 15px rgba(0, 242, 254, 0.2); }
+      to { box-shadow: 0 0 35px rgba(0, 242, 254, 0.5); }
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 800;
+      padding: 14px 32px;
+      border-radius: 40px;
+      box-shadow: 0 10px 30px rgba(255, 77, 166, 0.4);
+      transition: all 0.3s ease;
+      margin-bottom: 2.5rem;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 15px 40px rgba(255, 77, 166, 0.6);
+    }
+
+    /* Steps Section */
+    .steps-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 2rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      text-align: left;
+    }
+
+    .steps-card h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #ffffff;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 1.5rem;
+    }
+
+    .step-number {
+      background: linear-gradient(135deg, var(--accent-cyan), #0072ff);
+      color: #000;
+      font-weight: 900;
+      font-size: 1.1rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-content h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .step-content p {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.5;
+    }
+
+    /* Terminal Fix Box */
+    .terminal-box {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-family: monospace;
+      font-size: 0.95rem;
+      color: var(--accent-cyan);
+    }
+
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .copy-btn:hover {
+      background: #ffffff;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particles-canvas"></canvas>
+
+  <div class="container">
+    <div class="header-badge">🎵 Lyra for macOS</div>
+    
+    <h1 class="title">Downloading Lyra.dmg</h1>
+    
+    <div class="status-box">
+      <span>🚀 Your download has started automatically!</span>
+    </div>
+
+    <a href="https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg" id="manual-download-btn" class="download-btn">
+      ⬇️ Click Here if Download Didn't Start
+    </a>
+
+    <div class="steps-card">
+      <h2>✨ What to do after downloading:</h2>
+
+      <div class="step-item">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>Open Lyra.dmg</h3>
+          <p>Double-click <strong>Lyra.dmg</strong> in your Downloads folder to open the installer.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>Drag to Applications</h3>
+          <p>Drag the <strong>Lyra</strong> icon into <strong>Applications</strong> <em>(enjoy musical note emojis glittering around as you drag!)</em>.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>First Launch Security Notice (Gatekeeper)</h3>
+          <p>If macOS displays <em>"Apple could not verify Lyra is free of malware"</em>, choose one:</p>
+          <ul style="margin-top: 6px; margin-left: 20px; font-size: 0.9rem; color: rgba(255,255,255,0.85);">
+            <li><strong>Option A</strong>: Go to <strong>System Settings → Privacy & Security</strong> and click <strong>Open Anyway</strong>.</li>
+            <li><strong>Option B</strong>: Right-click <strong>Lyra.app</strong> in Applications → Select <strong>Open</strong>.</li>
+            <li><strong>Option C (Terminal)</strong>: Run this 1-line command in Terminal:</li>
+          </ul>
+
+          <div class="terminal-box">
+            <code id="cmd-text">xattr -cr /Applications/Lyra.app</code>
+            <button class="copy-btn" onclick="copyCommand()">📋 Copy Command</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1. Automatic Download Trigger
+    const downloadUrl = "https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg";
+    setTimeout(() => {
+      window.location.href = downloadUrl;
+    }, 800);
+
+    // 2. Copy Command Function
+    function copyCommand() {
+      const text = document.getElementById('cmd-text').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.innerText = '✅ Copied!';
+        btn.style.background = '#00f2fe';
+        btn.style.color = '#000';
+        setTimeout(() => {
+          btn.innerText = '📋 Copy Command';
+          btn.style.background = 'rgba(255, 255, 255, 0.15)';
+          btn.style.color = '#fff';
+        }, 2500);
+      });
+    }
+
+    // 3. Floating Musical Emoji Particles Canvas Animation
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const emojis = ['🎵', '🎶', '🎼', '✨', '🎤', '🎧', '🎹', '💫', '🌟', '💜', '💖', '💙', '🌈', '🎉', '🔥', '⚡️'];
+    const particles = [];
+
+    for (let i = 0; i < 45; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        emoji: emojis[Math.floor(Math.random() * emojis.length)],
+        size: 20 + Math.random() * 24,
+        vy: -0.8 - Math.random() * 1.5,
+        vx: (Math.random() - 0.5) * 1.2,
+        alpha: 0.3 + Math.random() * 0.7
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      particles.forEach(p => {
+        p.y += p.vy;
+        p.x += p.vx;
+
+        if (p.y < -40) {
+          p.y = canvas.height + 40;
+          p.x = Math.random() * canvas.width;
+        }
+
+        ctx.font = `${p.size}px Outfit, sans-serif`;
+        ctx.globalAlpha = p.alpha;
+        ctx.fillText(p.emoji, p.x, p.y);
+      });
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>
