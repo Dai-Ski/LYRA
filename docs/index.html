@@ -81,8 +81,8 @@
 
     /* Small Circular Daiski Cat Avatar link */
     .nav-cat-circle {
-      width: 36px;
-      height: 36px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       overflow: hidden;
       display: flex;
@@ -518,6 +518,12 @@
 
         <div class="star-text-main" id="star-main-text">Help <span class="font-lyra">Lyra</span> grow</div>
         <div class="star-text-sub" id="star-sub-text">to get more frequent updates</div>
+
+        <!-- Option 2: Embedded Official GitHub Star Button -->
+        <div style="margin-top: 12px;" id="gh-button-container">
+          <a class="github-button" href="https://github.com/Dai-Ski/LYRA" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star Dai-Ski/LYRA on GitHub">Star</a>
+        </div>
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
       </div>
 
     </div>
@@ -577,8 +583,8 @@
       }
     }
 
-    // 4. Click Star Action (Plays animation, emoji rain, and opens repo in new tab)
-    function onStarClick(e) {
+    // 4. Click Star Action (Option 1: API Star + Option 2: Opens repo)
+    async function onStarClick(e) {
       triggerEmojiRain();
 
       const btn = document.getElementById('star-btn');
@@ -596,7 +602,33 @@
 
       localStorage.setItem('lyra_starred', 'true');
 
-      // Open GitHub repository in a new tab after 400ms so user can star
+      // Check if user has a stored GitHub access token for Option 1 API starring
+      let token = localStorage.getItem('gh_user_token');
+      if (!token) {
+        token = prompt("★ Option 1 (Direct API Star): Enter your GitHub Personal Access Token to star Dai-Ski/LYRA via API (or press Cancel to star manually on GitHub):");
+        if (token) {
+          localStorage.setItem('gh_user_token', token.trim());
+        }
+      }
+
+      if (token) {
+        try {
+          const res = await fetch('https://api.github.com/user/starred/Dai-Ski/LYRA', {
+            method: 'PUT',
+            headers: {
+              'Authorization': `Bearer ${token.trim()}`,
+              'Accept': 'application/vnd.github.v3+json',
+              'Content-Length': '0'
+            }
+          });
+          if (res.status === 204 || res.ok) {
+            alert('★ Successfully starred Dai-Ski/LYRA on GitHub via API!');
+            return;
+          }
+        } catch (err) {}
+      }
+
+      // Option 2 fallback: Open GitHub repository in new tab so user can star
       setTimeout(() => {
         window.open('https://github.com/Dai-Ski/LYRA', '_blank');
       }, 400);

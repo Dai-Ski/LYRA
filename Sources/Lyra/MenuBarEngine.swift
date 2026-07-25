@@ -277,7 +277,7 @@ public final class MenuBarEngine: NSObject {
         guard let image = NSImage(data: data) else {
             return nil
         }
-        image.size = NSSize(width: 18, height: 18)
+        image.size = NSSize(width: 22, height: 22)
         image.isTemplate = true
         return image
     }
