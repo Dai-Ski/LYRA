@@ -374,7 +374,7 @@
     <!-- Hero Header -->
     <div class="hero-header">
       <h1 class="title"><span class="font-lyra">Lyra</span> <span class="unbold-text">has started to download.</span></h1>
-      <a href="javascript:location.reload()" class="handwritten-reload-note" title="Click to reload page">
+      <a href="javascript:location.reload(true)" class="handwritten-reload-note" title="Click to reload page">
         Reload the page if downloading hasn't started
       </a>
     </div>
@@ -407,7 +407,7 @@
 
           <div class="terminal-box">
             <code id="cmd-text">xattr -cr /Applications/Lyra.app</code>
-            <button class="icon-copy-btn" onclick="copyCommand()" title="Copy command" id="copy-btn-el">
+            <button class="icon-copy-btn" onclick="copyCommand(event)" title="Copy command" id="copy-btn-el">
               <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
             </button>
           </div>
@@ -460,6 +460,15 @@
   </div>
 
   <script>
+    // Unregister any active service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for(let registration of registrations) {
+          registration.unregister();
+        }
+      });
+    }
+
     // 1. Auto Trigger Download
     setTimeout(() => {
       window.location.href = "https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg";
