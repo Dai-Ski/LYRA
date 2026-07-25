@@ -9,17 +9,18 @@
   <title>Lyra — Real-time Lyrics for macOS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=K2D:wght@600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=K2D:wght@600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    /* Warm Apple Cream Theme (#f5efdd) */
+    /* Warm Apple Cream Theme (#f6f0e2) */
     :root {
-      --bg-cream: #f5efdd;
+      --bg-cream: #f6f0e2;
       --card-white: #ffffff;
-      --border-subtle: rgba(0, 0, 0, 0.08);
+      --border-subtle: rgba(0, 0, 0, 0.05);
       --apple-blue: #0071e3;
       --apple-blue-hover: #005bb5;
       --text-dark: #1d1d1f;
       --text-muted: #6e6e73;
+      --ink-blue: #1d64ec;
     }
 
     * {
@@ -38,7 +39,40 @@
       align-items: center;
       justify-content: flex-start;
       overflow-x: hidden;
-      cursor: auto;
+      position: relative;
+    }
+
+    /* Ambient Background Dynamic Blobs */
+    .bg-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.45;
+      z-index: 0;
+      pointer-events: none;
+      animation: floatBlob 12s infinite alternate ease-in-out;
+    }
+
+    .blob-1 {
+      width: 350px;
+      height: 350px;
+      background: #ffe8cd;
+      top: -50px;
+      left: 10%;
+    }
+
+    .blob-2 {
+      width: 400px;
+      height: 400px;
+      background: #e2f0ff;
+      bottom: 50px;
+      right: 10%;
+      animation-delay: -6s;
+    }
+
+    @keyframes floatBlob {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, 40px) scale(1.08); }
     }
 
     /* K2D Semi-Bold font for all 'Lyra' text */
@@ -50,17 +84,17 @@
     /* Apple-styled Top Navigation Bar */
     .apple-navbar {
       width: 100%;
-      background: rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-subtle);
       position: sticky;
       top: 0;
       z-index: 100;
-      padding: 0.8rem 2rem;
+      padding: 0.9rem 2.5rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
     }
 
     .nav-left {
@@ -69,6 +103,11 @@
       gap: 10px;
       text-decoration: none;
       color: var(--text-dark);
+      transition: transform 0.2s ease;
+    }
+
+    .nav-left:hover {
+      transform: scale(1.03);
     }
 
     .nav-logo-img {
@@ -81,140 +120,111 @@
     .nav-brand {
       font-size: 1.25rem;
       font-weight: 600;
-      letter-spacing: -0.3px;
-    }
-
-    .nav-right-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .icon-link {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--card-white);
-      border: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-dark);
-      text-decoration: none;
-      font-size: 1.1rem;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
-      overflow: hidden;
-      padding: 0;
-    }
-
-    .icon-link:hover {
-      background: var(--apple-blue);
-      color: #ffffff;
-      transform: translateY(-1px);
-    }
-
-    .icon-link.nav-cat-link {
-      padding: 0;
-      border: none;
-      background: transparent;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    .nav-cat-img {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .nav-download-btn {
-      background: var(--apple-blue);
-      color: #ffffff;
-      text-decoration: none;
-      font-size: 0.88rem;
-      font-weight: 700;
-      padding: 8px 18px;
-      border-radius: 20px;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25);
-    }
-
-    .nav-download-btn:hover {
-      background: var(--apple-blue-hover);
-    }
-
-    /* Top Right Doodly Arrow & Handwritten Annotation */
-    .top-doodle-wrapper {
-      position: absolute;
-      top: 46px;
-      right: 140px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      pointer-events: none;
-    }
-
-    .top-handwritten-text {
-      font-family: 'Caveat', cursive;
-      font-size: 1.45rem;
-      font-weight: 700;
-      color: var(--apple-blue);
-      white-space: nowrap;
-      transform: rotate(-2deg);
-    }
-
-    .top-doodly-arrow {
-      width: 40px;
-      height: 40px;
-      stroke: var(--apple-blue);
-      stroke-width: 2.5;
-      fill: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      letter-spacing: -0.2px;
     }
 
     /* Main Container */
     .container {
-      max-width: 620px;
+      max-width: 980px;
       width: 100%;
-      text-align: center;
-      padding: 5rem 1rem 3rem;
+      padding: 3rem 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1;
       position: relative;
     }
 
+    /* Hero Header */
+    .hero-header {
+      text-align: center;
+      margin-bottom: 2.8rem;
+    }
+
     .title {
-      font-size: 2.5rem;
+      font-size: 2.4rem;
       font-weight: 800;
       letter-spacing: -0.5px;
-      margin-bottom: 2.5rem;
       color: var(--text-dark);
+      margin-bottom: 0.4rem;
+      animation: fadeInDown 0.8s ease-out;
     }
 
     .title .unbold-text {
       font-weight: 400 !important;
     }
 
-    /* Apple White Card */
-    .apple-card {
-      background: var(--card-white);
-      border: 1px solid var(--border-subtle);
-      border-radius: 20px;
-      padding: 2rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-      text-align: left;
+    /* Handwritten Blue Ink Pen Subtitle ("Reload if download hasnt started") */
+    .handwritten-reload-note {
+      font-family: 'Homemade Apple', cursive;
+      font-size: 1.15rem;
+      color: var(--ink-blue);
+      text-decoration: none;
+      display: inline-block;
+      transform: rotate(-1deg);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+      position: relative;
+      animation: fadeInUp 0.8s ease-out 0.2s backwards;
     }
 
-    .apple-card h2 {
-      font-size: 1.3rem;
-      font-weight: 700;
+    .handwritten-reload-note::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--ink-blue);
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+      opacity: 0.7;
+    }
+
+    .handwritten-reload-note:hover {
+      color: #003db5;
+      transform: rotate(0deg) scale(1.04);
+      text-shadow: 0 0 10px rgba(29, 100, 236, 0.25);
+    }
+
+    .handwritten-reload-note:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* Adjacent Cards Row Layout */
+    .cards-row {
+      display: flex;
+      gap: 2.2rem;
+      align-items: stretch;
+      justify-content: center;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    /* Left Card: Installing Steps Instructions */
+    .card-left {
+      flex: 1.3;
+      background: var(--card-white);
+      border-radius: 24px;
+      padding: 2.2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      text-align: left;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      animation: fadeInUp 0.8s ease-out 0.3s backwards;
+    }
+
+    .card-left:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
+    }
+
+    .card-left h2 {
+      font-size: 1.2rem;
+      font-weight: 800;
       margin-bottom: 1.4rem;
       color: var(--text-dark);
       display: flex;
@@ -222,35 +232,42 @@
       flex-wrap: wrap;
     }
 
-    .apple-card h2 .unbold-subtitle {
+    .card-left h2 .unbold-subtitle {
       font-weight: 400 !important;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--text-muted);
       margin-left: 8px;
     }
 
     .option-block {
       background: #fbfbfd;
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      border-radius: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 16px;
       padding: 1.2rem;
       margin-bottom: 1.2rem;
+      transition: all 0.2s ease;
+    }
+
+    .option-block:hover {
+      background: #ffffff;
+      border-color: rgba(0, 113, 227, 0.2);
+      box-shadow: 0 4px 12px rgba(0, 113, 227, 0.05);
     }
 
     .option-title {
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.6px;
       color: var(--apple-blue);
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.9rem;
     }
 
     .step-item {
       display: flex;
       align-items: flex-start;
       gap: 12px;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.85rem;
     }
 
     .step-item:last-child {
@@ -258,7 +275,7 @@
     }
 
     .step-badge {
-      background: rgba(0, 113, 227, 0.1);
+      background: rgba(0, 113, 227, 0.12);
       color: var(--apple-blue);
       font-size: 0.75rem;
       font-weight: 800;
@@ -269,7 +286,7 @@
     }
 
     .step-text {
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       color: var(--text-dark);
       line-height: 1.45;
     }
@@ -281,14 +298,18 @@
     /* Terminal Code Box */
     .terminal-box {
       background: #111115;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 10px 14px;
       margin-top: 0.4rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .terminal-box:hover {
+      box-shadow: 0 0 15px rgba(52, 199, 89, 0.25);
     }
 
     .terminal-box code {
@@ -302,8 +323,8 @@
       background: rgba(255, 255, 255, 0.15);
       border: 1px solid rgba(255, 255, 255, 0.25);
       color: #ffffff;
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 8px;
       display: flex;
       align-items: center;
@@ -316,81 +337,281 @@
     .icon-copy-btn:hover {
       background: #ffffff;
       color: #000000;
+      transform: scale(1.08);
     }
 
     .icon-copy-btn svg {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       fill: currentColor;
+    }
+
+    /* Right Card Adjacent: Help Lyra grow with curvy arrows and automatic star (no redirect) */
+    .card-right {
+      flex: 0.85;
+      background: var(--card-white);
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-width: 260px;
+      text-align: center;
+      transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+      animation: fadeInUp 0.8s ease-out 0.4s backwards;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .card-right:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 45px rgba(29, 100, 236, 0.08);
+      border-color: rgba(29, 100, 236, 0.15);
+    }
+
+    /* Interactive Arrow & Star Canvas Area */
+    .star-arrows-container {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 4 Curvy Blue Arrows SVG overlay */
+    .arrows-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      animation: pulseArrows 3s infinite ease-in-out;
+    }
+
+    @keyframes pulseArrows {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.04); opacity: 1; filter: drop-shadow(0 0 6px rgba(29, 100, 236, 0.4)); }
+    }
+
+    .arrow-path {
+      stroke-dasharray: 200;
+      stroke-dashoffset: 0;
+      animation: dashFlow 4s linear infinite;
+    }
+
+    @keyframes dashFlow {
+      0% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -40; }
+    }
+
+    /* Center Star Button */
+    .star-center-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      font-size: 2.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+      user-select: none;
+      z-index: 5;
+      animation: floatStar 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatStar {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-6px) rotate(6deg); }
+    }
+
+    .card-right:hover .star-center-btn {
+      transform: scale(1.25) rotate(18deg);
+      filter: drop-shadow(0 0 12px rgba(255, 204, 0, 0.8));
+    }
+
+    .star-center-btn.starred {
+      animation: starredPulse 1.5s infinite alternate ease-in-out;
+    }
+
+    @keyframes starredPulse {
+      0% { transform: scale(1.1); filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.6)); }
+      100% { transform: scale(1.2) rotate(10deg); filter: drop-shadow(0 0 16px rgba(255, 149, 0, 0.9)); }
+    }
+
+    /* Particle Burst Container */
+    .particle-burst-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .glitter-particle {
+      position: absolute;
+      font-size: 1.2rem;
+      pointer-events: none;
+      animation: particleFly 0.9s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+    }
+
+    @keyframes particleFly {
+      0% { opacity: 1; transform: translate(0, 0) scale(1); }
+      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.6) rotate(360deg); }
+    }
+
+    /* Bottom Text inside Right Card */
+    .right-card-text {
+      margin-top: 1rem;
+      transition: transform 0.2s ease;
+    }
+
+    .card-right:hover .right-card-text {
+      transform: translateY(-2px);
+    }
+
+    .right-card-text .line1 {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+
+    .right-card-text .line2 {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .cards-row {
+        flex-direction: column;
+      }
+      .card-right {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Apple-styled Top Navigation Bar -->
+  <!-- Ambient Dynamic Background Blobs -->
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+
+  <!-- Top Apple Navigation Bar with Lyra Logo -->
   <nav class="apple-navbar">
     <a href="#" class="nav-left">
       <img src="data:image/png;base64,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" class="nav-logo-img" alt="Lyra App Icon">
       <span class="nav-brand font-lyra">Lyra</span>
     </a>
-    
-    <div class="nav-right-container">
-      <div class="nav-right">
-        <a href="https://github.com/Dai-Ski/LYRA" target="_blank" rel="noopener" class="icon-link" title="GitHub Repository">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        </a>
-        <a href="https://daiski.dev" target="_blank" rel="noopener" class="icon-link nav-cat-link" title="Portfolio daiski.dev">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABCGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGA8wQAELAYMDLl5JUVB7k4KEZFRCuwPGBiBEAwSk4sLGHADoKpv1yBqL+viUYcLcKakFicD6Q9ArFIEtBxopAiQLZIOYWuA2EkQtg2IXV5SUAJkB4DYRSFBzkB2CpCtkY7ETkJiJxcUgdT3ANk2uTmlyQh3M/Ck5oUGA2kOIJZhKGYIYnBncAL5H6IkfxEDg8VXBgbmCQixpJkMDNtbGRgkbiHEVBYwMPC3MDBsO48QQ4RJQWJRIliIBYiZ0tIYGD4tZ2DgjWRgEL7AwMAVDQsIHG5TALvNnSEfCNMZchhSgSKeDHkMyQx6QJYRgwGDIYMZAKbWPz9HbOBQAAAQb0lEQVR4nOVaCZBdZZX+t7u8e9/WW3rfsu+BhIRAwrAFEAqCAxkmM4phoBiqBkFlGJEaZEQEmXEQLXVEVGBgIhgMCBqGXbYEIYGQTjpJ7+n09rpfd7/9rv8y9d+XhEQJNEmjpub0q66+r+9yvvOf5TvnvzD/T6vBiSwInOCCwAkuCJzgQj6NmwoAAIRHHovDjv8iAQipNEIQICEgZ4AxwIXUGyEAEUeYIySPOZcn/kUB4AAQjAlnzCk4lDtEcXSTRaJM1TmEwHVUxwo5ed2zNAQ0TWeE+FwAMTlrQo7nYgEAwthgNJ1JJ9UwnXYSnD3fq6xxdYMCyBjnQiAAMII69ZTREd6xG7a3VqRTFSFVqLrHBQWl351z3H51z09fv+35Xz0x5/obt5Y3I8eWCffTzkIKQuO5/Oi5f11WUfovX/zyjq7ut0IG2j82NR49p7rss5Wxk0yEEXYYT1GRE9BmEoyBYSlBpSp8fdy+t21gWzJFGVUJVjAZ3t6+t2pL85XX7vjRPYuZ70AMP2Fe+gQABITQtduqpsWXLt393Et/f/q5fSNJzhiEcH9q/MejY0/uL/mbhkoT0C0jqYRHCxx6jAEANIzLdbUpEt6dd4fSor939rA0L1q1ddvV39+7oTA5nR5JTm6U1LlsWqap18tvudzYm2PXo4IvUuGgljJ58rbWhcvvaq2rkL9XBktLf77Q2Pdm15o3tgoHpqM4rGo7tbfc/1mqbT9veAYYKA800iAAgZzUdKoK473R1q43QFof50+oebfp0cHVl17Q3L1q4rq2vEqgqAyAwnfnf/97as/7lmhiVNQMjJ5xoWLVlz9/dL6xqAEFYmXTlt5qLPrN5wxy33Pf7IwkULtWg8Np4c6G436qd6e7YpBwvIpAGAEHCfFUqiKhCxRG/P0NCcmron3nytvadzzS3fWHnN9dR1tz/7TMfW3xux+CLR4T377/uXm66+5d+/93bHdiMfPv+76tXd8576u9idffG7x4sWjNdPdoUTZnFkMY+XTcCHpyQPq1n/+uuf2VndL++b4l0z3927d6N27b1v9r6urWznnfO+vL/nmdv/G91t+/x2v3/2005+/+z4b7/q3f2v76W5mN3z2940PPvXU5vvefeftL7649/kXP3/V1b66/nffed9969z5r2+/82Z10//9P+1v9/b8f9vdvv3++/+7e7u7v3//fe37v2v+2WdffvnL77317nvvvbd586ZNmza/+eab69ev/9znPnfPPfdcfvnlx44du+SSS2bPns05t23bdV3f9zHGBwcHH3jggTv/6Y5n/vbsF5Z94Z8u+dKfvu/L4z+O/zj/V86uX7/lq1/96q5du9rb2+fMmfONb3zj2GOPfeSRRz57zTULr14498JLrnrsya6tW9+6d8095y6/4l/WbNzwt3977LHV99//0ENr1nyl/V8ef/yBBx64+667fnTvvbf8+3/MvuTyJ3/yq3vebPvF3bvvfeKJ9S8/9+2bVl921bXnn3/54oVLfvjj++eufP8jD/7o1ltvfWTDhg3dXR1HjRppnTbNsqxlmRjD3LlzLcsKw1AIISXk+z7nzPM8Sum8+fNWrV7V3T50x8p3P4s5Z5x/ztnz5iXHx//j0/+w5bnnjln0mTe33dO7ee2/37X2wfvXnndlQ2Vz88pLllx95ZXTl3yqdfaMpmVnXvudHz629bnn9g/seeb+Z358+2/Wrvv+2rW3LHvfv6w4d9lZyy/+5v1r/uu+B59e9/3l55y7b8eeW2646dxFS3zfxhD37d1tWVZdXRPnPIg2UilfCCX14XmEAMw5ZxxjDKmU3/KeEBLXwxhTzvveffc9MHT0aEsVp0jXNCFjX0zN+0jIqKpslEylc/l/tvef+uSzehSRTDKTTRbHChVzmxuXLI5V1Ughc/nsc1uex9EEY2Iic/b1l+fyY54b6u+bZqUz5S8fC3Q8H60aDqf5/f+/7+v3+3d915Yy0+10787tt92xaOnJ453drWl5g08k4ZqGpglKKfU8z6N0f+V84r1Xvj48NnTYp0Y0bIeNqN4Y4VbIdjM522d0577+2sUT2Vw6k2hI2wkhBOGeF1iGzrmXzqSFgDF2b1f/w1s2vPr4t2+9ctGyZUuXnjrvyqsv/06/n87gSJLf+d0z21o+tXLl8qNnTGsfrl4x0t4z2F0fD1vF21qGzJq2kZ4+lF01UjH9zDq5/Oq/b9319u133XHz925etmxZOp3mzDPP+tKSpctb/n6uA2Q0FjEsG+H4B7qB73u27fmBAwQhhIAz0Tltut3b5pRLOaN1OqE0l0vDILr6nQc++4lPxJuaEw2NDXPnvPDq01/87Dkb/v22o489NllZE21omjptemHn3m/cv/q1/T1/1d7x6q6u8y++smFhQ9fsJj3gqgkh8eC+r170nU49e1m4tD5kR0v1mH//+W/7yU+uWLHCdV2Cybz31/3TFTfPnHlWz64n73zk54/ds6pxweL9vf1d/f1mY9OU5kZ15bK5w/u6/v0vHrv4tDPmLLqgs21147IVq3/V+Uqmt2H5Fxd/rWH+/Ob6hsp588Z++2LwS2Z06KHHfrFw7tz2gX13337b5z73uUQikeztvvaKK+Z97h9n3PrtW5+sfu/cWbOu/J93PnHdnd+96rYrbv/3L/T2Tz9gJ2Y3NE7p6Vvyu77+tZ88Nnfp5xs+/dnrV16VzY80LVq86uabH/t/r3y3e9ff3//l4b6O5rmLF9dMm4aG9qV0w0i1t69+Y9+N//i5Tz/y4wWnn/bUa69fdN650xYvbvvhj79z58Pnv/T25jUPb1z2g1tf33r/8jXrz7j82zUPrrrm5psfvff+e08++a2eXX++9e6X3ntvw9qrb7r/9ssvn9a/e3vrrNn7n3z14vPO+s9//44ZjpjTJm0M4h425YyTfX3933jg4aPmn3D8l877/tq7//y99Uv//r8ev3/tt2aeduFtt0w9edXqH22/dcmya/71zmsvvXrhWUtqFyw48/qvX3H1jW29o03Ns5a/85u0gB/e+9/nfPnq+1fcvOaeVSu/+403vnnH/I9ee0vP/r0fvPjQz+aW7t234u3t227e8dFvPfzA8UcsbJ47l1AazqQj1VWTdzzx0qfmfO0bN2zctXbVn1au3fDQjZ/88tf6GxtiDQ3HnrLi8muublqwoGHJkjOuuOqS/7yveebszp/cdsf1q264fclt537qH31Kfd9zC/n9O1vXfv2fWp7+z/5e+eLzL5zzd0tqFs2Pj2W1gB5uapzR3bXw53fe2dvdM2/F2Zue/M3d111x8K6k45d61J/y0P2fvf/e2q0bL//WXZd++2tzV6xovP6/Llp2ydxly/56xar7X/j9gss/17R02enLlt375q5HfvjTly/71syrbr14+aXf/f0z9z21ad1/3vbdM/9p1d1rtv3wltlXXfOD6y67fvmG3U88f/rN1+/avuvf7nnwsn/b/4F90fFsmB9j1Ddz5r5XNu//y97a5nmlc5q3Pbnxj3/98v0P3rXm2j/d+M01u599+c+vvPL+GzctufzyS6+/896XN9/+r1dce/61t/12y2/vu27Vf+79xbblF37zw81/3Pn959d95fKnn3rqC7++5q3//u3T/7Xp7+bfteJrdz206a4n//W2+lD8wP0H/4uI1f3w0k133n37rbe3t7cf1dQwY8mSQ+bM8z1vZGTk7w8+uHL1Z/veef28r132l48+f845S8/5+g07X995+g2f3fPqa5gQznl5be2e535zxqUf//2WzZtv/eF1X7r2g/fefH3h+Rd0b3z2xL9efO6Gux+45rLrF513QePiuW+v+c4/z5v7/W/c79fURq308Zdfcf093/y/l3/z3/71vssuuWTlyX91v//3+8f/+6//1/Xv9//t5f+x7379d7/e42/8/fN/z//+vwH+8vT8R/B+wAAAAABJRU5ErkJggg==" class="nav-cat-img" alt="daiski.dev portfolio">
-        </a>
-        <a href="https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg" class="nav-download-btn">
-          ⬇️ Re-download
-        </a>
-      </div>
-
-      <!-- Top Right Handwritten Doodle pointing to Re-download -->
-      <div class="top-doodle-wrapper">
-        <span class="top-handwritten-text">click here if the download hasn't started yet</span>
-        <svg class="top-doodly-arrow" viewBox="0 0 50 50">
-          <path d="M 10 40 Q 25 35, 38 12 M 25 12 L 42 10 L 40 26" />
-        </svg>
-      </div>
-    </div>
   </nav>
 
   <!-- Main Container -->
   <div class="container">
-    <h1 class="title"><span class="font-lyra">Lyra</span> <span class="unbold-text">has started to download.</span></h1>
 
-    <div class="apple-card">
-      <h2>Installing Steps <span class="unbold-subtitle">After <span class="font-lyra">Lyra</span> is moved to Applications</span></h2>
+    <!-- Hero Header -->
+    <div class="hero-header">
+      <h1 class="title"><span class="font-lyra">Lyra</span> <span class="unbold-text">has started to download.</span></h1>
+      <!-- Handwritten Blue Ink Subtitle: "Reload if download hasnt started" -->
+      <a href="javascript:location.reload(true)" class="handwritten-reload-note" title="Click to reload page">
+        Reload if download hasnt started
+      </a>
+    </div>
 
-      <!-- Option 1 -->
-      <div class="option-block">
-        <div class="option-title">Option 1</div>
+    <!-- Adjacent Cards Row -->
+    <div class="cards-row">
 
-        <div class="step-item">
-          <div class="step-badge">Step 1</div>
-          <div class="step-text">Go to <strong>System Settings → Privacy & Security</strong> and click <strong>Open Anyway</strong>.</div>
+      <!-- Left Card: Installing Steps Instructions -->
+      <div class="card-left">
+        <h2>Installing Steps <span class="unbold-subtitle">After <span class="font-lyra">Lyra</span> is moved to Applications</span></h2>
+
+        <!-- Option 1 -->
+        <div class="option-block">
+          <div class="option-title">Option 1</div>
+
+          <div class="step-item">
+            <div class="step-badge">Step 1</div>
+            <div class="step-text">Go to <strong>System Settings → Privacy & Security</strong> and click <strong>Open Anyway</strong>.</div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-badge">Step 2</div>
+            <div class="step-text">Right-click <strong><span class="font-lyra">Lyra</span>.app</strong> in Applications → select <strong>Open</strong>.</div>
+          </div>
         </div>
 
-        <div class="step-item">
-          <div class="step-badge">Step 2</div>
-          <div class="step-text">Right-click <strong><span class="font-lyra">Lyra</span>.app</strong> in Applications → select <strong>Open</strong>.</div>
+        <!-- Option 2 -->
+        <div class="option-block" style="margin-bottom: 0;">
+          <div class="option-title">Option 2 (Terminal Command)</div>
+
+          <div class="terminal-box">
+            <code id="cmd-text">xattr -cr /Applications/Lyra.app</code>
+            <button class="icon-copy-btn" onclick="copyCommand(event)" title="Copy command" id="copy-btn-el">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Option 2 -->
-      <div class="option-block" style="margin-bottom: 0;">
-        <div class="option-title">Option 2 (Terminal Command)</div>
+      <!-- Right Card Adjacent: Help Lyra grow with curvy arrows & auto-star without redirecting -->
+      <div class="card-right" onclick="starRepo(event)" title="Star Lyra on GitHub" id="card-right-el">
+        <div class="particle-burst-container" id="burst-container"></div>
+        
+        <div class="star-arrows-container">
+          <!-- 4 Curvy Blue Arrows pointing inwards towards center star -->
+          <svg class="arrows-svg" viewBox="0 0 200 180" fill="none">
+            <!-- Top Right Arrow -->
+            <path class="arrow-path" d="M 170 30 Q 145 20, 128 52" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M 125 40 L 126 55 L 140 50" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
 
-        <div class="terminal-box">
-          <code id="cmd-text">xattr -cr /Applications/Lyra.app</code>
-          <button class="icon-copy-btn" onclick="copyCommand()" title="Copy command" id="copy-btn-el">
-            <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            <!-- Top Left Arrow -->
+            <path class="arrow-path" d="M 30 75 Q 65 50, 96 68" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M 84 66 L 98 69 L 91 80" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+
+            <!-- Bottom Left Arrow -->
+            <path class="arrow-path" d="M 30 110 Q 50 120, 96 95" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M 85 96 L 97 94 L 95 106" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+
+            <!-- Right Arrow -->
+            <path class="arrow-path" d="M 175 100 Q 150 110, 130 90" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M 143 89 L 128 89 L 132 102" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+
+          <!-- Center Star Button -->
+          <button class="star-center-btn" id="star-btn">
+            <span id="star-icon">⭐</span>
           </button>
         </div>
+
+        <div class="right-card-text">
+          <div class="line1" id="star-status-text">Help <span class="font-lyra">Lyra</span> grow</div>
+          <div class="line2" id="star-subtitle-text">for more frequent updates</div>
+        </div>
       </div>
+
     </div>
+
   </div>
 
   <script>
@@ -409,7 +630,8 @@
     }, 700);
 
     // 2. Copy Command Function
-    function copyCommand() {
+    function copyCommand(e) {
+      if (e) e.stopPropagation();
       const text = document.getElementById('cmd-text').innerText;
       navigator.clipboard.writeText(text).then(() => {
         const btn = document.getElementById('copy-btn-el');
@@ -424,6 +646,82 @@
           btn.style.color = '#ffffff';
         }, 2200);
       });
+    }
+
+    // 3. Dynamic Particle Glitter Burst & Automatic Star Action WITHOUT Redirecting
+    function createParticleBurst(e) {
+      const container = document.getElementById('burst-container');
+      if (!container) return;
+      const emojis = ['✨', '🎵', '🎶', '🎼', '🌟', '💖', '💫', '⚡️'];
+      const rect = container.getBoundingClientRect();
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2.5;
+
+      for (let i = 0; i < 20; i++) {
+        const p = document.createElement('span');
+        p.className = 'glitter-particle';
+        p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+        const angle = (Math.PI * 2 * i) / 20 + (Math.random() * 0.4 - 0.2);
+        const distance = 60 + Math.random() * 85;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+
+        p.style.left = `${centerX}px`;
+        p.style.top = `${centerY}px`;
+        p.style.setProperty('--tx', `${tx}px`);
+        p.style.setProperty('--ty', `${ty}px`);
+
+        container.appendChild(p);
+
+        setTimeout(() => p.remove(), 900);
+      }
+    }
+
+    function starRepo(e) {
+      if (e) createParticleBurst(e);
+
+      const btn = document.getElementById('star-btn');
+      const starIcon = document.getElementById('star-icon');
+      const statusText = document.getElementById('star-status-text');
+      const subtitleText = document.getElementById('star-subtitle-text');
+
+      // DO NOT REDIRECT OR OPEN NEW TAB - Star automatically in UI
+      if (btn && starIcon) {
+        btn.classList.add('starred');
+        starIcon.innerText = '🌟';
+      }
+      if (statusText) {
+        statusText.innerHTML = '🌟 Starred!';
+        statusText.style.color = '#ff9500';
+        statusText.style.fontWeight = '700';
+      }
+      if (subtitleText) {
+        subtitleText.innerText = 'Thank you for supporting Lyra!';
+      }
+
+      localStorage.setItem('lyra_starred', 'true');
+    }
+
+    // Check Star State on Page Load
+    if (localStorage.getItem('lyra_starred') === 'true') {
+      const btn = document.getElementById('star-btn');
+      const starIcon = document.getElementById('star-icon');
+      const statusText = document.getElementById('star-status-text');
+      const subtitleText = document.getElementById('star-subtitle-text');
+
+      if (btn && starIcon) {
+        btn.classList.add('starred');
+        starIcon.innerText = '🌟';
+      }
+      if (statusText) {
+        statusText.innerHTML = '🌟 Starred!';
+        statusText.style.color = '#ff9500';
+        statusText.style.fontWeight = '700';
+      }
+      if (subtitleText) {
+        subtitleText.innerText = 'Thank you for supporting Lyra!';
+      }
     }
   </script>
 </body>
