@@ -9,7 +9,7 @@
   <title>Lyra — Real-time Lyrics for macOS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=K2D:wght@600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=K2D:wght@600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     /* Warm Apple Cream Theme (#f5efdd) */
     :root {
@@ -77,38 +77,12 @@
       letter-spacing: -0.3px;
     }
 
-    .nav-right {
-      display: flex;
-      align-items: center;
-    }
-
-    /* Handwritten Blue Ink Pen text */
-    .handwritten-blue-ink {
-      font-family: 'Caveat', cursive;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #1a56db; /* Deep Fountain Pen Blue Ink */
-      text-decoration: none;
-      transition: all 0.2s ease;
-      transform: rotate(-1.5deg);
-      display: inline-block;
-      cursor: pointer;
-      letter-spacing: 0.2px;
-      text-shadow: 0 0 1px rgba(26, 86, 219, 0.2);
-    }
-
-    .handwritten-blue-ink:hover {
-      color: #003db5;
-      transform: rotate(0deg) scale(1.02);
-      text-shadow: 0 0 3px rgba(26, 86, 219, 0.3);
-    }
-
     /* Main Container */
     .container {
       max-width: 620px;
       width: 100%;
       text-align: center;
-      padding: 4.5rem 1rem 3rem;
+      padding: 4rem 1rem 3rem;
       position: relative;
     }
 
@@ -116,12 +90,30 @@
       font-size: 2.5rem;
       font-weight: 800;
       letter-spacing: -0.5px;
-      margin-bottom: 2.5rem;
+      margin-bottom: 0.8rem;
       color: var(--text-dark);
     }
 
     .title .unbold-text {
       font-weight: 400 !important;
+    }
+
+    /* Handwritten Reload Note using 'Homemade Apple' font in blue ink pen */
+    .handwritten-reload-note {
+      font-family: 'Homemade Apple', cursive;
+      font-size: 1.1rem;
+      color: #1a56db; /* Fountain Pen Blue Ink */
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 2.2rem;
+      transform: rotate(-1deg);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .handwritten-reload-note:hover {
+      color: #003db5;
+      transform: rotate(0deg) scale(1.03);
     }
 
     /* Apple White Card */
@@ -246,87 +238,75 @@
       fill: currentColor;
     }
 
-    /* Help Lyra Grow Star Dialog Box */
-    .star-dialog-box {
-      margin-top: 1.8rem;
-      background: var(--card-white);
-      border: 1px solid var(--border-subtle);
-      border-radius: 20px;
-      padding: 1.3rem 1.6rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    /* Centered Big Star Section with 4 Blue Inward Arrows */
+    .star-section {
+      margin-top: 2.8rem;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      text-align: left;
+      justify-content: center;
     }
 
-    .star-dialog-content {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      width: 100%;
-      justify-content: space-between;
-    }
-
-    .star-info-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .star-icon-badge {
-      font-size: 1.6rem;
-      background: rgba(255, 204, 0, 0.15);
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+    .star-interactive-wrapper {
+      position: relative;
+      width: 190px;
+      height: 190px;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
     }
 
-    .star-text-group h3 {
-      font-size: 1.02rem;
-      font-weight: 700;
-      color: var(--text-dark);
-    }
-
-    .star-text-group p {
-      font-size: 0.84rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .star-btn {
-      background: linear-gradient(135deg, #ffcc00 0%, #ff9500 100%);
-      color: #1d1d1f;
-      border: none;
-      font-family: inherit;
-      font-size: 0.88rem;
-      font-weight: 800;
-      padding: 10px 18px;
-      border-radius: 14px;
-      cursor: pointer;
+    .big-star-btn {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2.5px solid rgba(255, 204, 0, 0.6);
+      box-shadow: 0 8px 30px rgba(255, 149, 0, 0.22);
       display: flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.25s ease;
-      box-shadow: 0 4px 14px rgba(255, 149, 0, 0.25);
-      flex-shrink: 0;
+      justify-content: center;
+      font-size: 3rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      user-select: none;
+      z-index: 2;
     }
 
-    .star-btn:hover {
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 6px 18px rgba(255, 149, 0, 0.35);
+    .big-star-btn:hover {
+      transform: scale(1.15) rotate(12deg);
+      box-shadow: 0 12px 40px rgba(255, 149, 0, 0.45);
+      background: #fffdf0;
     }
 
-    .star-btn.starred {
-      background: linear-gradient(135deg, #34c759 0%, #28a745 100%);
-      color: #ffffff;
-      box-shadow: 0 4px 14px rgba(52, 199, 89, 0.25);
+    .big-star-btn.starred {
+      background: linear-gradient(135deg, #ffcc00 0%, #ff9500 100%);
+      border-color: #ff9500;
+      box-shadow: 0 10px 35px rgba(255, 149, 0, 0.5);
+      transform: scale(1.05);
       cursor: default;
-      transform: none !important;
+    }
+
+    /* 4 Inward Blue Arrows pointing towards the Big Star */
+    .inward-arrow {
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .arrow-tl { top: 12px; left: 12px; }
+    .arrow-tr { top: 12px; right: 12px; }
+    .arrow-bl { bottom: 12px; left: 12px; }
+    .arrow-br { bottom: 12px; right: 12px; }
+
+    /* Bottom Caption Text in 'Homemade Apple' font */
+    .star-caption-text {
+      font-family: 'Homemade Apple', cursive;
+      font-size: 1.3rem;
+      color: var(--text-dark);
+      margin-top: 1rem;
     }
   </style>
 </head>
@@ -337,18 +317,18 @@
     <a href="#" class="nav-left">
       <span class="nav-brand font-lyra">Lyra</span>
     </a>
-    
-    <div class="nav-right">
-      <a href="javascript:location.reload()" class="handwritten-blue-ink" title="Click to reload page">
-        Reload the page if downloading hasn't started
-      </a>
-    </div>
   </nav>
 
   <!-- Main Container -->
   <div class="container">
     <h1 class="title"><span class="font-lyra">Lyra</span> <span class="unbold-text">has started to download.</span></h1>
+    
+    <!-- Handwritten Blue Ink Note (Homemade Apple font) -->
+    <a href="javascript:location.reload()" class="handwritten-reload-note" title="Click to reload page">
+      Reload the page if downloading hasn't started
+    </a>
 
+    <!-- Apple White Card -->
     <div class="apple-card">
       <h2>Installing Steps <span class="unbold-subtitle">After <span class="font-lyra">Lyra</span> is moved to Applications</span></h2>
 
@@ -380,20 +360,32 @@
       </div>
     </div>
 
-    <!-- Help Lyra Grow Star Dialog Box -->
-    <div class="star-dialog-box">
-      <div class="star-dialog-content">
-        <div class="star-info-group">
-          <div class="star-icon-badge">⭐</div>
-          <div class="star-text-group">
-            <h3>Help <span class="font-lyra">Lyra</span> grow for more updates</h3>
-            <p>Star the repository on GitHub to support new features & updates.</p>
-          </div>
-        </div>
-        <button class="star-btn" id="star-btn" onclick="starRepo()">
-          <span id="star-btn-icon">⭐</span> <span id="star-btn-text">Star Repository</span>
+    <!-- Centered Star Section with 4 Blue Inward Arrows -->
+    <div class="star-section">
+      <div class="star-interactive-wrapper">
+        <!-- 4 Blue Doodly Arrows pointing inwards towards center Star -->
+        <svg class="inward-arrow arrow-tl" viewBox="0 0 40 40">
+          <path d="M 5 5 Q 20 15, 30 30 M 18 28 L 32 32 L 28 18" stroke="#1a56db" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <svg class="inward-arrow arrow-tr" viewBox="0 0 40 40">
+          <path d="M 35 5 Q 20 15, 10 30 M 12 18 L 8 32 L 22 28" stroke="#1a56db" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <svg class="inward-arrow arrow-bl" viewBox="0 0 40 40">
+          <path d="M 5 35 Q 20 25, 30 10 M 28 22 L 32 8 L 18 12" stroke="#1a56db" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <svg class="inward-arrow arrow-br" viewBox="0 0 40 40">
+          <path d="M 35 35 Q 20 25, 10 10 M 22 12 L 8 8 L 12 22" stroke="#1a56db" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+        <!-- Big Center Star Button -->
+        <button class="big-star-btn" id="big-star-btn" onclick="starRepo()" title="Star Lyra on GitHub">
+          <span id="star-icon-main">⭐</span>
         </button>
       </div>
+
+      <p class="star-caption-text">
+        Help <span class="font-lyra">Lyra</span> grow for more updates
+      </p>
     </div>
   </div>
 
@@ -423,27 +415,23 @@
 
     // 3. Star Repository Function (No option to unstar)
     function starRepo() {
-      const btn = document.getElementById('star-btn');
-      const btnIcon = document.getElementById('star-btn-icon');
-      const btnText = document.getElementById('star-btn-text');
+      const btn = document.getElementById('big-star-btn');
+      const starIcon = document.getElementById('star-icon-main');
 
       window.open('https://github.com/Dai-Ski/LYRA', '_blank');
 
       btn.classList.add('starred');
-      btnIcon.innerText = '🌟';
-      btnText.innerText = 'Starred!';
+      starIcon.innerText = '🌟';
       localStorage.setItem('lyra_starred', 'true');
     }
 
     // Check Star State on Page Load
     if (localStorage.getItem('lyra_starred') === 'true') {
-      const btn = document.getElementById('star-btn');
-      const btnIcon = document.getElementById('star-btn-icon');
-      const btnText = document.getElementById('star-btn-text');
-      if (btn && btnIcon && btnText) {
+      const btn = document.getElementById('big-star-btn');
+      const starIcon = document.getElementById('star-icon-main');
+      if (btn && starIcon) {
         btn.classList.add('starred');
-        btnIcon.innerText = '🌟';
-        btnText.innerText = 'Starred!';
+        starIcon.innerText = '🌟';
       }
     }
   </script>
