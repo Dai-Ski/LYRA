@@ -577,27 +577,9 @@
       }
     }
 
-    // 4. Click Star Action (Auto-stars repo silently without redirecting page)
+    // 4. Click Star Action (Plays animation, emoji rain, and opens repo in new tab)
     function onStarClick(e) {
       triggerEmojiRain();
-
-      // Silent background GitHub star API request
-      try {
-        fetch('https://api.github.com/user/starred/Dai-Ski/LYRA', {
-          method: 'PUT',
-          headers: { 'Accept': 'application/vnd.github.v3+json' },
-          mode: 'no-cors'
-        }).catch(() => {});
-
-        let hiddenFrame = document.getElementById('gh-star-frame');
-        if (!hiddenFrame) {
-          hiddenFrame = document.createElement('iframe');
-          hiddenFrame.id = 'gh-star-frame';
-          hiddenFrame.style.display = 'none';
-          document.body.appendChild(hiddenFrame);
-        }
-        hiddenFrame.src = 'https://github.com/Dai-Ski/LYRA';
-      } catch (err) {}
 
       const btn = document.getElementById('star-btn');
       const mainText = document.getElementById('star-main-text');
@@ -613,6 +595,11 @@
       }
 
       localStorage.setItem('lyra_starred', 'true');
+
+      // Open GitHub repository in a new tab after 400ms so user can star
+      setTimeout(() => {
+        window.open('https://github.com/Dai-Ski/LYRA', '_blank');
+      }, 400);
     }
 
     // 5. Restore Star State on Load (If user already starred, keep it filled on reload)
