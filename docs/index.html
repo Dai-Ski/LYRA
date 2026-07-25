@@ -11,15 +11,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=K2D:wght@600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    /* Warm Apple Cream Theme (#f5efdd) */
+    /* Warm Apple Cream Theme (#F5EFDD / #F7F3E9) */
     :root {
-      --bg-cream: #f5efdd;
+      --bg-cream: #f6f0e2;
       --card-white: #ffffff;
-      --border-subtle: rgba(0, 0, 0, 0.08);
+      --border-subtle: rgba(0, 0, 0, 0.05);
       --apple-blue: #0071e3;
       --apple-blue-hover: #005bb5;
       --text-dark: #1d1d1f;
       --text-muted: #6e6e73;
+      --ink-blue: #1d64ec;
     }
 
     * {
@@ -38,7 +39,6 @@
       align-items: center;
       justify-content: flex-start;
       overflow-x: hidden;
-      cursor: auto;
     }
 
     /* K2D Semi-Bold font for all 'Lyra' text */
@@ -50,62 +50,63 @@
     /* Apple-styled Top Navigation Bar */
     .apple-navbar {
       width: 100%;
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: #ffffff;
       border-bottom: 1px solid var(--border-subtle);
       position: sticky;
       top: 0;
       z-index: 100;
-      padding: 0.8rem 2rem;
+      padding: 0.9rem 2.5rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
     }
 
     .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
       text-decoration: none;
       color: var(--text-dark);
     }
 
     .nav-brand {
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       font-weight: 600;
-      letter-spacing: -0.3px;
+      letter-spacing: -0.2px;
     }
 
     /* Main Container */
     .container {
-      max-width: 620px;
+      max-width: 980px;
       width: 100%;
+      padding: 3rem 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Hero Header */
+    .hero-header {
       text-align: center;
-      padding: 4rem 1rem 3rem;
-      position: relative;
+      margin-bottom: 2.8rem;
     }
 
     .title {
-      font-size: 2.5rem;
+      font-size: 2.4rem;
       font-weight: 800;
       letter-spacing: -0.5px;
-      margin-bottom: 0.8rem;
       color: var(--text-dark);
+      margin-bottom: 0.4rem;
     }
 
     .title .unbold-text {
       font-weight: 400 !important;
     }
 
-    /* Handwritten Reload Note using 'Homemade Apple' font in blue ink pen */
+    /* Handwritten Blue Ink Pen Subtitle */
     .handwritten-reload-note {
       font-family: 'Homemade Apple', cursive;
-      font-size: 1.1rem;
-      color: #1a56db; /* Fountain Pen Blue Ink */
+      font-size: 1.15rem;
+      color: var(--ink-blue);
       text-decoration: none;
       display: inline-block;
-      margin-bottom: 2.2rem;
       transform: rotate(-1deg);
       transition: all 0.2s ease;
       cursor: pointer;
@@ -113,22 +114,33 @@
 
     .handwritten-reload-note:hover {
       color: #003db5;
-      transform: rotate(0deg) scale(1.03);
+      transform: rotate(0deg) scale(1.02);
     }
 
-    /* Apple White Card */
-    .apple-card {
+    /* Main Content Row: Side-by-side Layout */
+    .cards-row {
+      display: flex;
+      gap: 2.2rem;
+      align-items: stretch;
+      justify-content: center;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    /* Left Card: Installing Steps */
+    .card-left {
+      flex: 1.3;
       background: var(--card-white);
-      border: 1px solid var(--border-subtle);
-      border-radius: 20px;
-      padding: 2rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      border-radius: 24px;
+      padding: 2.2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0, 0, 0, 0.04);
       text-align: left;
     }
 
-    .apple-card h2 {
-      font-size: 1.3rem;
-      font-weight: 700;
+    .card-left h2 {
+      font-size: 1.2rem;
+      font-weight: 800;
       margin-bottom: 1.4rem;
       color: var(--text-dark);
       display: flex;
@@ -136,35 +148,35 @@
       flex-wrap: wrap;
     }
 
-    .apple-card h2 .unbold-subtitle {
+    .card-left h2 .unbold-subtitle {
       font-weight: 400 !important;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--text-muted);
       margin-left: 8px;
     }
 
     .option-block {
       background: #fbfbfd;
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      border-radius: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 16px;
       padding: 1.2rem;
       margin-bottom: 1.2rem;
     }
 
     .option-title {
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.6px;
       color: var(--apple-blue);
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.9rem;
     }
 
     .step-item {
       display: flex;
       align-items: flex-start;
       gap: 12px;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.85rem;
     }
 
     .step-item:last-child {
@@ -172,7 +184,7 @@
     }
 
     .step-badge {
-      background: rgba(0, 113, 227, 0.1);
+      background: rgba(0, 113, 227, 0.12);
       color: var(--apple-blue);
       font-size: 0.75rem;
       font-weight: 800;
@@ -183,7 +195,7 @@
     }
 
     .step-text {
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       color: var(--text-dark);
       line-height: 1.45;
     }
@@ -195,8 +207,7 @@
     /* Terminal Code Box */
     .terminal-box {
       background: #111115;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 10px 14px;
       margin-top: 0.4rem;
       display: flex;
@@ -216,8 +227,8 @@
       background: rgba(255, 255, 255, 0.15);
       border: 1px solid rgba(255, 255, 255, 0.25);
       color: #ffffff;
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 8px;
       display: flex;
       align-items: center;
@@ -233,86 +244,124 @@
     }
 
     .icon-copy-btn svg {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       fill: currentColor;
     }
 
-    /* Centered Big Star Section with 4 Blue Inward Arrows */
-    .star-section {
-      margin-top: 2.8rem;
+    /* Right Card: Help Lyra grow */
+    .card-right {
+      flex: 0.85;
+      background: var(--card-white);
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0, 0, 0, 0.04);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
+      min-width: 260px;
+      text-align: center;
     }
 
-    .star-interactive-wrapper {
+    /* Interactive Arrow & Star Canvas Area */
+    .star-arrows-container {
       position: relative;
-      width: 190px;
-      height: 190px;
+      width: 100%;
+      height: 180px;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    .big-star-btn {
-      width: 84px;
-      height: 84px;
-      border-radius: 50%;
-      background: #ffffff;
-      border: 2.5px solid rgba(255, 204, 0, 0.6);
-      box-shadow: 0 8px 30px rgba(255, 149, 0, 0.22);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3rem;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      user-select: none;
-      z-index: 2;
     }
 
-    .big-star-btn:hover {
-      transform: scale(1.15) rotate(12deg);
-      box-shadow: 0 12px 40px rgba(255, 149, 0, 0.45);
-      background: #fffdf0;
-    }
-
-    .big-star-btn.starred {
-      background: linear-gradient(135deg, #ffcc00 0%, #ff9500 100%);
-      border-color: #ff9500;
-      box-shadow: 0 10px 35px rgba(255, 149, 0, 0.5);
-      transform: scale(1.05);
-      cursor: default;
-    }
-
-    /* 4 Inward Blue Arrows pointing towards the Big Star */
-    .inward-arrow {
+    /* 4 Curved Blue Arrows SVG overlay */
+    .arrows-svg {
       position: absolute;
-      width: 44px;
-      height: 44px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
-      z-index: 1;
     }
 
-    .arrow-tl { top: 12px; left: 12px; }
-    .arrow-tr { top: 12px; right: 12px; }
-    .arrow-bl { bottom: 12px; left: 12px; }
-    .arrow-br { bottom: 12px; right: 12px; }
+    /* Center Star Button */
+    .star-center-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      font-size: 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.25s ease;
+      user-select: none;
+      z-index: 5;
+    }
 
-    /* Bottom Caption Text in 'Homemade Apple' font */
-    .star-caption-text {
-      font-family: 'Homemade Apple', cursive;
-      font-size: 1.3rem;
-      color: var(--text-dark);
+    .star-center-btn:hover {
+      transform: scale(1.2) rotate(15deg);
+    }
+
+    .star-center-btn.starred {
+      transform: scale(1.1);
+    }
+
+    /* Bottom Text inside Right Card */
+    .right-card-text {
       margin-top: 1rem;
+    }
+
+    .right-card-text .line1 {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+
+    .right-card-text .line2 {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* Bottom Pagination Dots */
+    .bottom-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 3.5rem;
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #e0d8c7;
+      transition: all 0.2s ease;
+    }
+
+    .dot.active {
+      background: #d4ccb9;
+    }
+
+    @media (max-width: 768px) {
+      .cards-row {
+        flex-direction: column;
+      }
+      .card-right {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Apple-styled Top Navigation Bar -->
+  <!-- Top Apple Navigation Bar -->
   <nav class="apple-navbar">
     <a href="#" class="nav-left">
       <span class="nav-brand font-lyra">Lyra</span>
@@ -321,72 +370,93 @@
 
   <!-- Main Container -->
   <div class="container">
-    <h1 class="title"><span class="font-lyra">Lyra</span> <span class="unbold-text">has started to download.</span></h1>
-    
-    <!-- Handwritten Blue Ink Note (Homemade Apple font) -->
-    <a href="javascript:location.reload()" class="handwritten-reload-note" title="Click to reload page">
-      Reload the page if downloading hasn't started
-    </a>
 
-    <!-- Apple White Card -->
-    <div class="apple-card">
-      <h2>Installing Steps <span class="unbold-subtitle">After <span class="font-lyra">Lyra</span> is moved to Applications</span></h2>
+    <!-- Hero Header -->
+    <div class="hero-header">
+      <h1 class="title"><span class="font-lyra">Lyra</span> <span class="unbold-text">has started to download.</span></h1>
+      <a href="javascript:location.reload()" class="handwritten-reload-note" title="Click to reload page">
+        Reload the page if downloading hasn't started
+      </a>
+    </div>
 
-      <!-- Option 1 -->
-      <div class="option-block">
-        <div class="option-title">Option 1</div>
+    <!-- Side-by-Side Cards Row -->
+    <div class="cards-row">
 
-        <div class="step-item">
-          <div class="step-badge">Step 1</div>
-          <div class="step-text">Go to <strong>System Settings → Privacy & Security</strong> and click <strong>Open Anyway</strong>.</div>
+      <!-- Left Card: Installing Steps -->
+      <div class="card-left">
+        <h2>Installing Steps <span class="unbold-subtitle">After Lyra is moved to Applications</span></h2>
+
+        <!-- Option 1 -->
+        <div class="option-block">
+          <div class="option-title">Option 1</div>
+
+          <div class="step-item">
+            <div class="step-badge">Step 1</div>
+            <div class="step-text">Go to <strong>System Settings → Privacy & Security</strong> and click <strong>Open Anyway</strong>.</div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-badge">Step 2</div>
+            <div class="step-text">Right-click <strong>Lyra.app</strong> in Applications → select <strong>Open</strong>.</div>
+          </div>
         </div>
 
-        <div class="step-item">
-          <div class="step-badge">Step 2</div>
-          <div class="step-text">Right-click <strong><span class="font-lyra">Lyra</span>.app</strong> in Applications → select <strong>Open</strong>.</div>
+        <!-- Option 2 -->
+        <div class="option-block" style="margin-bottom: 0;">
+          <div class="option-title">Option 2 (Terminal Command)</div>
+
+          <div class="terminal-box">
+            <code id="cmd-text">xattr -cr /Applications/Lyra.app</code>
+            <button class="icon-copy-btn" onclick="copyCommand()" title="Copy command" id="copy-btn-el">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Option 2 -->
-      <div class="option-block" style="margin-bottom: 0;">
-        <div class="option-title">Option 2 (Terminal Command)</div>
+      <!-- Right Card: Help Lyra grow -->
+      <div class="card-right" onclick="starRepo()" title="Star Lyra on GitHub">
+        
+        <div class="star-arrows-container">
+          <!-- 4 Curved Blue Arrows pointing inwards towards center -->
+          <svg class="arrows-svg" viewBox="0 0 200 180" fill="none">
+            <!-- Top Right Arrow -->
+            <path d="M 170 30 Q 145 20, 128 52" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M 125 40 L 126 55 L 140 50" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
 
-        <div class="terminal-box">
-          <code id="cmd-text">xattr -cr /Applications/Lyra.app</code>
-          <button class="icon-copy-btn" onclick="copyCommand()" title="Copy command" id="copy-btn-el">
-            <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            <!-- Top Left Arrow -->
+            <path d="M 30 75 Q 65 50, 96 68" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M 84 66 L 98 69 L 91 80" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+
+            <!-- Bottom Left Arrow -->
+            <path d="M 30 110 Q 50 120, 96 95" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M 85 96 L 97 94 L 95 106" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+
+            <!-- Right Arrow -->
+            <path d="M 175 100 Q 150 110, 130 90" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M 143 89 L 128 89 L 132 102" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+
+          <!-- Center Star Button -->
+          <button class="star-center-btn" id="star-btn">
+            <span id="star-icon">⭐</span>
           </button>
         </div>
-      </div>
-    </div>
 
-    <!-- Centered Star Section with 4 Blue Inward Arrows -->
-    <div class="star-section">
-      <div class="star-interactive-wrapper">
-        <!-- 4 Blue Doodly Arrows pointing inwards towards center Star -->
-        <svg class="inward-arrow arrow-tl" viewBox="0 0 40 40">
-          <path d="M 5 5 Q 20 15, 30 30 M 18 28 L 32 32 L 28 18" stroke="#1a56db" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        <svg class="inward-arrow arrow-tr" viewBox="0 0 40 40">
-          <path d="M 35 5 Q 20 15, 10 30 M 12 18 L 8 32 L 22 28" stroke="#1a56db" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        <svg class="inward-arrow arrow-bl" viewBox="0 0 40 40">
-          <path d="M 5 35 Q 20 25, 30 10 M 28 22 L 32 8 L 18 12" stroke="#1a56db" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        <svg class="inward-arrow arrow-br" viewBox="0 0 40 40">
-          <path d="M 35 35 Q 20 25, 10 10 M 22 12 L 8 8 L 12 22" stroke="#1a56db" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-
-        <!-- Big Center Star Button -->
-        <button class="big-star-btn" id="big-star-btn" onclick="starRepo()" title="Star Lyra on GitHub">
-          <span id="star-icon-main">⭐</span>
-        </button>
+        <div class="right-card-text">
+          <div class="line1">Help <span class="font-lyra">Lyra</span> grow</div>
+          <div class="line2">for more frequent updates</div>
+        </div>
       </div>
 
-      <p class="star-caption-text">
-        Help <span class="font-lyra">Lyra</span> grow for more updates
-      </p>
     </div>
+
+    <!-- Bottom Pagination Dots -->
+    <div class="bottom-dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+    </div>
+
   </div>
 
   <script>
@@ -396,7 +466,8 @@
     }, 700);
 
     // 2. Copy Command Function
-    function copyCommand() {
+    function copyCommand(e) {
+      if (e) e.stopPropagation();
       const text = document.getElementById('cmd-text').innerText;
       navigator.clipboard.writeText(text).then(() => {
         const btn = document.getElementById('copy-btn-el');
@@ -415,20 +486,22 @@
 
     // 3. Star Repository Function (No option to unstar)
     function starRepo() {
-      const btn = document.getElementById('big-star-btn');
-      const starIcon = document.getElementById('star-icon-main');
+      const btn = document.getElementById('star-btn');
+      const starIcon = document.getElementById('star-icon');
 
       window.open('https://github.com/Dai-Ski/LYRA', '_blank');
 
-      btn.classList.add('starred');
-      starIcon.innerText = '🌟';
+      if (btn && starIcon) {
+        btn.classList.add('starred');
+        starIcon.innerText = '🌟';
+      }
       localStorage.setItem('lyra_starred', 'true');
     }
 
     // Check Star State on Page Load
     if (localStorage.getItem('lyra_starred') === 'true') {
-      const btn = document.getElementById('big-star-btn');
-      const starIcon = document.getElementById('star-icon-main');
+      const btn = document.getElementById('star-btn');
+      const starIcon = document.getElementById('star-icon');
       if (btn && starIcon) {
         btn.classList.add('starred');
         starIcon.innerText = '🌟';
