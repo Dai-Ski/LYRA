@@ -70,11 +70,6 @@ Installing Lyra on macOS is simple:
    - Go to **System Settings > General > Login Items & Extensions**.
    - Under **Open at Login**, select **Lyra** and click `-`.
 
----
-
-## Built By 🐱
-
-Created with ❤️ by **[daiski.dev](https://daiski.dev)**.
 
 ---
 
