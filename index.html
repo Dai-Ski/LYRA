@@ -9,7 +9,7 @@
   <title>Lyra — Real-time Lyrics for macOS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=K2D:wght@600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=K2D:wght@600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     /* Warm Apple Cream Theme (#f5efdd) */
     :root {
@@ -82,18 +82,25 @@
       align-items: center;
     }
 
-    .nav-reload-link {
-      font-size: 0.88rem;
-      color: var(--text-muted);
+    /* Handwritten Blue Ink Pen text */
+    .handwritten-blue-ink {
+      font-family: 'Caveat', cursive;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1a56db; /* Deep Fountain Pen Blue Ink */
       text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s ease;
+      transition: all 0.2s ease;
+      transform: rotate(-1.5deg);
+      display: inline-block;
       cursor: pointer;
+      letter-spacing: 0.2px;
+      text-shadow: 0 0 1px rgba(26, 86, 219, 0.2);
     }
 
-    .nav-reload-link:hover {
-      color: var(--apple-blue);
-      text-decoration: underline;
+    .handwritten-blue-ink:hover {
+      color: #003db5;
+      transform: rotate(0deg) scale(1.02);
+      text-shadow: 0 0 3px rgba(26, 86, 219, 0.3);
     }
 
     /* Main Container */
@@ -101,7 +108,7 @@
       max-width: 620px;
       width: 100%;
       text-align: center;
-      padding: 5rem 1rem 3rem;
+      padding: 4.5rem 1rem 3rem;
       position: relative;
     }
 
@@ -238,6 +245,89 @@
       height: 18px;
       fill: currentColor;
     }
+
+    /* Help Lyra Grow Star Dialog Box */
+    .star-dialog-box {
+      margin-top: 1.8rem;
+      background: var(--card-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 1.3rem 1.6rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+    }
+
+    .star-dialog-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .star-info-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .star-icon-badge {
+      font-size: 1.6rem;
+      background: rgba(255, 204, 0, 0.15);
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .star-text-group h3 {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .star-text-group p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .star-btn {
+      background: linear-gradient(135deg, #ffcc00 0%, #ff9500 100%);
+      color: #1d1d1f;
+      border: none;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 800;
+      padding: 10px 18px;
+      border-radius: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 14px rgba(255, 149, 0, 0.25);
+      flex-shrink: 0;
+    }
+
+    .star-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 18px rgba(255, 149, 0, 0.35);
+    }
+
+    .star-btn.starred {
+      background: linear-gradient(135deg, #34c759 0%, #28a745 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(52, 199, 89, 0.25);
+      cursor: default;
+      transform: none !important;
+    }
   </style>
 </head>
 <body>
@@ -249,7 +339,7 @@
     </a>
     
     <div class="nav-right">
-      <a href="javascript:location.reload()" class="nav-reload-link">
+      <a href="javascript:location.reload()" class="handwritten-blue-ink" title="Click to reload page">
         Reload the page if downloading hasn't started
       </a>
     </div>
@@ -289,6 +379,22 @@
         </div>
       </div>
     </div>
+
+    <!-- Help Lyra Grow Star Dialog Box -->
+    <div class="star-dialog-box">
+      <div class="star-dialog-content">
+        <div class="star-info-group">
+          <div class="star-icon-badge">⭐</div>
+          <div class="star-text-group">
+            <h3>Help <span class="font-lyra">Lyra</span> grow for more updates</h3>
+            <p>Star the repository on GitHub to support new features & updates.</p>
+          </div>
+        </div>
+        <button class="star-btn" id="star-btn" onclick="starRepo()">
+          <span id="star-btn-icon">⭐</span> <span id="star-btn-text">Star Repository</span>
+        </button>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -313,6 +419,32 @@
           btn.style.color = '#ffffff';
         }, 2200);
       });
+    }
+
+    // 3. Star Repository Function (No option to unstar)
+    function starRepo() {
+      const btn = document.getElementById('star-btn');
+      const btnIcon = document.getElementById('star-btn-icon');
+      const btnText = document.getElementById('star-btn-text');
+
+      window.open('https://github.com/Dai-Ski/LYRA', '_blank');
+
+      btn.classList.add('starred');
+      btnIcon.innerText = '🌟';
+      btnText.innerText = 'Starred!';
+      localStorage.setItem('lyra_starred', 'true');
+    }
+
+    // Check Star State on Page Load
+    if (localStorage.getItem('lyra_starred') === 'true') {
+      const btn = document.getElementById('star-btn');
+      const btnIcon = document.getElementById('star-btn-icon');
+      const btnText = document.getElementById('star-btn-text');
+      if (btn && btnIcon && btnText) {
+        btn.classList.add('starred');
+        btnIcon.innerText = '🌟';
+        btnText.innerText = 'Starred!';
+      }
     }
   </script>
 </body>
