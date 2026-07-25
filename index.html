@@ -9,7 +9,7 @@
   <title>Lyra — Real-time Lyrics for macOS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=K2D:wght@600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=K2D:wght@600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     /* Warm Apple Cream Theme (#f5efdd) */
     :root {
@@ -77,83 +77,23 @@
       letter-spacing: -0.3px;
     }
 
-    .nav-right-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
     .nav-right {
       display: flex;
       align-items: center;
-      gap: 14px;
     }
 
-    /* Circular SVG Re-download Icon Button (undragable) */
-    .nav-download-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--card-white);
-      border: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-dark);
+    .nav-reload-link {
+      font-size: 0.88rem;
+      color: var(--text-muted);
       text-decoration: none;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      font-weight: 500;
+      transition: color 0.2s ease;
       cursor: pointer;
-      user-select: none;
-      -webkit-user-drag: none;
     }
 
-    .nav-download-icon:hover {
-      background: var(--apple-blue);
-      color: #ffffff;
-      border-color: var(--apple-blue);
-      transform: translateY(-1px);
-    }
-
-    .nav-download-icon svg {
-      width: 22px;
-      height: 22px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2.6;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      pointer-events: none;
-    }
-
-    /* Top Right Doodly Arrow & Handwritten Annotation */
-    .top-doodle-wrapper {
-      position: absolute;
-      top: 46px;
-      right: 55px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      pointer-events: none;
-    }
-
-    .top-handwritten-text {
-      font-family: 'Caveat', cursive;
-      font-size: 1.45rem;
-      font-weight: 700;
+    .nav-reload-link:hover {
       color: var(--apple-blue);
-      white-space: nowrap;
-      transform: rotate(-2deg);
-    }
-
-    .top-doodly-arrow {
-      width: 40px;
-      height: 40px;
-      stroke: var(--apple-blue);
-      stroke-width: 2.5;
-      fill: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      text-decoration: underline;
     }
 
     /* Main Container */
@@ -308,23 +248,10 @@
       <span class="nav-brand font-lyra">Lyra</span>
     </a>
     
-    <div class="nav-right-container">
-      <div class="nav-right">
-        <a href="https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg" class="nav-download-icon" title="Re-download Lyra" draggable="false">
-          <svg viewBox="0 0 24 24">
-            <path d="M 6 18 V 9 A 5 5 0 0 1 16 9 V 17" />
-            <path d="M 11.5 13.5 L 16 20.5 L 20.5 13.5" />
-          </svg>
-        </a>
-      </div>
-
-      <!-- Top Right Handwritten Doodle pointing to Re-download Icon -->
-      <div class="top-doodle-wrapper">
-        <span class="top-handwritten-text">click here if the download hasn't started yet</span>
-        <svg class="top-doodly-arrow" viewBox="0 0 50 50">
-          <path d="M 10 40 Q 25 35, 38 12 M 25 12 L 42 10 L 40 26" />
-        </svg>
-      </div>
+    <div class="nav-right">
+      <a href="javascript:location.reload()" class="nav-reload-link">
+        Reload the page if downloading hasn't started
+      </a>
     </div>
   </nav>
 
