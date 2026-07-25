@@ -86,27 +86,48 @@
       gap: 14px;
     }
 
-    .nav-download-btn {
-      background: var(--apple-blue);
-      color: #ffffff;
+    /* Circular SVG Re-download Icon Button (undragable) */
+    .nav-download-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--card-white);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dark);
       text-decoration: none;
-      font-size: 0.88rem;
-      font-weight: 700;
-      padding: 8px 20px;
-      border-radius: 20px;
       transition: all 0.2s ease;
-      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-drag: none;
     }
 
-    .nav-download-btn:hover {
-      background: var(--apple-blue-hover);
+    .nav-download-icon:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+      transform: translateY(-1px);
+    }
+
+    .nav-download-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      pointer-events: none;
     }
 
     /* Top Right Doodly Arrow & Handwritten Annotation */
     .top-doodle-wrapper {
       position: absolute;
       top: 46px;
-      right: 120px;
+      right: 55px;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -286,12 +307,15 @@
     
     <div class="nav-right-container">
       <div class="nav-right">
-        <a href="https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg" class="nav-download-btn">
-          Re-download
+        <a href="https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg" class="nav-download-icon" title="Re-download Lyra" draggable="false">
+          <svg viewBox="0 0 24 24">
+            <path d="M 6 18 V 9 A 5 5 0 0 1 16 9 V 17" />
+            <path d="M 11.5 13.5 L 16 20.5 L 20.5 13.5" />
+          </svg>
         </a>
       </div>
 
-      <!-- Top Right Handwritten Doodle pointing to Re-download -->
+      <!-- Top Right Handwritten Doodle pointing to Re-download Icon -->
       <div class="top-doodle-wrapper">
         <span class="top-handwritten-text">click here if the download hasn't started yet</span>
         <svg class="top-doodly-arrow" viewBox="0 0 50 50">
