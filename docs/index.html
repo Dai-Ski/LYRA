@@ -39,6 +39,40 @@
       align-items: center;
       justify-content: flex-start;
       overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Background Dynamic Blobs */
+    .bg-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.45;
+      z-index: 0;
+      pointer-events: none;
+      animation: floatBlob 12s infinite alternate ease-in-out;
+    }
+
+    .blob-1 {
+      width: 350px;
+      height: 350px;
+      background: #ffe8cd;
+      top: -50px;
+      left: 10%;
+    }
+
+    .blob-2 {
+      width: 400px;
+      height: 400px;
+      background: #e2f0ff;
+      bottom: 50px;
+      right: 10%;
+      animation-delay: -6s;
+    }
+
+    @keyframes floatBlob {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, 40px) scale(1.08); }
     }
 
     /* K2D Semi-Bold font for all 'Lyra' text */
@@ -50,7 +84,9 @@
     /* Apple-styled Top Navigation Bar */
     .apple-navbar {
       width: 100%;
-      background: #ffffff;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-subtle);
       position: sticky;
       top: 0;
@@ -64,6 +100,11 @@
     .nav-left {
       text-decoration: none;
       color: var(--text-dark);
+      transition: transform 0.2s ease;
+    }
+
+    .nav-left:hover {
+      transform: scale(1.03);
     }
 
     .nav-brand {
@@ -80,6 +121,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      z-index: 1;
+      position: relative;
     }
 
     /* Hero Header */
@@ -94,13 +137,14 @@
       letter-spacing: -0.5px;
       color: var(--text-dark);
       margin-bottom: 0.4rem;
+      animation: fadeInDown 0.8s ease-out;
     }
 
     .title .unbold-text {
       font-weight: 400 !important;
     }
 
-    /* Handwritten Blue Ink Pen Subtitle */
+    /* Handwritten Blue Ink Pen Subtitle with Dynamic Pen Stroke */
     .handwritten-reload-note {
       font-family: 'Homemade Apple', cursive;
       font-size: 1.15rem;
@@ -108,13 +152,36 @@
       text-decoration: none;
       display: inline-block;
       transform: rotate(-1deg);
-      transition: all 0.2s ease;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       cursor: pointer;
+      position: relative;
+      animation: fadeInUp 0.8s ease-out 0.2s backwards;
+    }
+
+    .handwritten-reload-note::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--ink-blue);
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+      opacity: 0.7;
     }
 
     .handwritten-reload-note:hover {
       color: #003db5;
-      transform: rotate(0deg) scale(1.02);
+      transform: rotate(0deg) scale(1.04);
+      text-shadow: 0 0 10px rgba(29, 100, 236, 0.25);
+    }
+
+    .handwritten-reload-note:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
     }
 
     /* Main Content Row: Side-by-side Layout */
@@ -136,6 +203,13 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
       border: 1px solid rgba(0, 0, 0, 0.04);
       text-align: left;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      animation: fadeInUp 0.8s ease-out 0.3s backwards;
+    }
+
+    .card-left:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
     }
 
     .card-left h2 {
@@ -161,6 +235,13 @@
       border-radius: 16px;
       padding: 1.2rem;
       margin-bottom: 1.2rem;
+      transition: all 0.2s ease;
+    }
+
+    .option-block:hover {
+      background: #ffffff;
+      border-color: rgba(0, 113, 227, 0.2);
+      box-shadow: 0 4px 12px rgba(0, 113, 227, 0.05);
     }
 
     .option-title {
@@ -214,6 +295,11 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .terminal-box:hover {
+      box-shadow: 0 0 15px rgba(52, 199, 89, 0.25);
     }
 
     .terminal-box code {
@@ -241,6 +327,7 @@
     .icon-copy-btn:hover {
       background: #ffffff;
       color: #000000;
+      transform: scale(1.08);
     }
 
     .icon-copy-btn svg {
@@ -249,7 +336,7 @@
       fill: currentColor;
     }
 
-    /* Right Card: Help Lyra grow */
+    /* Right Card: Help Lyra grow (Dynamic Interactive) */
     .card-right {
       flex: 0.85;
       background: var(--card-white);
@@ -263,6 +350,16 @@
       justify-content: space-between;
       min-width: 260px;
       text-align: center;
+      transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+      animation: fadeInUp 0.8s ease-out 0.4s backwards;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-right:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 45px rgba(29, 100, 236, 0.08);
+      border-color: rgba(29, 100, 236, 0.15);
     }
 
     /* Interactive Arrow & Star Canvas Area */
@@ -276,7 +373,7 @@
       cursor: pointer;
     }
 
-    /* 4 Curved Blue Arrows SVG overlay */
+    /* 4 Curved Blue Arrows SVG overlay with Animated Floating Pulse */
     .arrows-svg {
       position: absolute;
       top: 0;
@@ -284,36 +381,93 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
+      animation: pulseArrows 3s infinite ease-in-out;
     }
 
-    /* Center Star Button */
+    @keyframes pulseArrows {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.04); opacity: 1; filter: drop-shadow(0 0 6px rgba(29, 100, 236, 0.4)); }
+    }
+
+    .arrow-path {
+      stroke-dasharray: 200;
+      stroke-dashoffset: 0;
+      animation: dashFlow 4s linear infinite;
+    }
+
+    @keyframes dashFlow {
+      0% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -40; }
+    }
+
+    /* Center Star Button with Dynamic Aura */
     .star-center-btn {
-      width: 56px;
-      height: 56px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       background: transparent;
       border: none;
-      font-size: 2.2rem;
+      font-size: 2.3rem;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: transform 0.25s ease;
+      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
       user-select: none;
       z-index: 5;
+      animation: floatStar 3s ease-in-out infinite alternate;
     }
 
-    .star-center-btn:hover {
-      transform: scale(1.2) rotate(15deg);
+    @keyframes floatStar {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-6px) rotate(6deg); }
+    }
+
+    .card-right:hover .star-center-btn {
+      transform: scale(1.25) rotate(18deg);
+      filter: drop-shadow(0 0 12px rgba(255, 204, 0, 0.8));
     }
 
     .star-center-btn.starred {
-      transform: scale(1.1);
+      animation: starredPulse 1.5s infinite alternate ease-in-out;
+    }
+
+    @keyframes starredPulse {
+      0% { transform: scale(1.1); filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.6)); }
+      100% { transform: scale(1.2) rotate(10deg); filter: drop-shadow(0 0 16px rgba(255, 149, 0, 0.9)); }
+    }
+
+    /* Glitter Burst Container */
+    .particle-burst-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .glitter-particle {
+      position: absolute;
+      font-size: 1.2rem;
+      pointer-events: none;
+      animation: particleFly 0.9s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+    }
+
+    @keyframes particleFly {
+      0% { opacity: 1; transform: translate(0, 0) scale(1); }
+      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.6) rotate(360deg); }
     }
 
     /* Bottom Text inside Right Card */
     .right-card-text {
       margin-top: 1rem;
+      transition: transform 0.2s ease;
+    }
+
+    .card-right:hover .right-card-text {
+      transform: translateY(-2px);
     }
 
     .right-card-text .line1 {
@@ -335,6 +489,7 @@
       justify-content: center;
       gap: 12px;
       margin-top: 3.5rem;
+      animation: fadeIn 1s ease-out 0.6s backwards;
     }
 
     .dot {
@@ -342,11 +497,34 @@
       height: 14px;
       border-radius: 50%;
       background: #e0d8c7;
-      transition: all 0.2s ease;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+    }
+
+    .dot:hover {
+      transform: scale(1.3);
+      background: #c5bba6;
     }
 
     .dot.active {
       background: #d4ccb9;
+      transform: scale(1.1);
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     @media (max-width: 768px) {
@@ -360,6 +538,10 @@
   </style>
 </head>
 <body>
+
+  <!-- Ambient Dynamic Background Blobs -->
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
 
   <!-- Top Apple Navigation Bar -->
   <nav class="apple-navbar">
@@ -415,25 +597,26 @@
       </div>
 
       <!-- Right Card: Help Lyra grow -->
-      <div class="card-right" onclick="starRepo()" title="Star Lyra on GitHub">
+      <div class="card-right" onclick="starRepo(event)" title="Star Lyra on GitHub" id="card-right-el">
+        <div class="particle-burst-container" id="burst-container"></div>
         
         <div class="star-arrows-container">
-          <!-- 4 Curved Blue Arrows pointing inwards towards center -->
+          <!-- 4 Dynamic Curved Blue Arrows pointing inwards towards center -->
           <svg class="arrows-svg" viewBox="0 0 200 180" fill="none">
             <!-- Top Right Arrow -->
-            <path d="M 170 30 Q 145 20, 128 52" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" />
+            <path class="arrow-path" d="M 170 30 Q 145 20, 128 52" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" />
             <path d="M 125 40 L 126 55 L 140 50" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
 
             <!-- Top Left Arrow -->
-            <path d="M 30 75 Q 65 50, 96 68" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" />
+            <path class="arrow-path" d="M 30 75 Q 65 50, 96 68" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" />
             <path d="M 84 66 L 98 69 L 91 80" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
 
             <!-- Bottom Left Arrow -->
-            <path d="M 30 110 Q 50 120, 96 95" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" />
+            <path class="arrow-path" d="M 30 110 Q 50 120, 96 95" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" />
             <path d="M 85 96 L 97 94 L 95 106" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
 
             <!-- Right Arrow -->
-            <path d="M 175 100 Q 150 110, 130 90" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" />
+            <path class="arrow-path" d="M 175 100 Q 150 110, 130 90" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" />
             <path d="M 143 89 L 128 89 L 132 102" stroke="#1d64ec" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
 
@@ -474,7 +657,7 @@
       window.location.href = "https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg";
     }, 700);
 
-    // 2. Copy Command Function
+    // 2. Copy Command Function with Ripple Feedback
     function copyCommand(e) {
       if (e) e.stopPropagation();
       const text = document.getElementById('cmd-text').innerText;
@@ -493,8 +676,38 @@
       });
     }
 
-    // 3. Star Repository Function (No option to unstar)
-    function starRepo() {
+    // 3. Dynamic Particle Glitter Burst & Star Action
+    function createParticleBurst(e) {
+      const container = document.getElementById('burst-container');
+      const emojis = ['✨', '🎵', '🎶', '🎼', '🌟', '💖', '💫', '⚡️'];
+      const rect = container.getBoundingClientRect();
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2.5;
+
+      for (let i = 0; i < 18; i++) {
+        const p = document.createElement('span');
+        p.className = 'glitter-particle';
+        p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+        const angle = (Math.PI * 2 * i) / 18 + (Math.random() * 0.4 - 0.2);
+        const distance = 60 + Math.random() * 80;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+
+        p.style.left = `${centerX}px`;
+        p.style.top = `${centerY}px`;
+        p.style.setProperty('--tx', `${tx}px`);
+        p.style.setProperty('--ty', `${ty}px`);
+
+        container.appendChild(p);
+
+        setTimeout(() => p.remove(), 900);
+      }
+    }
+
+    function starRepo(e) {
+      if (e) createParticleBurst(e);
+
       const btn = document.getElementById('star-btn');
       const starIcon = document.getElementById('star-icon');
 
