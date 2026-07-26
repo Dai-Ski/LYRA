@@ -1,25 +1,10 @@
-# Lyra 🎵
+# Lyra 
 
 <p align="center">
-  <img src="docs/index.html" alt="Lyra Emblem" width="120" style="border-radius: 20px;">
-  <h3 align="center">Real-Time Synchronized Lyrics for macOS</h3>
-  <p align="center">
-    A lightweight, elegant macOS menu bar app that displays real-time, synchronized scrolling lyrics for Spotify & Apple Music.
-    <br />
-    <a href="https://dai-ski.github.io/LYRA/"><strong>Explore Landing Page »</strong></a>
-    <br />
-    <br />
     <a href="https://dai-ski.github.io/LYRA/">
       <img src="https://img.shields.io/badge/Download-Lyra.dmg%20(macOS)-0071e3?style=for-the-badge&logo=apple&logoColor=white" alt="Download Lyra.dmg" height="46">
     </a>
   </p>
-</p>
-
-<p align="center">
-  <a href="https://github.com/Dai-Ski/LYRA/releases"><img src="https://img.shields.io/github/v/release/Dai-Ski/LYRA?color=0071e3&label=Release" alt="Latest Release"></a>
-  <a href="https://github.com/Dai-Ski/LYRA/stargazers"><img src="https://img.shields.io/github/stars/Dai-Ski/LYRA?color=ff9800&label=%E2%AD%90%20Stars" alt="GitHub Stars"></a>
-  <a href="https://github.com/Dai-Ski/LYRA/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License MIT"></a>
-  <a href="https://daiski.dev"><img src="https://img.shields.io/badge/Author-daiski.dev-ff6b4a" alt="Author Daiski"></a>
 </p>
 
 ---
