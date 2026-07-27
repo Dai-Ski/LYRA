@@ -24,7 +24,7 @@
 
 Installing Lyra on macOS is simple:
 
-1. **[Download Lyra.dmg](https://dai-ski.github.io/LYRA/)** *(or use the [Direct DMG Link](https://github.com/Dai-Ski/LYRA/releases/download/v1.0.0/Lyra.dmg))*.
+1. **[Download Lyra.dmg](https://dai-ski.github.io/LYRA/)** *(or use the [Direct DMG Link](https://github.com/Dai-Ski/LYRA/releases/latest/download/Lyra.dmg))*.
 2. Open **`Lyra.dmg`** and drag **Lyra** into your **Applications** folder.
 3. Launch **Lyra** from Applications and click **GRANT PERMISSIONS & START**.
 
