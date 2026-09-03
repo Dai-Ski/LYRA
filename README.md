@@ -6,9 +6,6 @@
   </a>
 </p>
 
-<p align="center">
-  <img src="Assets/preview.png" alt="Lyra macOS Menu Bar Lyrics Preview" width="100%">
-</p>
 
 ---
 <img width="1376" height="768" alt="image" src="https://github.com/user-attachments/assets/ee28ff8e-c12a-4f32-aed1-0fff89eb3893" />
@@ -65,15 +62,12 @@ Installing Lyra on macOS is simple:
 
 ## Support & Community 💬
 
-Need help, have questions, or want to report an issue? Reach out directly on Telegram:
+Want to report an issue? Reach out directly on Telegram:
 
 <p align="center">
-  <a href="https://t.me/dai_ski" target="_blank">
-    <img src="https://img.shields.io/badge/Contact%20me%20on%20Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Contact me on Telegram" height="44">
+  <a href="https://t.me/dai_ski" target=> <img src="https://img.shields.io/badge/Contact%20me%20on%20Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Contact me on Telegram" height="44">
   </a>
 </p>
-
-For more info, see [SUPPORT.md](SUPPORT.md).
 
 ---
 
