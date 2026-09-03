@@ -8,6 +8,8 @@
 </p>
 
 ---
+<img width="1376" height="768" alt="image" src="https://github.com/user-attachments/assets/ee28ff8e-c12a-4f32-aed1-0fff89eb3893" />
+
 
 ## Features ✨
 
