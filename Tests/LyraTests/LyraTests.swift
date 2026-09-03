@@ -120,4 +120,68 @@ final class LyraTests: XCTestCase {
         XCTAssertEqual(client.cleanTitle("Hotel California - Remastered 2013"), "Hotel California")
         XCTAssertEqual(client.cleanTitle("Despacito [Official Video]"), "Despacito")
     }
+
+    // MARK: - 3. Romanization Tests
+    func testJapaneseRomanization() {
+        let original = "君が好きだと叫びたい 明日を変えてみよう"
+        let rom = Romanizer.romanizeJapanese(original)
+        XCTAssertTrue(rom.contains("kimi"), "Expected 'kimi' for 君, got: \(rom)")
+        XCTAssertTrue(rom.contains("suki"), "Expected 'suki' for 好き, got: \(rom)")
+        XCTAssertTrue(rom.contains("sakebi"), "Expected 'sakebi' for 叫び, got: \(rom)")
+        XCTAssertTrue(rom.contains("ashita"), "Expected 'ashita' for 明日, got: \(rom)")
+    }
+
+    func testJapaneseWithEnglishMixed() {
+        let original = "心を開いて どんなときも You are my dream"
+        let rom = Romanizer.romanizeJapanese(original)
+        XCTAssertTrue(rom.contains("kokoro"), "Expected 'kokoro', got: \(rom)")
+        XCTAssertTrue(rom.contains("You are my dream"), "Expected English phrase to be preserved, got: \(rom)")
+    }
+
+    func testKoreanRomanization() {
+        let sample1 = "보고 싶다 이렇게 말하니까 더 보고 싶다"
+        let rom1 = Romanizer.romanizeKorean(sample1)
+        XCTAssertTrue(rom1.contains("bogo sipda"), "Expected 'bogo sipda', got: \(rom1)")
+        XCTAssertTrue(rom1.contains("ireoke"), "Expected 'ireoke', got: \(rom1)")
+
+        let sample2 = "사랑해요 그대여 영원히 함께해"
+        let rom2 = Romanizer.romanizeKorean(sample2)
+        XCTAssertTrue(rom2.contains("saranghaeyo"), "Expected 'saranghaeyo', got: \(rom2)")
+
+        let sample3 = "독립문과 신라"
+        let rom3 = Romanizer.romanizeKorean(sample3)
+        XCTAssertTrue(rom3.contains("dongnimmun"), "Expected assimilation 'dongnimmun', got: \(rom3)")
+        XCTAssertTrue(rom3.contains("silla"), "Expected liquid assimilation 'silla', got: \(rom3)")
+
+        let sample4 = "꽃이 피고 같이 가요"
+        let rom4 = Romanizer.romanizeKorean(sample4)
+        XCTAssertTrue(rom4.contains("kkochi"), "Expected liaison 'kkochi', got: \(rom4)")
+        XCTAssertTrue(rom4.contains("gachi"), "Expected palatalization 'gachi', got: \(rom4)")
+    }
+
+    func testChineseRomanization() {
+        let original = "海阔天空 在那些迷茫的岁月里"
+        let rom = Romanizer.romanizeChinese(original)
+        XCTAssertTrue(rom.contains("haikuotiankong"), "Expected 'haikuotiankong', got: \(rom)")
+        XCTAssertTrue(rom.contains("zai naxie mimang de suiyue li"), "Expected segmented pinyin words, got: \(rom)")
+    }
+
+    func testChineseWithEnglishMixed() {
+        let original = "对不起 我爱你 无论何时 Say goodbye"
+        let rom = Romanizer.romanizeChinese(original)
+        XCTAssertTrue(rom.contains("duibuqi"), "Expected 'duibuqi', got: \(rom)")
+        XCTAssertTrue(rom.contains("Say goodbye"), "Expected English phrase preserved, got: \(rom)")
+    }
+
+    func testCyrillicRomanization() {
+        let original = "Привет мир"
+        let rom = Romanizer.romanizeCyrillic(original)
+        XCTAssertEqual(rom, "Privet mir")
+    }
+
+    func testDevanagariRomanization() {
+        let original = "नमस्ते दुनिया"
+        let rom = Romanizer.romanizeDevanagari(original)
+        XCTAssertTrue(rom.contains("namaste"), "Expected 'namaste', got: \(rom)")
+    }
 }

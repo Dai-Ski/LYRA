@@ -9,7 +9,7 @@ Thank you for taking the time to contribute! Your help makes Lyra better for eve
 ## How to Contribute
 
 ### 1. Reporting Issues & Suggestions
-* **Check first**: Search the [FAQ](FAQ.md) and existing [Issues](https://github.com/Dai-Ski/LYRA/issues) to see if it's already discussed.
+* **Check first**: Search the [Support Guide](SUPPORT.md) and existing [Issues](https://github.com/Dai-Ski/LYRA/issues) to see if it's already discussed.
 * **Open a ticket**: If it's new, open an issue using the appropriate template:
   * [Report a Bug](https://github.com/Dai-Ski/LYRA/issues/new?template=bug_report.md)
   * [Request a Feature](https://github.com/Dai-Ski/LYRA/issues/new?template=feature_request.md)

@@ -478,24 +478,14 @@ public struct LyricsClient: Sendable {
         return s.trimmingCharacters(in: .whitespaces)
     }
 
-    // MARK: - Romanization (kept for optional mode)
+    // MARK: - Romanization (Multi-script Engine)
 
     func romanize(_ text: String) -> String {
-        let mutableString = NSMutableString(string: text)
-        CFStringTransform(mutableString, nil, kCFStringTransformToLatin, false)
-        CFStringTransform(mutableString, nil, kCFStringTransformStripDiacritics, false)
-        return mutableString as String
+        return Romanizer.romanizeText(text)
     }
 
     private func generateRomanized(_ lines: [LyricLine]) -> [LyricLine] {
-        var romanized: [LyricLine] = []
-        var hasChanges = false
-        for line in lines {
-            let romanizedText = romanize(line.text)
-            if romanizedText != line.text { hasChanges = true }
-            romanized.append(LyricLine(timestamp: line.timestamp, text: romanizedText))
-        }
-        return hasChanges ? romanized : []
+        return Romanizer.romanizeLines(lines)
     }
 
     // MARK: - LRC Parser

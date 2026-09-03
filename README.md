@@ -1,10 +1,13 @@
 # Lyra 
 
 <p align="center">
-    <a href="https://dai-ski.github.io/LYRA/">
-      <img src="https://img.shields.io/badge/Download-Lyra.dmg%20(macOS)-0071e3?style=for-the-badge&logo=apple&logoColor=white" alt="Download Lyra.dmg" height="46">
-    </a>
-  </p>
+  <a href="https://dai-ski.github.io/LYRA/">
+    <img src="https://img.shields.io/badge/Download-Lyra.dmg%20(macOS)-0071e3?style=for-the-badge&logo=apple&logoColor=white" alt="Download Lyra.dmg" height="46">
+  </a>
+</p>
+
+<p align="center">
+  <img src="Assets/preview.png" alt="Lyra macOS Menu Bar Lyrics Preview" width="100%">
 </p>
 
 ---
@@ -57,6 +60,20 @@ Installing Lyra on macOS is simple:
    - Go to **System Settings > General > Login Items & Extensions**.
    - Under **Open at Login**, select **Lyra** and click `-`.
 
+
+---
+
+## Support & Community 💬
+
+Need help, have questions, or want to report an issue? Reach out directly on Telegram:
+
+<p align="center">
+  <a href="https://t.me/dai_ski" target="_blank">
+    <img src="https://img.shields.io/badge/Contact%20me%20on%20Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Contact me on Telegram" height="44">
+  </a>
+</p>
+
+For more info, see [SUPPORT.md](SUPPORT.md).
 
 ---
 
