@@ -1079,7 +1079,7 @@ final class TopHeaderMenuView: NSView {
     }
     
     @objc private func openBuyMeACoffee(_ sender: NSButton) {
-        if let url = URL(string: "https://buymeacoffee.com") {
+        if let url = URL(string: "https://dai-ski.github.io/LYRA/#") {
             NSWorkspace.shared.open(url)
         }
     }
