@@ -591,7 +591,19 @@
       }
     }
 
-    // deep hash router initialized
+    function initTabFromHash() {
+      const hash = window.location.hash.replace('#', '').toLowerCase();
+      if (hash === 'refund' || hash === 'donations') {
+        switchTab('donations', false);
+      } else if (hash === 'terms' || hash === 'privacy' || hash === 'contact') {
+        switchTab(hash, false);
+      } else {
+        switchTab('contact', false);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', initTabFromHash);
+    window.addEventListener('hashchange', initTabFromHash);
   </script>
 </body>
 
