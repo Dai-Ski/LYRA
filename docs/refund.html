@@ -180,34 +180,123 @@
       font-weight: 500;
     }
 
+    /* Site Footer - Charcoal Black with Cream Theme */
     .site-footer {
+      position: relative;
       width: 100%;
-      border-top: 1px solid var(--border-subtle);
-      background: rgba(255, 255, 255, 0.5);
-      padding: 1.5rem 2rem;
-      text-align: center;
+      min-height: 33.33vh;
       margin-top: auto;
-      font-size: 0.88rem;
-      color: var(--text-muted);
-    }
-
-    .footer-links {
-      margin-top: 0.5rem;
+      background-color: #1a1a1c;
+      color: var(--bg-cream);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
+      flex-direction: column;
       justify-content: center;
-      gap: 1.2rem;
-      flex-wrap: wrap;
+      align-items: center;
+      padding: 3.5rem 2rem;
+      box-sizing: border-box;
+      z-index: 10;
     }
 
-    .footer-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.85rem;
+    .footer-inner {
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 3rem;
     }
 
-    .footer-links a:hover {
-      color: var(--apple-blue);
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .footer-big-title {
+      font-size: clamp(3.5rem, 8vw, 6rem);
+      font-weight: 800;
+      color: var(--bg-cream);
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      user-select: none;
+    }
+
+    .footer-tagline {
+      font-size: 0.98rem;
+      color: var(--bg-cream);
+      opacity: 0.85;
+      font-weight: 400;
+      margin-top: 0.2rem;
+    }
+
+    .footer-copy {
+      font-size: 0.88rem;
+      color: var(--bg-cream);
+      opacity: 0.85;
+      margin-top: 0.4rem;
+    }
+
+    .footer-copy a {
+      color: var(--bg-cream);
       text-decoration: underline;
+      font-weight: 600;
+      transition: opacity 0.2s ease, color 0.2s ease;
+    }
+
+    .footer-copy a:hover {
+      color: #ffffff;
+      opacity: 1;
+    }
+
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding-bottom: 0.3rem;
+    }
+
+    .footer-stacked-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.9rem;
+    }
+
+    .footer-stacked-links a {
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: var(--bg-cream);
+      opacity: 0.88;
+      text-decoration: none;
+      letter-spacing: -0.1px;
+      padding: 3px 6px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .footer-stacked-links a:hover {
+      color: #ffffff;
+      opacity: 1;
+      transform: translateX(-4px);
+    }
+
+    @media (max-width: 768px) {
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2rem;
+      }
+      .footer-right {
+        align-items: flex-start;
+      }
+      .footer-stacked-links {
+        align-items: flex-start;
+      }
+      .footer-stacked-links a:hover {
+        transform: translateX(4px);
+      }
     }
 
     @media (max-width: 600px) {
@@ -272,16 +361,24 @@
     </div>
   </main>
 
+  <!-- Site Footer (Split Layout) -->
   <footer class="site-footer">
-    <p>© 2026 <span class="font-lyra">Lyra</span> by <a href="https://daiski.dev" target="_blank" rel="noopener">Dai-Ski</a>. Released under the MIT License.</p>
-    <div class="footer-links">
-      <a href="terms.html">Terms and Conditions</a>
-      <span>•</span>
-      <a href="privacy.html">Privacy Policy</a>
-      <span>•</span>
-      <a href="contact.html">Contact Us</a>
-      <span>•</span>
-      <a href="refund.html">Cancellation and Refunds</a>
+    <div class="footer-inner">
+      <div class="footer-left">
+        <div class="footer-big-title font-lyra">Lyra</div>
+        <p class="footer-tagline">Menu bar synced lyrics for macOS</p>
+        <div class="footer-copy">
+          © 2026 <span class="font-lyra">Lyra</span> by <a href="https://daiski.dev" target="_blank" rel="noopener">Dai-Ski</a>. Released under the MIT License.
+        </div>
+      </div>
+      <div class="footer-right">
+        <nav class="footer-stacked-links" aria-label="Footer Navigation">
+          <a href="terms.html">Terms and Conditions</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="contact.html">Contact Us</a>
+          <a href="refund.html">Cancellation and Refunds</a>
+        </nav>
+      </div>
     </div>
   </footer>
 

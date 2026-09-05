@@ -230,34 +230,123 @@
       line-height: 1.5;
     }
 
+    /* Site Footer - Charcoal Black with Cream Theme */
     .site-footer {
+      position: relative;
       width: 100%;
-      border-top: 1px solid var(--border-subtle);
-      background: rgba(255, 255, 255, 0.5);
-      padding: 1.5rem 2rem;
-      text-align: center;
+      min-height: 33.33vh;
       margin-top: auto;
-      font-size: 0.88rem;
-      color: var(--text-muted);
-    }
-
-    .footer-links {
-      margin-top: 0.5rem;
+      background-color: #1a1a1c;
+      color: var(--bg-cream);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
+      flex-direction: column;
       justify-content: center;
-      gap: 1.2rem;
-      flex-wrap: wrap;
+      align-items: center;
+      padding: 3.5rem 2rem;
+      box-sizing: border-box;
+      z-index: 10;
     }
 
-    .footer-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.85rem;
+    .footer-inner {
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 3rem;
     }
 
-    .footer-links a:hover {
-      color: var(--apple-blue);
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .footer-big-title {
+      font-size: clamp(3.5rem, 8vw, 6rem);
+      font-weight: 800;
+      color: var(--bg-cream);
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      user-select: none;
+    }
+
+    .footer-tagline {
+      font-size: 0.98rem;
+      color: var(--bg-cream);
+      opacity: 0.85;
+      font-weight: 400;
+      margin-top: 0.2rem;
+    }
+
+    .footer-copy {
+      font-size: 0.88rem;
+      color: var(--bg-cream);
+      opacity: 0.85;
+      margin-top: 0.4rem;
+    }
+
+    .footer-copy a {
+      color: var(--bg-cream);
       text-decoration: underline;
+      font-weight: 600;
+      transition: opacity 0.2s ease, color 0.2s ease;
+    }
+
+    .footer-copy a:hover {
+      color: #ffffff;
+      opacity: 1;
+    }
+
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding-bottom: 0.3rem;
+    }
+
+    .footer-stacked-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.9rem;
+    }
+
+    .footer-stacked-links a {
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: var(--bg-cream);
+      opacity: 0.88;
+      text-decoration: none;
+      letter-spacing: -0.1px;
+      padding: 3px 6px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .footer-stacked-links a:hover {
+      color: #ffffff;
+      opacity: 1;
+      transform: translateX(-4px);
+    }
+
+    @media (max-width: 768px) {
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2rem;
+      }
+      .footer-right {
+        align-items: flex-start;
+      }
+      .footer-stacked-links {
+        align-items: flex-start;
+      }
+      .footer-stacked-links a:hover {
+        transform: translateX(4px);
+      }
     }
 
     @media (max-width: 600px) {
@@ -298,7 +387,7 @@
       <p class="subtitle">Have questions, feedback, or need help with <span class="font-lyra">Lyra</span>? We're always happy to connect!</p>
 
       <div class="contact-grid">
-        <!-- Telegram (Primary) -->
+        <!-- Telegram (Exclusive Contact Channel) -->
         <a href="https://t.me/dai_ski" target="_blank" rel="noopener" class="contact-card">
           <div class="contact-card-content">
             <div class="contact-icon icon-telegram">
@@ -308,44 +397,10 @@
             </div>
             <div class="contact-details">
               <h3>Telegram Direct Message</h3>
-              <p>@dai_ski (Fastest response for support &amp; inquiries)</p>
+              <p>@dai_ski (Direct &amp; Instant Support)</p>
             </div>
           </div>
           <span class="contact-action-btn telegram-btn">Chat on Telegram →</span>
-        </a>
-
-        <!-- GitHub Issues -->
-        <a href="https://github.com/Dai-Ski/LYRA/issues" target="_blank" rel="noopener" class="contact-card">
-          <div class="contact-card-content">
-            <div class="contact-icon icon-github">
-              <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
-              </svg>
-            </div>
-            <div class="contact-details">
-              <h3>GitHub Issue Tracker</h3>
-              <p>Report bugs, request features, or view roadmap</p>
-            </div>
-          </div>
-          <span class="contact-action-btn">Open Issue →</span>
-        </a>
-
-        <!-- Developer Website -->
-        <a href="https://daiski.dev" target="_blank" rel="noopener" class="contact-card">
-          <div class="contact-card-content">
-            <div class="contact-icon icon-web">
-              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="2" y1="12" x2="22" y2="12"></line>
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-              </svg>
-            </div>
-            <div class="contact-details">
-              <h3>Developer Website</h3>
-              <p>daiski.dev</p>
-            </div>
-          </div>
-          <span class="contact-action-btn">Visit Website →</span>
         </a>
       </div>
 
@@ -355,16 +410,24 @@
     </div>
   </main>
 
+  <!-- Site Footer (Split Layout) -->
   <footer class="site-footer">
-    <p>© 2026 <span class="font-lyra">Lyra</span> by <a href="https://daiski.dev" target="_blank" rel="noopener">Dai-Ski</a>. Released under the MIT License.</p>
-    <div class="footer-links">
-      <a href="terms.html">Terms and Conditions</a>
-      <span>•</span>
-      <a href="privacy.html">Privacy Policy</a>
-      <span>•</span>
-      <a href="contact.html">Contact Us</a>
-      <span>•</span>
-      <a href="refund.html">Cancellation and Refunds</a>
+    <div class="footer-inner">
+      <div class="footer-left">
+        <div class="footer-big-title font-lyra">Lyra</div>
+        <p class="footer-tagline">Menu bar synced lyrics for macOS</p>
+        <div class="footer-copy">
+          © 2026 <span class="font-lyra">Lyra</span> by <a href="https://daiski.dev" target="_blank" rel="noopener">Dai-Ski</a>. Released under the MIT License.
+        </div>
+      </div>
+      <div class="footer-right">
+        <nav class="footer-stacked-links" aria-label="Footer Navigation">
+          <a href="terms.html">Terms and Conditions</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="contact.html">Contact Us</a>
+          <a href="refund.html">Cancellation and Refunds</a>
+        </nav>
+      </div>
     </div>
   </footer>
 
