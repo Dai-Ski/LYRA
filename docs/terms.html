@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms and Conditions - Lyra</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=K2D:wght@600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #f5efdd;
+      --card-white: #ffffff;
+      --border-subtle: rgba(0, 0, 0, 0.08);
+      --apple-blue: #0071e3;
+      --apple-blue-hover: #005bb5;
+      --text-dark: #1d1d1f;
+      --text-muted: #6e6e73;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.6;
+    }
+
+    .font-lyra {
+      font-family: 'K2D', sans-serif !important;
+      font-weight: 600 !important;
+    }
+
+    /* Top Navigation Bar */
+    .apple-navbar {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0.6rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-dark);
+    }
+
+    .nav-logo-svg {
+      height: 26px;
+      width: auto;
+    }
+
+    .nav-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--apple-blue);
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(0, 113, 227, 0.08);
+      transition: all 0.2s ease;
+    }
+
+    .back-link:hover {
+      background: rgba(0, 113, 227, 0.15);
+      color: var(--apple-blue-hover);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 800px;
+      width: 100%;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    .legal-card {
+      background: var(--card-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.4rem;
+      color: var(--text-dark);
+    }
+
+    .last-updated {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-top: 1.8rem;
+      margin-bottom: 0.6rem;
+      color: var(--text-dark);
+    }
+
+    p, li {
+      font-size: 0.98rem;
+      color: #333336;
+      margin-bottom: 0.9rem;
+    }
+
+    ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1.2rem;
+    }
+
+    li {
+      margin-bottom: 0.4rem;
+    }
+
+    a {
+      color: var(--apple-blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .highlight-box {
+      background: #fbfbfd;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 14px;
+      padding: 1.2rem;
+      margin: 1.2rem 0;
+    }
+
+    .site-footer {
+      width: 100%;
+      border-top: 1px solid var(--border-subtle);
+      background: rgba(255, 255, 255, 0.5);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      margin-top: auto;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      margin-top: 0.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--apple-blue);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .legal-card {
+        padding: 1.5rem;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="apple-navbar">
+    <a href="index.html" class="nav-left" title="Back to Lyra">
+      <svg class="nav-logo-svg" viewBox="0 0 499 639" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M329.394 0.30794C367.135 -0.539834 404.962 0.592892 442.696 0.95729C448.672 1.0151 464.329 -0.69574 466.903 6.07675C471.294 17.6409 459.931 33.5293 448.814 36.8678C440.193 39.4558 437.343 45.7983 436.018 54.0172C426.755 105.467 444.438 153.909 457.021 202.993C463.523 227.521 468.914 252.331 473.177 277.346C479.598 315.144 482.295 355.43 481.56 393.728C481.373 403.47 481.638 414.055 481.004 423.719C479.18 450.927 476.647 478.087 473.409 505.165C471.894 516.709 470.495 528.264 469.216 539.837C468.201 548.483 465.605 556.125 470.003 564.077C473.789 565.397 477.65 566.606 480.635 568.974C488.689 575.367 489.14 585.131 489.088 594.564C489.077 596.671 492.677 597.842 493.93 599.092C501.54 606.693 499.85 620.642 493.359 628.43C487.596 635.651 478.165 637.93 469.309 638.422C460.046 638.937 450.358 638.709 441.036 638.709L389.473 638.72L342.693 638.713C334.404 638.705 326.156 638.87 317.788 638.448C305.082 637.807 303.725 625.502 303.191 615.506C302.822 608.588 305.142 607.174 309.693 602.691C311.35 601.188 312.424 597.6 310.693 595.761C295.723 579.865 280.059 563.297 263.488 549.147C261.691 547.763 259.942 546.342 258.179 544.921C242.863 532.564 223.057 523.288 203.356 521.599C140.874 516.231 123.468 567.65 71.7753 573.125C54.5849 574.945 36.9103 571.059 23.3933 559.952C1.98901 542.366 -3.84433 514.258 2.31542 488.079C11.3558 449.655 45.7571 400.863 68.3167 367.754C112.198 303.352 160.111 241.662 201.518 175.598C216.437 151.656 230.343 127.097 243.198 101.986C252.521 83.8239 260.978 67.0057 266.64 47.3014C269.866 36.0759 263.059 17.247 269.651 11.5002C281.234 1.40299 314.211 0.93342 329.394 0.30794ZM339.38 143.258C343.178 170.085 346.756 196.943 350.113 223.829C362.543 322.571 370.235 421.85 373.164 521.33C373.372 530.088 373.85 538.7 373.962 547.494C379.737 548.923 383.023 549.71 388.999 550.295C391.872 550.348 399.437 550.903 401.067 549.046C404.07 545.618 406.544 533.552 407.547 529.196C418.567 480.594 423.973 430.887 423.655 381.054C422.376 300.073 405.421 219.17 384.459 141.219C382.445 133.818 380.501 126.399 378.618 118.964C378.106 116.929 376.517 109.566 375.741 108.093C374.812 107.663 375.085 107.723 374.096 107.546C361.226 110.497 355.686 121.559 348.084 131.49C345.793 134.484 341.257 140.393 339.38 143.258ZM313.577 513.222C320.404 517.768 326.854 522.755 333.71 527.249C339.709 531.535 350.967 538.092 357.708 540.93C355.929 459.554 350.799 378.283 342.331 297.328C339.791 272.927 337.045 248.548 334.102 224.191C331.561 204.207 328.252 181.93 326.223 161.996L325.622 161.478C317.151 172.164 308.526 182.729 299.752 193.167C296.249 197.362 291.205 203.016 287.907 207.523C287.493 208.088 287.777 211.319 287.878 212.288C294.07 272.255 299.841 332.213 304.519 392.318L313.577 513.222ZM219.426 282.74C206.337 296.61 192.756 311.648 179.521 325.081C182.968 353.994 185.023 386.037 187.547 415.256C188.735 427.855 189.808 440.461 190.765 453.079C191.136 457.753 192.064 466.13 192.038 470.449C194.565 470.516 197.523 470.516 200.01 470.669C210.48 470.893 226.042 471.75 236.207 474.857C234.416 458.223 233.445 440.309 232.076 423.457C229.02 384.217 225.606 345.002 221.834 305.825C221.499 302.513 220.308 284.67 219.426 282.74ZM272.86 487.911C281.939 492.465 287.963 496.15 296.585 501.488C295.999 490.563 295.007 479.732 294.219 468.823C292.742 446.28 291.026 423.752 289.075 401.243C285.292 351.936 280.946 302.67 276.027 253.46C275.679 249.87 273.775 225.765 272.888 224.593C262.52 235.449 252.725 247.157 242.397 258.08C240.189 260.415 236.853 263.699 234.95 266.156C239.895 317.325 244.363 368.541 248.355 419.791C249.958 439.734 252.068 459.811 253.114 479.822C260.219 482.339 266.132 484.439 272.86 487.911ZM163.4 342.835C157.92 348.374 152.303 354.733 147.016 360.522C136.517 371.972 126.187 383.575 116.029 395.328C92.5917 422.458 58.1188 458.346 55.8891 496.389C55.3552 505.497 60.2425 513.539 69.2557 516.534C89.0507 521.755 107.61 503.043 121.858 491.951C137.418 479.836 155.508 474.988 174.573 471.881C173.787 457.432 172.371 443.404 171.115 428.992C169.766 412.108 168.273 395.234 166.633 378.376C165.595 367.75 165.2 353.021 163.788 343.148L163.4 342.835Z" fill="#1d1d1f"/>
+      </svg>
+      <span class="nav-title font-lyra">Lyra</span>
+    </a>
+    <a href="index.html" class="back-link">
+      <span>←</span> Back to Home
+    </a>
+  </nav>
+
+  <!-- Container -->
+  <main class="container">
+    <div class="legal-card">
+      <h1>Terms and Conditions</h1>
+      <div class="last-updated">Last Updated: September 2026</div>
+
+      <p>Welcome to <strong>Lyra</strong> (accessible at <a href="https://dai-ski.github.io/LYRA/">https://dai-ski.github.io/LYRA/</a>). By downloading, installing, or using Lyra, or by interacting with this website, you agree to comply with and be bound by the following terms and conditions.</p>
+
+      <h2>1. Overview of Software & License</h2>
+      <p>Lyra is an open-source macOS utility that displays real-time synchronized music lyrics in your Mac menu bar. Lyra is licensed under the <strong>MIT License</strong>. You are granted permission to use, copy, modify, merge, publish, and distribute copies of the software in accordance with the MIT License terms.</p>
+
+      <h2>2. Permitted Use</h2>
+      <p>You agree to use Lyra only for lawful purposes in accordance with these Terms and any applicable local, state, national, or international law or regulation.</p>
+
+      <h2>3. Third-Party Services & Content</h2>
+      <p>Lyra connects with local media player clients (including Spotify and Apple Music) and queries public community lyric databases (such as LRCLIB) to retrieve synchronized lyrics. Lyra does not host, store, or claim ownership over any lyrics or copyrighted audio metadata. All trademarks, copyrights, and intellectual property remain the property of their respective owners.</p>
+
+      <h2>4. Voluntary Contributions & Donations</h2>
+      <p>Users may choose to support the development and maintenance of Lyra through voluntary financial donations (via payment providers such as Razorpay). Such payments are strictly voluntary tips and do not constitute a purchase of commercial goods, proprietary licenses, or contractual service agreements.</p>
+
+      <div class="highlight-box">
+        <strong>Important Notice Regarding Donations:</strong> All contributions made to Lyra are voluntary and non-refundable. Please review our <a href="refund.html">Cancellation and Refund Policy</a> for complete details.
+      </div>
+
+      <h2>5. Disclaimer of Warranties</h2>
+      <p>LYRA IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+      <h2>6. Modifications to Terms</h2>
+      <p>We reserve the right to modify these Terms and Conditions at any time. Changes take effect immediately upon posting to this website.</p>
+
+      <h2>7. Contact Information</h2>
+      <p>If you have any questions or feedback regarding these Terms, please reach out via Telegram at <a href="https://t.me/dai_ski" target="_blank" rel="noopener">@dai_ski</a> or through our <a href="contact.html">Contact Us</a> page.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 <span class="font-lyra">Lyra</span> by <a href="https://daiski.dev" target="_blank" rel="noopener">Dai-Ski</a>. Released under the MIT License.</p>
+    <div class="footer-links">
+      <a href="terms.html">Terms and Conditions</a>
+      <span>•</span>
+      <a href="privacy.html">Privacy Policy</a>
+      <span>•</span>
+      <a href="contact.html">Contact Us</a>
+      <span>•</span>
+      <a href="refund.html">Cancellation and Refunds</a>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -541,6 +541,272 @@
         padding: 2px 10px;
       }
     }
+
+    /* Site Footer Styling */
+    .site-footer {
+      width: 100%;
+      margin-top: auto;
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-top: 1px solid var(--border-subtle);
+      padding: 1.8rem 1.5rem 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .footer-container {
+      max-width: 960px;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-copy {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .footer-copy a {
+      color: var(--text-dark);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .footer-copy a:hover {
+      text-decoration: underline;
+      color: var(--apple-blue);
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--apple-blue);
+      text-decoration: underline;
+    }
+
+    .footer-sep {
+      color: var(--text-muted);
+      opacity: 0.4;
+      font-size: 0.75rem;
+      user-select: none;
+    }
+
+    /* Native Legal Modal Dialog */
+    .legal-modal {
+      border: none;
+      border-radius: 20px;
+      padding: 0;
+      background: transparent;
+      max-width: 680px;
+      width: 90vw;
+      margin: auto;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+    }
+
+    .legal-modal::backdrop {
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .legal-modal-content {
+      background: #ffffff;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-height: 85vh;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .legal-modal-header {
+      padding: 1rem 1.4rem;
+      background: #fafafa;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .legal-modal-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .legal-tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .legal-tab-btn:hover {
+      background: rgba(0, 0, 0, 0.04);
+      color: var(--text-dark);
+    }
+
+    .legal-tab-btn.active {
+      background: var(--apple-blue);
+      color: #ffffff;
+    }
+
+    .legal-modal-close {
+      background: #ededf0;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-dark);
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .legal-modal-close:hover {
+      background: #e0e0e4;
+    }
+
+    .legal-modal-body {
+      padding: 1.8rem;
+      overflow-y: auto;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #333336;
+    }
+
+    .legal-tab-content {
+      display: none;
+    }
+
+    .legal-tab-content.active {
+      display: block;
+      animation: tabFadeIn 0.2s ease;
+    }
+
+    @keyframes tabFadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .legal-tab-content h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 0.4rem;
+    }
+
+    .legal-tab-content h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin: 1.2rem 0 0.4rem;
+    }
+
+    .legal-tab-content p, .legal-tab-content li {
+      margin-bottom: 0.7rem;
+    }
+
+    .legal-tab-content ul {
+      margin-left: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .legal-highlight-box {
+      background: #fdfaf3;
+      border: 1px solid #f2e3be;
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+      color: #78350f;
+      font-weight: 500;
+    }
+
+    .legal-telegram-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f0f8ff;
+      border: 1px solid #cce5ff;
+      border-radius: 14px;
+      padding: 1.1rem 1.3rem;
+      margin: 1.2rem 0;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .telegram-badge-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #229ed9;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 8px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+
+    .telegram-badge-btn:hover {
+      background: #1c87ba;
+    }
+
+    .full-page-link {
+      display: inline-block;
+      margin-top: 1.2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--apple-blue);
+      text-decoration: none;
+    }
+
+    .full-page-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .footer-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      .footer-links {
+        justify-content: center;
+      }
+    }
   </style>
 </head>
 <body>
@@ -643,6 +909,133 @@
       </span>
     </div>
   </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-copy">
+        © 2026 <span class="font-lyra">Lyra</span> by <a href="https://daiski.dev" target="_blank" rel="noopener">Dai-Ski</a>. Released under the MIT License.
+      </div>
+      <div class="footer-links">
+        <a href="terms.html" onclick="openLegalModal('terms', event)">Terms and Conditions</a>
+        <span class="footer-sep">•</span>
+        <a href="privacy.html" onclick="openLegalModal('privacy', event)">Privacy Policy</a>
+        <span class="footer-sep">•</span>
+        <a href="contact.html" onclick="openLegalModal('contact', event)">Contact Us</a>
+        <span class="footer-sep">•</span>
+        <a href="refund.html" onclick="openLegalModal('refund', event)">Cancellation &amp; Refunds</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Legal Modal Dialog -->
+  <dialog id="legal-dialog" class="legal-modal" onclick="onModalBackdropClick(event)">
+    <div class="legal-modal-content">
+      <div class="legal-modal-header">
+        <div class="legal-modal-tabs">
+          <button class="legal-tab-btn active" id="tab-btn-terms" onclick="switchLegalTab('terms')">Terms &amp; Conditions</button>
+          <button class="legal-tab-btn" id="tab-btn-privacy" onclick="switchLegalTab('privacy')">Privacy Policy</button>
+          <button class="legal-tab-btn" id="tab-btn-contact" onclick="switchLegalTab('contact')">Contact Us</button>
+          <button class="legal-tab-btn" id="tab-btn-refund" onclick="switchLegalTab('refund')">Cancellation &amp; Refunds</button>
+        </div>
+        <button class="legal-modal-close" onclick="closeLegalModal()" aria-label="Close dialog">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="legal-modal-body">
+        <!-- Terms and Conditions Tab -->
+        <div id="tab-content-terms" class="legal-tab-content active">
+          <h2>Terms and Conditions</h2>
+          <p>Welcome to <strong>Lyra</strong>. By using this software or website, you agree to these Terms and Conditions.</p>
+          
+          <h3>1. Open Source License</h3>
+          <p>Lyra is free and open-source software licensed under the <strong>MIT License</strong>. You are permitted to use, copy, modify, and distribute the software in compliance with the license.</p>
+
+          <h3>2. Third-Party Trademarks &amp; APIs</h3>
+          <p>Lyra interfaces with third-party media players (Spotify, Apple Music) and public lyrics APIs (such as LRCLIB). All music titles, lyrics, and trademarks are property of their respective owners.</p>
+
+          <h3>3. Voluntary Support</h3>
+          <p>Any financial contributions made through Razorpay or other payment methods are voluntary donations to support development. They do not constitute commercial purchases or service contracts.</p>
+
+          <a href="terms.html" class="full-page-link">View Full Terms &amp; Conditions Page →</a>
+        </div>
+
+        <!-- Privacy Policy Tab -->
+        <div id="tab-content-privacy" class="legal-tab-content">
+          <h2>Privacy Policy</h2>
+          <p>Your privacy is paramount. Lyra is designed with a strict zero-telemetry and privacy-first philosophy.</p>
+
+          <h3>1. No Tracking or Personal Data Collection</h3>
+          <p>Lyra does not collect, track, or store any personal data, analytics, or user browsing activity.</p>
+
+          <h3>2. Local Music Detection</h3>
+          <p>Track details (title, artist) are fetched strictly locally via macOS system bridges and are never sent to private tracking servers.</p>
+
+          <h3>3. Anonymous Lyric Requests</h3>
+          <p>Lyric searches are sent via secure HTTPS to public community databases without personal identifiers or logging.</p>
+
+          <h3>4. Payment Security</h3>
+          <p>All voluntary donations are handled directly through certified PCI-DSS payment gateways (Razorpay). Lyra never accesses or stores your financial information.</p>
+
+          <a href="privacy.html" class="full-page-link">View Full Privacy Policy Page →</a>
+        </div>
+
+        <!-- Contact Us Tab -->
+        <div id="tab-content-contact" class="legal-tab-content">
+          <h2>Contact Us</h2>
+          <p>We are always available to help, answer questions, or discuss new features for Lyra.</p>
+
+          <a href="https://t.me/dai_ski" target="_blank" rel="noopener" class="legal-telegram-card">
+            <div>
+              <strong style="display: block; font-size: 1.05rem; color: #1d1d1f; margin-bottom: 2px;">Telegram Direct Support</strong>
+              <span style="font-size: 0.9rem; color: #6e6e73;">@dai_ski (Fastest response)</span>
+            </div>
+            <span class="telegram-badge-btn">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+              Open Chat
+            </span>
+          </a>
+
+          <h3>Other Channels</h3>
+          <ul>
+            <li><strong>GitHub Repository:</strong> <a href="https://github.com/Dai-Ski/LYRA" target="_blank" rel="noopener">github.com/Dai-Ski/LYRA</a></li>
+            <li><strong>Issues &amp; Bug Reports:</strong> <a href="https://github.com/Dai-Ski/LYRA/issues" target="_blank" rel="noopener">github.com/Dai-Ski/LYRA/issues</a></li>
+            <li><strong>Developer:</strong> <a href="https://daiski.dev" target="_blank" rel="noopener">daiski.dev</a></li>
+          </ul>
+
+          <a href="contact.html" class="full-page-link">View Full Contact Page →</a>
+        </div>
+
+        <!-- Cancellation and Refunds Tab -->
+        <div id="tab-content-refund" class="legal-tab-content">
+          <h2>Cancellation and Refund Policy</h2>
+          
+          <div class="legal-highlight-box">
+            <strong>⚠️ Non-Refundable Policy:</strong> There will be no cancellations nor refunds of any donations made. All contributions are final and non-refundable.
+          </div>
+
+          <h3>1. Voluntary Donations</h3>
+          <p>Lyra is free and open-source software. All payments processed on this website are voluntary donations/tips given by users to support development and server costs.</p>
+
+          <h3>2. No Cancellation</h3>
+          <p>Because donations are processed immediately as one-time contributions without recurring subscriptions, cancellations cannot be processed once completed.</p>
+
+          <h3>3. No Refunds</h3>
+          <p>As no commercial merchandise or paywalled goods are exchanged, all contributions made to Lyra are strictly non-refundable under any circumstances.</p>
+
+          <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+            If you have questions prior to contributing, reach out via Telegram at <a href="https://t.me/dai_ski" target="_blank" rel="noopener">@dai_ski</a>.
+          </p>
+
+          <a href="refund.html" class="full-page-link">View Full Cancellation &amp; Refund Policy Page →</a>
+        </div>
+      </div>
+    </div>
+  </dialog>
 
   <script>
     // Unregister any active service worker
@@ -770,6 +1163,55 @@
         subText.innerText = 'Your support helps Lyra grow! 💖';
       }
     }
+
+    // 6. Legal Modal Controls
+    const legalDialog = document.getElementById('legal-dialog');
+
+    function openLegalModal(tab, event) {
+      if (event) event.preventDefault();
+      if (legalDialog) {
+        switchLegalTab(tab || 'terms');
+        if (typeof legalDialog.showModal === 'function') {
+          legalDialog.showModal();
+        } else {
+          legalDialog.setAttribute('open', '');
+        }
+      }
+    }
+
+    function closeLegalModal() {
+      if (legalDialog) {
+        if (typeof legalDialog.close === 'function') {
+          legalDialog.close();
+        } else {
+          legalDialog.removeAttribute('open');
+        }
+      }
+    }
+
+    function switchLegalTab(tabName) {
+      const tabs = ['terms', 'privacy', 'contact', 'refund'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tab-btn-${t}`);
+        const content = document.getElementById(`tab-content-${t}`);
+        if (btn) btn.classList.toggle('active', t === tabName);
+        if (content) content.classList.toggle('active', t === tabName);
+      });
+    }
+
+    function onModalBackdropClick(event) {
+      if (event.target === legalDialog) {
+        closeLegalModal();
+      }
+    }
+
+    // Auto-open modal if hash matches #terms, #privacy, #contact, #refund
+    window.addEventListener('DOMContentLoaded', () => {
+      const hash = window.location.hash.replace('#', '');
+      if (['terms', 'privacy', 'contact', 'refund'].includes(hash)) {
+        openLegalModal(hash);
+      }
+    });
   </script>
 </body>
 </html>
