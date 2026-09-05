@@ -23,15 +23,25 @@
       padding: 0;
     }
 
+    html, body {
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
+      overscroll-behavior-y: none;
+      overscroll-behavior: none;
+    }
+
     body {
       font-family: 'JetBrains Mono', 'SF Mono', Consolas, Menlo, Monaco, monospace;
       background-color: var(--bg-dark);
       color: var(--text-body);
       min-height: 100vh;
+      height: 100vh;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       align-items: stretch;
-      line-height: 1.85;
+      line-height: 1.8;
       -webkit-font-smoothing: antialiased;
     }
 
@@ -40,42 +50,81 @@
       font-weight: 600 !important;
     }
 
-    /* Top Navigation Bar - Static, no right link / cat, no svg */
+    /* Top Navigation Bar */
     .apple-navbar {
       width: 100%;
       background: rgba(22, 22, 24, 0.95);
       border-bottom: 1px solid var(--border-subtle);
       position: static;
       z-index: 100;
-      padding: 0.8rem 3.5rem;
+      padding: 0.45rem 2rem;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: space-between;
+      flex-shrink: 0;
     }
 
-    .nav-left {
+    .nav-logo-link {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
       text-decoration: none;
-      color: var(--text-cream);
-      transition: opacity 0.2s ease;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease;
+      padding: 2px;
     }
 
-    .nav-left:hover {
+    .nav-logo-link:hover {
+      transform: scale(1.05);
       opacity: 0.85;
     }
 
-    .nav-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: -0.3px;
+    .nav-logo-svg {
+      height: 27px;
+      width: auto;
+      display: block;
     }
 
-    /* Stretched Subnavigation Bar - Full Width */
+    .nav-brand-text {
+      font-family: 'K2D', sans-serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--text-cream);
+      letter-spacing: -0.2px;
+      line-height: 1;
+      display: inline-block;
+    }
+
+    /* Small Circular Daiski Cat Avatar */
+    .nav-cat-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      background: #e9634b;
+      cursor: default;
+      user-select: none;
+    }
+
+    .nav-cat-avatar {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* Stretched Subnavigation Bar */
     .legal-subnav {
       width: 100%;
       background: rgba(22, 22, 24, 0.85);
       border-bottom: 1px solid var(--border-subtle);
       position: static;
       z-index: 90;
+      flex-shrink: 0;
     }
 
     .subnav-inner {
@@ -85,20 +134,20 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.75rem 3.5rem;
-      gap: 1.5rem;
+      padding: 0.35rem 3.5rem;
+      gap: 1.2rem;
       overflow-x: auto;
     }
 
     .subnav-item {
       flex: 1;
       text-align: center;
-      font-size: 0.92rem;
+      font-size: 0.86rem;
       font-weight: 500;
-      color: rgba(245, 239, 221, 0.6);
+      color: rgba(245, 239, 221, 0.65);
       text-decoration: none;
-      padding: 10px 16px;
-      border-radius: 8px;
+      padding: 6px 12px;
+      border-radius: 6px;
       white-space: nowrap;
       transition: all 0.2s ease;
       border: 1px solid transparent;
@@ -116,35 +165,21 @@
       border-color: #f5efdd;
     }
 
-    /* Main Container - No Box, Stretched Across Page */
+    /* Main Container - Single Page Layout fitting 100vh */
     .container {
+      flex: 1 1 auto;
       width: 100%;
       max-width: 100%;
       box-sizing: border-box;
-      padding: 3.5rem 3.5rem 5rem;
-    }
-
-    h1 {
-      font-size: 1.7rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.4rem;
-      color: var(--text-cream);
-    }
-
-    .last-updated {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-bottom: 2.2rem;
-      padding-bottom: 0.8rem;
-      border-bottom: 1px solid var(--border-subtle);
+      padding: 1.8rem 3.5rem 0.5rem;
+      overflow-y: auto;
     }
 
     p {
-      font-size: 0.98rem;
+      font-size: 0.94rem;
       color: var(--text-body);
-      margin-bottom: 1.5rem;
-      line-height: 1.9;
+      margin-bottom: 1.15rem;
+      line-height: 1.75;
     }
 
     p:last-child {
@@ -162,11 +197,51 @@
       color: #ffffff;
     }
 
-    /* Site Footer - Charcoal Black with Cream Theme */
+    /* Contact Us Telegram Button */
+    .contact-btn-wrapper {
+      margin-top: 1.2rem;
+    }
+
+    .telegram-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--bg-cream);
+      color: var(--bg-dark) !important;
+      padding: 0.75rem 1.6rem;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1.5px solid transparent;
+    }
+
+    .telegram-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 20px rgba(245, 239, 221, 0.25);
+      background: #ffffff;
+      color: #000000 !important;
+    }
+
+    .telegram-icon {
+      width: 20px;
+      height: 20px;
+      fill: var(--bg-dark);
+      transition: fill 0.2s ease;
+    }
+
+    .telegram-btn:hover .telegram-icon {
+      fill: #000000;
+    }
+
+    /* Site Footer - Always visible at bottom */
     .site-footer {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       position: relative;
       width: 100%;
-      min-height: 33.33vh;
+      flex-shrink: 0;
       margin-top: auto;
       background-color: var(--bg-dark);
       color: var(--bg-cream);
@@ -175,7 +250,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 4rem 3.5rem 2.8rem;
+      padding: 1.6rem 3.5rem 1.4rem;
       box-sizing: border-box;
       z-index: 10;
     }
@@ -186,7 +261,7 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      gap: 3rem;
+      gap: 2rem;
     }
 
     .footer-left {
@@ -197,21 +272,21 @@
     }
 
     .footer-big-title {
-      font-size: clamp(7.5rem, 18vw, 14.5rem);
+      font-size: clamp(4.5rem, 11vw, 8.5rem);
       font-weight: 800;
       color: var(--bg-cream);
-      letter-spacing: -0.05em;
+      letter-spacing: 0.16em;
       line-height: 0.95;
       user-select: none;
       margin-left: -6px;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.4rem;
     }
 
     .footer-copy {
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       color: var(--bg-cream);
       opacity: 0.85;
-      margin-top: 2.2rem;
+      margin-top: 0.8rem;
     }
 
     .footer-copy a {
@@ -230,14 +305,14 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      padding-bottom: 0.4rem;
+      padding-bottom: 1.2rem;
     }
 
     .footer-stacked-links {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 0.85rem;
+      gap: 0.65rem;
     }
 
     .footer-stacked-links a {
@@ -259,34 +334,44 @@
     }
 
     @media (max-width: 768px) {
+      html, body {
+        height: auto;
+        overflow: auto;
+      }
+      body {
+        height: auto;
+        min-height: 100vh;
+      }
       .apple-navbar {
-        padding: 0.6rem 1.2rem;
+        padding: 0.45rem 1.2rem;
       }
       .subnav-inner {
-        padding: 0.5rem 1rem;
-        gap: 0.6rem;
+        padding: 0.3rem 0.8rem;
+        gap: 0.4rem;
       }
       .subnav-item {
-        font-size: 0.78rem;
-        padding: 8px 10px;
+        font-size: 0.75rem;
+        padding: 5px 8px;
       }
       .container {
-        padding: 2rem 1.2rem 3rem;
+        padding: 1.5rem 1.2rem 2rem;
+        overflow-y: visible;
       }
       .site-footer {
-        padding: 2.5rem 1.5rem 2rem;
+        padding: 2rem 1.5rem 1.8rem;
       }
       .footer-inner {
         flex-direction: column;
         align-items: flex-start;
-        gap: 2.5rem;
+        gap: 2rem;
       }
       .footer-big-title {
-        font-size: clamp(4.5rem, 20vw, 7.5rem);
+        font-size: clamp(4rem, 18vw, 6.5rem);
         margin-left: -2px;
       }
       .footer-right {
         align-items: flex-start;
+        padding-bottom: 0;
       }
       .footer-stacked-links {
         align-items: flex-start;
@@ -299,29 +384,32 @@
 </head>
 <body>
 
-  <!-- Navigation -->
+  <!-- Navigation (Top left has Lyra text, Top right has Cat avatar) -->
   <nav class="apple-navbar">
-    <a href="index.html" class="nav-left" title="Back to Lyra">
-      <span class="nav-title font-lyra">Lyra</span>
+    <a href="index.html" class="nav-logo-link" title="Lyra">
+      <svg class="nav-logo-svg" viewBox="0 0 499 639" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M329.394 0.30794C367.135 -0.539834 404.962 0.592892 442.696 0.95729C448.672 1.0151 464.329 -0.69574 466.903 6.07675C471.294 17.6409 459.931 33.5293 448.814 36.8678C440.193 39.4558 437.343 45.7983 436.018 54.0172C426.755 105.467 444.438 153.909 457.021 202.993C463.523 227.521 468.914 252.331 473.177 277.346C479.598 315.144 482.295 355.43 481.56 393.728C481.373 403.47 481.638 414.055 481.004 423.719C479.18 450.927 476.647 478.087 473.409 505.165C471.894 516.709 470.495 528.264 469.216 539.837C468.201 548.483 465.605 556.125 470.003 564.077C473.789 565.397 477.65 566.606 480.635 568.974C488.689 575.367 489.14 585.131 489.088 594.564C489.077 596.671 492.677 597.842 493.93 599.092C501.54 606.693 499.85 620.642 493.359 628.43C487.596 635.651 478.165 637.93 469.309 638.422C460.046 638.937 450.358 638.709 441.036 638.709L389.473 638.72L342.693 638.713C334.404 638.705 326.156 638.87 317.788 638.448C305.082 637.807 303.725 625.502 303.191 615.506C302.822 608.588 305.142 607.174 309.693 602.691C311.35 601.188 312.424 597.6 310.693 595.761C295.723 579.865 280.059 563.297 263.488 549.147C261.691 547.763 259.942 546.342 258.179 544.921C242.863 532.564 223.057 523.288 203.356 521.599C140.874 516.231 123.468 567.65 71.7753 573.125C54.5849 574.945 36.9103 571.059 23.3933 559.952C1.98901 542.366 -3.84433 514.258 2.31542 488.079C11.3558 449.655 45.7571 400.863 68.3167 367.754C112.198 303.352 160.111 241.662 201.518 175.598C216.437 151.656 230.343 127.097 243.198 101.986C252.521 83.8239 260.978 67.0057 266.64 47.3014C269.866 36.0759 263.059 17.247 269.651 11.5002C281.234 1.40299 314.211 0.93342 329.394 0.30794ZM339.38 143.258C343.178 170.085 346.756 196.943 350.113 223.829C362.543 322.571 370.235 421.85 373.164 521.33C373.372 530.088 373.85 538.7 373.962 547.494C379.737 548.923 383.023 549.71 388.999 550.295C391.872 550.348 399.437 550.903 401.067 549.046C404.07 545.618 406.544 533.552 407.547 529.196C418.567 480.594 423.973 430.887 423.655 381.054C422.376 300.073 405.421 219.17 384.459 141.219C382.445 133.818 380.501 126.399 378.618 118.964C378.106 116.929 376.517 109.566 375.741 108.093C374.812 107.663 375.085 107.723 374.096 107.546C361.226 110.497 355.686 121.559 348.084 131.49C345.793 134.484 341.257 140.393 339.38 143.258ZM313.577 513.222C320.404 517.768 326.854 522.755 333.71 527.249C339.709 531.535 350.967 538.092 357.708 540.93C355.929 459.554 350.799 378.283 342.331 297.328C339.791 272.927 337.045 248.548 334.102 224.191C331.561 204.207 328.252 181.93 326.223 161.996L325.622 161.478C317.151 172.164 308.526 182.729 299.752 193.167C296.249 197.362 291.205 203.016 287.878 212.288C294.07 272.255 299.841 332.213 304.519 392.318L313.577 513.222ZM219.426 282.74C206.337 296.61 192.756 311.648 179.521 325.081C182.968 353.994 185.023 386.037 187.547 415.256C188.735 427.855 189.808 440.461 190.765 453.079C191.136 457.753 192.064 466.13 192.038 470.449C194.565 470.516 197.523 470.516 200.01 470.669C210.48 470.893 226.042 471.75 236.207 474.857C234.416 458.223 233.445 440.309 232.076 423.457C229.02 384.217 225.606 345.002 221.834 305.825C221.499 302.513 220.308 284.67 219.426 282.74ZM272.86 487.911C281.939 492.465 287.963 496.15 296.585 501.488C295.999 490.563 295.007 479.732 294.219 468.823C292.742 446.28 291.026 423.752 289.075 401.243C285.292 351.936 280.946 302.67 276.027 253.46C275.679 249.87 273.775 225.765 272.888 224.593C262.52 235.449 252.725 247.157 242.397 258.08C240.189 260.415 236.853 263.699 234.95 266.156C239.895 317.325 244.363 368.541 248.355 419.791C249.958 439.734 252.068 459.811 253.114 479.822C260.219 482.339 266.132 484.439 272.86 487.911ZM163.4 342.835C157.92 348.374 152.303 354.733 147.016 360.522C136.517 371.972 126.187 383.575 116.029 395.328C92.5917 422.458 58.1188 458.346 55.8891 496.389C55.3552 505.497 60.2425 513.539 69.2557 516.534C89.0507 521.755 107.61 503.043 121.858 491.951C137.418 479.836 155.508 474.988 174.573 471.881C173.787 457.432 172.371 443.404 171.115 428.992C169.766 412.108 168.273 395.234 166.633 378.376C165.595 367.75 165.2 353.021 163.788 343.148L163.4 342.835Z" fill="#f5efdd"/>
+      </svg>
+      <span class="nav-brand-text font-lyra">Lyra</span>
     </a>
+    <div class="nav-cat-circle" title="Daiski">
+      <img src="cat.png" alt="Daiski Cat" class="nav-cat-avatar">
+    </div>
   </nav>
 
   <!-- Stretched Subnavigation Bar -->
   <nav class="legal-subnav" aria-label="Legal Navigation">
     <div class="subnav-inner">
       <a href="terms.html" class="subnav-item active">Terms and Conditions</a>
-      <a href="privacy.html" class="subnav-item">Privacy Policy</a>
-      <a href="contact.html" class="subnav-item">Contact Us</a>
-      <a href="refund.html" class="subnav-item">Donations</a>
+      <a href="privacy.html" class="subnav-item ">Privacy Policy</a>
+      <a href="contact.html" class="subnav-item ">Contact Us</a>
+      <a href="refund.html" class="subnav-item ">Donations</a>
     </div>
   </nav>
 
-  <!-- Container - Stretched Text without Card Box -->
+  <!-- Container - Single Page Content -->
   <main class="container">
-    <h1># Terms and Conditions</h1>
-    <div class="last-updated">Last Updated: September 2026</div>
-
-    <p>Welcome to Lyra (https://dai-ski.github.io/LYRA/). By downloading, installing, or using Lyra, you agree to these terms and operational guidelines.</p>
+    <p>Welcome to <a href="index.html">Lyra</a>. By downloading, installing, or using Lyra, you agree to these terms and operational guidelines.</p>
 
     <p>Lyra is free, open-source macOS software licensed under the MIT License. You are permitted to use, copy, modify, merge, publish, and distribute copies of the software freely in accordance with the license.</p>
 
@@ -331,10 +419,10 @@
 
     <p>All financial contributions made to Lyra are voluntary support gifts intended to aid ongoing maintenance, infrastructure costs, and open-source development. Every contribution is final once the transaction is executed.</p>
 
-    <p>For questions, support inquiries, or feedback, you can connect directly on Telegram with the developer at @dai_ski.</p>
+    <p>For questions, support inquiries, or feedback, check <a href="contact.html">Contact Us</a>.</p>
   </main>
 
-  <!-- Site Footer (1/3rd Page Charcoal Black) -->
+  <!-- Site Footer (Always Visible at bottom) -->
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-left">
