@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Donations - Lyra</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=K2D:wght@600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=K2D:wght@600;700;800&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --bg-dark: #161618;
@@ -23,7 +26,8 @@
       padding: 0;
     }
 
-    html, body {
+    html,
+    body {
       height: 100vh;
       max-height: 100vh;
       overflow: hidden;
@@ -103,9 +107,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-      border: 1.5px solid rgba(245, 239, 221, 0.6);
-      background: #e9634b;
+      box-shadow: none;
+      border: none;
+      outline: none;
+      background: transparent;
       cursor: default;
       user-select: none;
     }
@@ -152,6 +157,9 @@
       white-space: nowrap;
       transition: all 0.2s ease;
       border: 1px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      font-family: inherit;
     }
 
     .subnav-item:hover {
@@ -176,6 +184,26 @@
       overflow-y: auto;
     }
 
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(3px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     p {
       font-size: 0.94rem;
       color: var(--text-body);
@@ -198,46 +226,49 @@
       color: #ffffff;
     }
 
-    /* Contact Us Telegram Button */
+    /* Contact Us Buttons - Centered Icon Only */
     .contact-btn-wrapper {
-      margin-top: 1.2rem;
+      margin-top: 1.8rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.25rem;
+      width: 100%;
     }
 
-    .telegram-btn {
+    .contact-btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.75rem;
-      background: var(--bg-cream);
-      color: var(--bg-dark) !important;
-      padding: 0.75rem 1.6rem;
-      border-radius: 9999px;
-      font-weight: 700;
-      font-size: 0.95rem;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(245, 239, 221, 0.07);
+      border: 1px solid rgba(245, 239, 221, 0.15);
       text-decoration: none !important;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      border: 1.5px solid transparent;
     }
 
-    .telegram-btn:hover {
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 6px 20px rgba(245, 239, 221, 0.25);
-      background: #ffffff;
-      color: #000000 !important;
+    .contact-btn:hover {
+      transform: translateY(-2px) scale(1.1);
+      background: rgba(245, 239, 221, 0.15);
+      border-color: rgba(245, 239, 221, 0.35);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
     }
 
-    .telegram-icon {
-      width: 20px;
-      height: 20px;
-      fill: var(--bg-dark);
-      transition: fill 0.2s ease;
+    .contact-btn-icon {
+      width: 26px;
+      height: 26px;
+      display: block;
+      transition: transform 0.2s ease;
     }
 
-    .telegram-btn:hover .telegram-icon {
-      fill: #000000;
+    .contact-btn:hover .contact-btn-icon {
+      transform: scale(1.05);
     }
 
-    /* Site Footer - Always visible at bottom */
+    /* Site Footer - Compact 1-Page Alignment */
     .site-footer {
       font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       position: relative;
@@ -288,6 +319,7 @@
       color: var(--bg-cream);
       opacity: 0.85;
       margin-top: 0.8rem;
+      transform: translateY(16px);
     }
 
     .footer-copy a {
@@ -335,84 +367,154 @@
     }
 
     @media (max-width: 768px) {
-      html, body {
+
+      html,
+      body {
         height: auto;
         overflow: auto;
       }
+
       body {
         height: auto;
         min-height: 100vh;
       }
+
       .apple-navbar {
         padding: 0.45rem 1.2rem;
       }
+
       .subnav-inner {
         padding: 0.3rem 0.8rem;
         gap: 0.4rem;
       }
+
       .subnav-item {
         font-size: 0.75rem;
         padding: 5px 8px;
       }
+
       .container {
         padding: 1.5rem 1.2rem 2rem;
         overflow-y: visible;
       }
+
       .site-footer {
         padding: 2rem 1.5rem 1.8rem;
       }
+
       .footer-inner {
         flex-direction: column;
         align-items: flex-start;
         gap: 2rem;
       }
+
       .footer-big-title {
         font-size: clamp(4rem, 18vw, 6.5rem);
         margin-left: -2px;
       }
+
       .footer-right {
         align-items: flex-start;
         padding-bottom: 0;
       }
+
       .footer-stacked-links {
         align-items: flex-start;
       }
+
       .footer-stacked-links a:hover {
         transform: translateX(4px);
       }
     }
   </style>
 </head>
+
 <body>
 
   <!-- Navigation (Top left has Lyra text, Top right has Cat avatar) -->
   <nav class="apple-navbar">
     <a href="index.html" class="nav-logo-link" title="Lyra">
       <svg class="nav-logo-svg" viewBox="0 0 499 639" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M329.394 0.30794C367.135 -0.539834 404.962 0.592892 442.696 0.95729C448.672 1.0151 464.329 -0.69574 466.903 6.07675C471.294 17.6409 459.931 33.5293 448.814 36.8678C440.193 39.4558 437.343 45.7983 436.018 54.0172C426.755 105.467 444.438 153.909 457.021 202.993C463.523 227.521 468.914 252.331 473.177 277.346C479.598 315.144 482.295 355.43 481.56 393.728C481.373 403.47 481.638 414.055 481.004 423.719C479.18 450.927 476.647 478.087 473.409 505.165C471.894 516.709 470.495 528.264 469.216 539.837C468.201 548.483 465.605 556.125 470.003 564.077C473.789 565.397 477.65 566.606 480.635 568.974C488.689 575.367 489.14 585.131 489.088 594.564C489.077 596.671 492.677 597.842 493.93 599.092C501.54 606.693 499.85 620.642 493.359 628.43C487.596 635.651 478.165 637.93 469.309 638.422C460.046 638.937 450.358 638.709 441.036 638.709L389.473 638.72L342.693 638.713C334.404 638.705 326.156 638.87 317.788 638.448C305.082 637.807 303.725 625.502 303.191 615.506C302.822 608.588 305.142 607.174 309.693 602.691C311.35 601.188 312.424 597.6 310.693 595.761C295.723 579.865 280.059 563.297 263.488 549.147C261.691 547.763 259.942 546.342 258.179 544.921C242.863 532.564 223.057 523.288 203.356 521.599C140.874 516.231 123.468 567.65 71.7753 573.125C54.5849 574.945 36.9103 571.059 23.3933 559.952C1.98901 542.366 -3.84433 514.258 2.31542 488.079C11.3558 449.655 45.7571 400.863 68.3167 367.754C112.198 303.352 160.111 241.662 201.518 175.598C216.437 151.656 230.343 127.097 243.198 101.986C252.521 83.8239 260.978 67.0057 266.64 47.3014C269.866 36.0759 263.059 17.247 269.651 11.5002C281.234 1.40299 314.211 0.93342 329.394 0.30794ZM339.38 143.258C343.178 170.085 346.756 196.943 350.113 223.829C362.543 322.571 370.235 421.85 373.164 521.33C373.372 530.088 373.85 538.7 373.962 547.494C379.737 548.923 383.023 549.71 388.999 550.295C391.872 550.348 399.437 550.903 401.067 549.046C404.07 545.618 406.544 533.552 407.547 529.196C418.567 480.594 423.973 430.887 423.655 381.054C422.376 300.073 405.421 219.17 384.459 141.219C382.445 133.818 380.501 126.399 378.618 118.964C378.106 116.929 376.517 109.566 375.741 108.093C374.812 107.663 375.085 107.723 374.096 107.546C361.226 110.497 355.686 121.559 348.084 131.49C345.793 134.484 341.257 140.393 339.38 143.258ZM313.577 513.222C320.404 517.768 326.854 522.755 333.71 527.249C339.709 531.535 350.967 538.092 357.708 540.93C355.929 459.554 350.799 378.283 342.331 297.328C339.791 272.927 337.045 248.548 334.102 224.191C331.561 204.207 328.252 181.93 326.223 161.996L325.622 161.478C317.151 172.164 308.526 182.729 299.752 193.167C296.249 197.362 291.205 203.016 287.878 212.288C294.07 272.255 299.841 332.213 304.519 392.318L313.577 513.222ZM219.426 282.74C206.337 296.61 192.756 311.648 179.521 325.081C182.968 353.994 185.023 386.037 187.547 415.256C188.735 427.855 189.808 440.461 190.765 453.079C191.136 457.753 192.064 466.13 192.038 470.449C194.565 470.516 197.523 470.516 200.01 470.669C210.48 470.893 226.042 471.75 236.207 474.857C234.416 458.223 233.445 440.309 232.076 423.457C229.02 384.217 225.606 345.002 221.834 305.825C221.499 302.513 220.308 284.67 219.426 282.74ZM272.86 487.911C281.939 492.465 287.963 496.15 296.585 501.488C295.999 490.563 295.007 479.732 294.219 468.823C292.742 446.28 291.026 423.752 289.075 401.243C285.292 351.936 280.946 302.67 276.027 253.46C275.679 249.87 273.775 225.765 272.888 224.593C262.52 235.449 252.725 247.157 242.397 258.08C240.189 260.415 236.853 263.699 234.95 266.156C239.895 317.325 244.363 368.541 248.355 419.791C249.958 439.734 252.068 459.811 253.114 479.822C260.219 482.339 266.132 484.439 272.86 487.911ZM163.4 342.835C157.92 348.374 152.303 354.733 147.016 360.522C136.517 371.972 126.187 383.575 116.029 395.328C92.5917 422.458 58.1188 458.346 55.8891 496.389C55.3552 505.497 60.2425 513.539 69.2557 516.534C89.0507 521.755 107.61 503.043 121.858 491.951C137.418 479.836 155.508 474.988 174.573 471.881C173.787 457.432 172.371 443.404 171.115 428.992C169.766 412.108 168.273 395.234 166.633 378.376C165.595 367.75 165.2 353.021 163.788 343.148L163.4 342.835Z" fill="#f5efdd"/>
+        <path
+          d="M329.394 0.30794C367.135 -0.539834 404.962 0.592892 442.696 0.95729C448.672 1.0151 464.329 -0.69574 466.903 6.07675C471.294 17.6409 459.931 33.5293 448.814 36.8678C440.193 39.4558 437.343 45.7983 436.018 54.0172C426.755 105.467 444.438 153.909 457.021 202.993C463.523 227.521 468.914 252.331 473.177 277.346C479.598 315.144 482.295 355.43 481.56 393.728C481.373 403.47 481.638 414.055 481.004 423.719C479.18 450.927 476.647 478.087 473.409 505.165C471.894 516.709 470.495 528.264 469.216 539.837C468.201 548.483 465.605 556.125 470.003 564.077C473.789 565.397 477.65 566.606 480.635 568.974C488.689 575.367 489.14 585.131 489.088 594.564C489.077 596.671 492.677 597.842 493.93 599.092C501.54 606.693 499.85 620.642 493.359 628.43C487.596 635.651 478.165 637.93 469.309 638.422C460.046 638.937 450.358 638.709 441.036 638.709L389.473 638.72L342.693 638.713C334.404 638.705 326.156 638.87 317.788 638.448C305.082 637.807 303.725 625.502 303.191 615.506C302.822 608.588 305.142 607.174 309.693 602.691C311.35 601.188 312.424 597.6 310.693 595.761C295.723 579.865 280.059 563.297 263.488 549.147C261.691 547.763 259.942 546.342 258.179 544.921C242.863 532.564 223.057 523.288 203.356 521.599C140.874 516.231 123.468 567.65 71.7753 573.125C54.5849 574.945 36.9103 571.059 23.3933 559.952C1.98901 542.366 -3.84433 514.258 2.31542 488.079C11.3558 449.655 45.7571 400.863 68.3167 367.754C112.198 303.352 160.111 241.662 201.518 175.598C216.437 151.656 230.343 127.097 243.198 101.986C252.521 83.8239 260.978 67.0057 266.64 47.3014C269.866 36.0759 263.059 17.247 269.651 11.5002C281.234 1.40299 314.211 0.93342 329.394 0.30794ZM339.38 143.258C343.178 170.085 346.756 196.943 350.113 223.829C362.543 322.571 370.235 421.85 373.164 521.33C373.372 530.088 373.85 538.7 373.962 547.494C379.737 548.923 383.023 549.71 388.999 550.295C391.872 550.348 399.437 550.903 401.067 549.046C404.07 545.618 406.544 533.552 407.547 529.196C418.567 480.594 423.973 430.887 423.655 381.054C422.376 300.073 405.421 219.17 384.459 141.219C382.445 133.818 380.501 126.399 378.618 118.964C378.106 116.929 376.517 109.566 375.741 108.093C374.812 107.663 375.085 107.723 374.096 107.546C361.226 110.497 355.686 121.559 348.084 131.49C345.793 134.484 341.257 140.393 339.38 143.258ZM313.577 513.222C320.404 517.768 326.854 522.755 333.71 527.249C339.709 531.535 350.967 538.092 357.708 540.93C355.929 459.554 350.799 378.283 342.331 297.328C339.791 272.927 337.045 248.548 334.102 224.191C331.561 204.207 328.252 181.93 326.223 161.996L325.622 161.478C317.151 172.164 308.526 182.729 299.752 193.167C296.249 197.362 291.205 203.016 287.878 212.288C294.07 272.255 299.841 332.213 304.519 392.318L313.577 513.222ZM219.426 282.74C206.337 296.61 192.756 311.648 179.521 325.081C182.968 353.994 185.023 386.037 187.547 415.256C188.735 427.855 189.808 440.461 190.765 453.079C191.136 457.753 192.064 466.13 192.038 470.449C194.565 470.516 197.523 470.516 200.01 470.669C210.48 470.893 226.042 471.75 236.207 474.857C234.416 458.223 233.445 440.309 232.076 423.457C229.02 384.217 225.606 345.002 221.834 305.825C221.499 302.513 220.308 284.67 219.426 282.74ZM272.86 487.911C281.939 492.465 287.963 496.15 296.585 501.488C295.999 490.563 295.007 479.732 294.219 468.823C292.742 446.28 291.026 423.752 289.075 401.243C285.292 351.936 280.946 302.67 276.027 253.46C275.679 249.87 273.775 225.765 272.888 224.593C262.52 235.449 252.725 247.157 242.397 258.08C240.189 260.415 236.853 263.699 234.95 266.156C239.895 317.325 244.363 368.541 248.355 419.791C249.958 439.734 252.068 459.811 253.114 479.822C260.219 482.339 266.132 484.439 272.86 487.911ZM163.4 342.835C157.92 348.374 152.303 354.733 147.016 360.522C136.517 371.972 126.187 383.575 116.029 395.328C92.5917 422.458 58.1188 458.346 55.8891 496.389C55.3552 505.497 60.2425 513.539 69.2557 516.534C89.0507 521.755 107.61 503.043 121.858 491.951C137.418 479.836 155.508 474.988 174.573 471.881C173.787 457.432 172.371 443.404 171.115 428.992C169.766 412.108 168.273 395.234 166.633 378.376C165.595 367.75 165.2 353.021 163.788 343.148L163.4 342.835Z"
+          fill="#f5efdd" />
       </svg>
       <span class="nav-brand-text font-lyra">Lyra</span>
     </a>
-    <div class="nav-cat-circle" title="Daiski">
-      <img src="cat.png" alt="Daiski Cat" class="nav-cat-avatar">
+    <div class="nav-cat-circle">
+      <img src="cat.png" alt="" class="nav-cat-avatar">
     </div>
   </nav>
 
   <!-- Stretched Subnavigation Bar -->
   <nav class="legal-subnav" aria-label="Legal Navigation">
     <div class="subnav-inner">
-      <a href="terms.html" class="subnav-item ">Terms and Conditions</a>
-      <a href="privacy.html" class="subnav-item ">Privacy Policy</a>
-      <a href="contact.html" class="subnav-item ">Contact Us</a>
-      <a href="refund.html" class="subnav-item active">Donations</a>
+      <button type="button" class="subnav-item" data-tab="terms" onclick="switchTab('terms')">Terms and Conditions</button>
+      <button type="button" class="subnav-item" data-tab="privacy" onclick="switchTab('privacy')">Privacy Policy</button>
+      <button type="button" class="subnav-item" data-tab="contact" onclick="switchTab('contact')">Contact Us</button>
+      <button type="button" class="subnav-item active" data-tab="donations" onclick="switchTab('donations')">Donations</button>
     </div>
   </nav>
 
-  <!-- Container - Single Page Content -->
+  <!-- Container - Single Page Tabbed Content -->
   <main class="container">
-    <p>Any financial contributions made towards Lyra are entirely voluntary support gifts intended to aid ongoing maintenance, infrastructure costs, and open-source development.</p>
+    <!-- Tab 1: Terms and Conditions -->
+    <div id="tab-terms" class="tab-pane">
+      <p>Welcome to <a href="index.html">Lyra</a>. By downloading, installing, or using Lyra, you agree to these terms and
+        operational guidelines.</p>
 
-    <p>Because all financial contributions are processed and allocated immediately as voluntary developer gifts upon completion, every contribution is final once the transaction is executed.</p>
+      <p>Lyra is free, open-source macOS software licensed under the MIT License. You are permitted to use, copy, modify,
+        merge, publish, and distribute copies of the software freely in accordance with the license.</p>
+
+      <p>Lyra connects locally on your machine with supported media players such as Spotify and Apple Music, querying
+        public community lyric databases to provide synchronized lyrics. All music titles, lyrics, and trademarks remain
+        the property of their respective copyright owners.</p>
+
+      <p>Your privacy is respected by design. Lyra operates with zero telemetry, meaning no personal data, identifiers, or
+        playback history are ever collected, stored, or transmitted to any private tracking server.</p>
+
+      <p>All financial contributions made to Lyra are voluntary support gifts intended to aid ongoing maintenance,
+        infrastructure costs, and open-source development. Every contribution is final once the transaction is executed.
+      </p>
+
+      <p>For questions, support inquiries, or feedback, check <a href="javascript:void(0)" onclick="switchTab('contact')">Contact Us</a>.</p>
+    </div>
+
+    <!-- Tab 2: Privacy Policy -->
+    <div id="tab-privacy" class="tab-pane">
+      <p>Lyra is engineered with strict privacy principles and does not collect, monitor, profile, or sell any personal
+        information or telemetry.</p>
+
+      <p>The application operates entirely on your local machine, reading currently active song metadata directly from
+        running media player applications such as Spotify and Apple Music through macOS system APIs.</p>
+
+      <p>When searching for synchronized lyrics, Lyra sends anonymous track metadata consisting solely of track title and
+        artist name to public community databases.</p>
+
+      <p>No user accounts, unique device identifiers, IP addresses, playback histories, location coordinates, or
+        keystrokes are ever gathered, stored, or transmitted to any centralized database or third-party analytic service.
+      </p>
+
+      <p>All application preferences, appearance settings, and local cache files reside strictly on your local macOS
+        filesystem and can be cleared or deleted by you at any time.</p>
+    </div>
+
+    <!-- Tab 3: Contact Us -->
+    <div id="tab-contact" class="tab-pane">
+      <p>If you have questions, feedback, feature suggestions, or need technical assistance with Lyra, you can reach out
+        directly to the developer via:</p>
+
+      <p style="margin-top: 1rem;"><a href="https://t.me/dai_ski" target="_blank">Telegram: @dai_ski</a> | <a href="mailto:ado@daiski.dev">Email: ado@daiski.dev</a></p>
+    </div>
+
+    <!-- Tab 4: Donations -->
+    <div id="tab-donations" class="tab-pane active">
+      <p>Any financial contributions made towards Lyra are entirely voluntary support gifts intended to aid ongoing
+        maintenance, infrastructure costs, and open-source development.</p>
+
+      <p>Because all financial contributions are processed and allocated immediately as voluntary developer gifts upon
+        completion, every contribution is final once the transaction is executed.</p>
+    </div>
   </main>
 
   <!-- Site Footer (Always Visible at bottom) -->
@@ -421,7 +523,8 @@
       <div class="footer-left">
         <div class="footer-big-title font-lyra">Lyra</div>
         <div class="footer-copy">
-          © 2026 <span class="font-lyra">Lyra</span> by <a href="https://daiski.dev" target="_blank" rel="noopener">Dai-Ski</a>. Released under the MIT License.
+          © 2026 <span class="font-lyra">Lyra</span> by <a href="https://daiski.dev" target="_blank"
+            rel="noopener">Dai-Ski</a>. Released under the MIT License.
         </div>
       </div>
       <div class="footer-right">
@@ -433,5 +536,47 @@
     </div>
   </footer>
 
+  <script>
+    function switchTab(tabId, pushHash = true) {
+      const tabs = ['terms', 'privacy', 'contact', 'donations'];
+      if (!tabs.includes(tabId)) tabId = 'donations';
+
+      // Update tab buttons
+      document.querySelectorAll('.subnav-item').forEach(btn => {
+        if (btn.getAttribute('data-tab') === tabId) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      // Update tab panes
+      document.querySelectorAll('.tab-pane').forEach(pane => {
+        if (pane.id === 'tab-' + tabId) {
+          pane.classList.add('active');
+        } else {
+          pane.classList.remove('active');
+        }
+      });
+
+      // Update titles
+      const titles = {
+        'terms': 'Terms and Conditions - Lyra',
+        'privacy': 'Privacy Policy - Lyra',
+        'contact': 'Contact Us - Lyra',
+        'donations': 'Donations - Lyra'
+      };
+      if (titles[tabId]) {
+        document.title = titles[tabId];
+      }
+
+      if (pushHash && window.location.hash !== '#' + tabId) {
+        history.replaceState(null, '', '#' + tabId);
+      }
+    }
+
+    // deep hash router initialized
+  </script>
 </body>
+
 </html>
