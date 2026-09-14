@@ -295,6 +295,12 @@
       box-sizing: border-box;
       outline: none;
       border: none;
+      touch-action: manipulation;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .tip-btn:active {
+      transform: scale(0.97);
     }
 
     .paypal-btn {
