@@ -58,6 +58,15 @@
           <button type="button" class="rzp-preset-btn" data-amount="1000">₹1,000</button>
           <button type="button" class="rzp-preset-btn" data-amount="2000">₹2,000</button>
         </div>
+
+        <!-- Custom Amount Single-Line Form -->
+        <form class="rzp-custom-form" id="rzp-custom-form">
+          <div class="rzp-custom-box">
+            <span class="rzp-currency-symbol">₹</span>
+            <input type="number" class="rzp-custom-input" id="rzp-custom-input" placeholder="Other amount" min="10" step="10" aria-label="Custom tip amount">
+            <button type="submit" class="rzp-custom-pay-btn" id="rzp-custom-pay-btn">Pay</button>
+          </div>
+        </form>
       </div>
     `;
 

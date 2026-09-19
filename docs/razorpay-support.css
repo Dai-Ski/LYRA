@@ -174,3 +174,89 @@
 .rzp-preset-btn:active {
   transform: scale(0.95);
 }
+
+/* Custom Amount Box */
+.rzp-custom-form {
+  margin: 0;
+  width: 100%;
+}
+
+.rzp-custom-box {
+  display: flex;
+  align-items: center;
+  background: #f5f5f7;
+  border: 1.5px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  height: 42px;
+  padding: 0 0.4rem 0 0.75rem;
+  box-sizing: border-box;
+  transition: border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+}
+
+.rzp-custom-box:focus-within {
+  background: #ffffff;
+  border-color: #0071e3;
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.14);
+}
+
+.rzp-currency-symbol {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #6e6e73;
+  margin-right: 0.35rem;
+  user-select: none;
+}
+
+.rzp-custom-input {
+  border: none;
+  background: transparent;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1d1d1f;
+  width: 100%;
+  padding: 0;
+  outline: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.rzp-custom-input::-webkit-outer-spin-button,
+.rzp-custom-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.rzp-custom-input::placeholder {
+  color: #a1a1a6;
+  font-weight: 400;
+  font-size: 0.88rem;
+}
+
+.rzp-custom-pay-btn {
+  background: #0071e3;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0 0.75rem;
+  height: 30px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.rzp-custom-pay-btn:hover {
+  background: #005bb5;
+  transform: scale(1.02);
+}
+
+.rzp-custom-pay-btn:active {
+  transform: scale(0.96);
+}
