@@ -171,6 +171,18 @@
   transform: translateY(-1px);
 }
 
+.rzp-preset-btn.active {
+  background: #0071e3;
+  color: #ffffff;
+  border-color: #0071e3;
+  box-shadow: 0 3px 10px rgba(0, 113, 227, 0.28);
+}
+
+.rzp-preset-btn.active:hover {
+  background: #005bb5;
+  color: #ffffff;
+}
+
 .rzp-preset-btn:active {
   transform: scale(0.95);
 }

@@ -77,6 +77,48 @@
 
   function attachModalEvents(dialog) {
     const closeBtn = dialog.querySelector("#rzp-close-btn");
+    const presetBtns = dialog.querySelectorAll(".rzp-preset-btn");
+    const customForm = dialog.querySelector("#rzp-custom-form");
+    const customInput = dialog.querySelector("#rzp-custom-input");
+
+    // Set default selection (₹100)
+    let selectedBtn = dialog.querySelector('.rzp-preset-btn[data-amount="100"]');
+    if (selectedBtn) {
+      selectedBtn.classList.add("active");
+      customInput.value = "100";
+    }
+
+    // When tapping ANY number button: select it, update the input below, do NOT auto-submit
+    presetBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        presetBtns.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        customInput.value = btn.dataset.amount;
+      });
+    });
+
+    // When user types in custom input: sync active preset state
+    customInput.addEventListener("input", () => {
+      const val = customInput.value.trim();
+      presetBtns.forEach((b) => {
+        if (b.dataset.amount === val) {
+          b.classList.add("active");
+        } else {
+          b.classList.remove("active");
+        }
+      });
+    });
+
+    // When clicking Pay / submitting form: close modal and open Razorpay
+    customForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const rawVal = parseInt(customInput.value, 10);
+      const activeBtn = dialog.querySelector(".rzp-preset-btn.active");
+      const activeVal = activeBtn ? parseInt(activeBtn.dataset.amount, 10) : 100;
+      const amount = !isNaN(rawVal) && rawVal >= 10 ? rawVal : activeVal;
+      closeModal();
+      launchRazorpay(amount);
+    });
 
     // Close on backdrop click
     dialog.addEventListener("click", (e) => {
@@ -148,6 +190,18 @@
 
   function openModal() {
     const dialog = createModal();
+    const customInput = dialog.querySelector("#rzp-custom-input");
+    const presetBtns = dialog.querySelectorAll(".rzp-preset-btn");
+
+    presetBtns.forEach((btn) => {
+      if (btn.dataset.amount === "100") {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+    if (customInput) customInput.value = "100";
+
     if (typeof dialog.showModal === "function") {
       dialog.showModal();
     } else {
