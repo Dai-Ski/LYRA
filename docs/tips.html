@@ -25,6 +25,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=K2D:wght@600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="razorpay-support.css">
   <style>
     /* Warm Apple Cream Theme (#f5efdd) */
     :root {
@@ -237,7 +238,6 @@
       text-align: center;
       width: 100%;
       position: relative;
-      transform: translateY(-56px);
     }
 
     .tips-title {
@@ -481,7 +481,7 @@
         </form>
 
         <!-- Razorpay Button: Blue Box with SVG Logo -->
-        <a href="https://razorpay.me/@daiski" target="_blank" rel="noopener" class="tip-btn razorpay-btn" aria-label="Razorpay">
+        <button type="button" class="tip-btn razorpay-btn" onclick="openRazorpayModal(event)" aria-label="Razorpay">
           <svg class="razorpay-logo-svg" viewBox="0 0 1896 401" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g fill="white" fill-rule="evenodd">
               <path d="M451.9209,151.4937 C448.9309,162.6497 443.1359,170.8377 434.5349,176.0657 C425.9239,181.2927 413.8469,183.9117 398.2689,183.9117 L348.7769,183.9117 L366.1509,119.0807 L415.6429,119.0807 C431.2089,119.0807 441.8959,121.6947 447.7019,126.9217 C453.4969,132.1547 454.9109,140.3437 451.9209,151.4937 M503.1739,150.0967 C509.4679,126.6377 506.8589,108.6267 495.3509,96.0797 C483.8409,83.5327 463.6739,77.2627 434.8709,77.2627 L324.3909,77.2627 L257.8969,325.4027 L311.5719,325.4027 L338.3809,225.3777 L373.5809,225.3777 C381.4739,225.3777 387.6869,226.6577 392.2309,229.2137 C396.7849,231.7747 399.4509,236.3067 400.2739,242.8037 L409.8479,325.4027 L467.3589,325.4027 L458.0289,248.3847 C456.1279,231.1897 448.2589,221.0827 434.4309,218.0637 C452.0599,212.9577 466.8259,204.4677 478.7179,192.6167 C490.5989,180.7717 498.7579,166.6017 503.1739,150.0967"/>
@@ -496,7 +496,7 @@
               <path d="M25.5947,232.9246 L0.8077,325.4026 L123.5337,325.4026 C123.5337,325.4026 173.7317,137.3196 173.7457,137.2656 C173.6987,137.2956 25.5947,232.9246 25.5947,232.9246"/>
             </g>
           </svg>
-        </a>
+        </button>
       </div>
     </div>
   </main>
@@ -621,6 +621,9 @@
       });
     })();
   </script>
+  <!-- Razorpay Checkout & Support Modal -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="razorpay-support.js"></script>
 </body>
 
 </html>
