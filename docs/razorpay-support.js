@@ -48,6 +48,16 @@
             <span class="rzp-sub">Select a tip amount</span>
           </div>
         </div>
+
+        <!-- Preset Amount Grid -->
+        <div class="rzp-presets-grid" id="rzp-presets-grid">
+          <button type="button" class="rzp-preset-btn" data-amount="50">₹50</button>
+          <button type="button" class="rzp-preset-btn" data-amount="100">₹100</button>
+          <button type="button" class="rzp-preset-btn" data-amount="250">₹250</button>
+          <button type="button" class="rzp-preset-btn" data-amount="500">₹500</button>
+          <button type="button" class="rzp-preset-btn" data-amount="1000">₹1,000</button>
+          <button type="button" class="rzp-preset-btn" data-amount="2000">₹2,000</button>
+        </div>
       </div>
     `;
 
