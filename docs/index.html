@@ -886,78 +886,30 @@
       });
     }
 
-    // 3. Musical Symbols Rain Trigger
-    function triggerEmojiRain() {
-      const container = document.getElementById('rain-container');
-      if (!container) return;
-      const symbols = ['♩', '♪', '♫', '♬', '♭', '♮', '♯', '𝄞', '𝄢', '𝄐', '𝄪', '𝄑'];
-      const colors = ['#0071e3', '#ff9500', '#ff2d55', '#af52de', '#34c759', '#5856d6', '#1d1d1f'];
-
-      for (let i = 0; i < 32; i++) {
-        setTimeout(() => {
-          const p = document.createElement('span');
-          p.className = 'rain-emoji';
-          p.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-          p.style.color = colors[Math.floor(Math.random() * colors.length)];
-          p.style.fontSize = `${1.2 + Math.random() * 0.6}rem`;
-          p.style.left = `${Math.random() * 88}%`;
-          p.style.animationDuration = `${1.1 + Math.random() * 0.8}s`;
-
-          container.appendChild(p);
-          setTimeout(() => p.remove(), 2000);
-        }, i * 40);
-      }
-    }
-
-    // 4. Click Star Action (Option 1: API Star + Option 2: Opens repo)
-    async function onStarClick(e) {
-      triggerEmojiRain();
-
+    // 3. Click Star Action (Animates star and opens GitHub repo directly)
+    function onStarClick(e) {
       const btn = document.getElementById('star-btn');
       const mainText = document.getElementById('star-main-text');
       const subText = document.getElementById('star-sub-text');
 
-      if (btn) btn.classList.add('starred');
+      if (btn) {
+        btn.classList.remove('starred-restored');
+        btn.classList.add('starred');
+      }
       if (mainText) {
         mainText.innerHTML = 'Thank you for supporting!';
         mainText.style.color = '#ff9800';
       }
       if (subText) {
-        subText.innerText = 'Your support helps Lyra grow! 💖';
+        subText.innerText = 'Starred on GitHub! 💖';
       }
 
       localStorage.setItem('lyra_starred', 'true');
 
-      // Check if user has a stored GitHub access token for Option 1 API starring
-      let token = localStorage.getItem('gh_user_token');
-      if (!token) {
-        token = prompt("★ Option 1 (Direct API Star): Enter your GitHub Personal Access Token to star Dai-Ski/LYRA via API (or press Cancel to star manually on GitHub):");
-        if (token) {
-          localStorage.setItem('gh_user_token', token.trim());
-        }
-      }
-
-      if (token) {
-        try {
-          const res = await fetch('https://api.github.com/user/starred/Dai-Ski/LYRA', {
-            method: 'PUT',
-            headers: {
-              'Authorization': `Bearer ${token.trim()}`,
-              'Accept': 'application/vnd.github.v3+json',
-              'Content-Length': '0'
-            }
-          });
-          if (res.status === 204 || res.ok) {
-            alert('★ Successfully starred Dai-Ski/LYRA on GitHub via API!');
-            return;
-          }
-        } catch (err) { }
-      }
-
-      // Option 2 fallback: Open GitHub repository in new tab so user can star
+      // Open GitHub repository in new tab so user can star with 1 click
       setTimeout(() => {
         window.open('https://github.com/Dai-Ski/LYRA', '_blank');
-      }, 400);
+      }, 200);
     }
 
     // 5. Restore Star State on Load (If user already starred, keep it filled on reload)
