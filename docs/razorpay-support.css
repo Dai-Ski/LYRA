@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Lyra — Razorpay Support Modal Styling System
+   Lyra — Support & Checkout Modal Styling System (Razorpay & PayPal)
    ========================================================================== */
 
 /* Dialog & Backdrop */
@@ -183,6 +183,7 @@
   transform: translateY(-1px);
 }
 
+/* Razorpay Blue Theme */
 .rzp-preset-btn.active {
   background: #0071e3;
   color: #ffffff;
@@ -195,7 +196,21 @@
   color: #ffffff;
 }
 
-.rzp-preset-btn:active {
+/* PayPal Gold Theme */
+.paypal-preset-btn.active {
+  background: #FFD140;
+  color: #000000;
+  border-color: #dfaf00;
+  box-shadow: 0 3px 10px rgba(223, 175, 0, 0.35);
+}
+
+.paypal-preset-btn.active:hover {
+  background: #f5c428;
+  color: #000000;
+}
+
+.rzp-preset-btn:active,
+.paypal-preset-btn:active {
   transform: scale(0.95);
 }
 
@@ -221,6 +236,12 @@
   background: #ffffff;
   border-color: #0071e3;
   box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.14);
+}
+
+.paypal-custom-box:focus-within {
+  background: #ffffff;
+  border-color: #dfaf00;
+  box-shadow: 0 0 0 3px rgba(255, 209, 64, 0.25);
 }
 
 .rzp-currency-symbol {
@@ -284,3 +305,65 @@
 .rzp-custom-pay-btn:active {
   transform: scale(0.96);
 }
+
+/* PayPal Pay Button Variant */
+.paypal-custom-pay-btn {
+  background: #FFD140;
+  color: #000000;
+  border: 1px solid #dfaf00;
+}
+
+.paypal-custom-pay-btn:hover {
+  background: #f5c428;
+  color: #000000;
+}
+
+/* PayPal Smart Buttons Container */
+.paypal-sdk-container {
+  margin-top: 0.75rem;
+  width: 100%;
+}
+
+.paypal-sdk-container iframe {
+  z-index: 1 !important;
+}
+
+.paypal-sdk-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  font-size: 0.84rem;
+  color: #8e8e93;
+  background: #f5f5f7;
+  border-radius: 12px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+}
+
+/* Apple Pay Button */
+.apple-pay-btn {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #1a1a1a !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.apple-pay-btn:hover {
+  background-color: #1a1a1a !important;
+}
+
+.apple-pay-btn:active {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  transform: scale(0.97);
+}
+
+.apple-pay-logo-svg {
+  height: 24px;
+  width: auto;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+
