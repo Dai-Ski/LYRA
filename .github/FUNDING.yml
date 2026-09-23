@@ -1,8 +1,5 @@
 # GitHub Repository Sponsorship Configuration
 # Learn more: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
 
-# Custom donation links for PayPal & Razorpay
-custom: [
-  'https://www.paypal.com/ncp/payment/CJN9JPZG2BKW8',
-  'https://dai-ski.github.io/LYRA/tips.html'
-]
+liberapay: dai_ski
+

@@ -5,12 +5,8 @@
     <img src="https://img.shields.io/badge/Download-Lyra.dmg%20(macOS)-0071e3?style=for-the-badge&logo=apple&logoColor=white" alt="Download Lyra.dmg" height="46">
   </a>
   &nbsp;&nbsp;
-  <a href="https://dai-ski.github.io/LYRA/tips.html">
-    <img src="https://img.shields.io/badge/Support-PayPal-FFD140?style=for-the-badge&logo=paypal&logoColor=black" alt="Support on PayPal" height="46">
-  </a>
-  &nbsp;&nbsp;
-  <a href="https://dai-ski.github.io/LYRA/tips.html">
-    <img src="https://img.shields.io/badge/Support-Razorpay%20%7C%20UPI-0071e3?style=for-the-badge&logo=razorpay&logoColor=white" alt="Support via Razorpay" height="46">
+  <a href="https://en.liberapay.com/dai_ski/donate">
+    <img src="https://img.shields.io/badge/Donate-Liberapay-F6C915?style=for-the-badge&logo=liberapay&logoColor=black" alt="Donate with Liberapay" height="46">
   </a>
 </p>
 
@@ -62,17 +58,17 @@ Installing Lyra on macOS is simple:
 If you love using **Lyra**, consider supporting its continuous development!
 
 <p align="center">
-  <a href="https://dai-ski.github.io/LYRA/tips.html">
-    <img src="https://img.shields.io/badge/Donate%20via-PayPal%20%7C%20Apple%20Pay-FFD140?style=for-the-badge&logo=paypal&logoColor=black" alt="Support via PayPal & Apple Pay" height="44">
+  <a href="https://en.liberapay.com/dai_ski/donate">
+    <img src="https://img.shields.io/badge/Donate%20with-Liberapay-F6C915?style=for-the-badge&logo=liberapay&logoColor=black" alt="Donate on Liberapay" height="44">
   </a>
   &nbsp;&nbsp;
   <a href="https://dai-ski.github.io/LYRA/tips.html">
-    <img src="https://img.shields.io/badge/Donate%20via-Razorpay%20%7C%20UPI-0071e3?style=for-the-badge&logo=razorpay&logoColor=white" alt="Support via Razorpay / UPI" height="44">
+    <img src="https://img.shields.io/badge/Support%20via-PayPal%20%7C%20Apple%20Pay%20%7C%20UPI-0071e3?style=for-the-badge&logo=applepay&logoColor=white" alt="Support via PayPal, Apple Pay, Razorpay" height="44">
   </a>
 </p>
 
-- 💳 **[PayPal / Apple Pay / Cards (USD)](https://dai-ski.github.io/LYRA/tips.html)**: International contributions with dynamic preset and custom amounts.
-- 🇮🇳 **[Razorpay / UPI / NetBanking (INR)](https://dai-ski.github.io/LYRA/tips.html)**: Domestic contributions via UPI, Indian Debit/Credit cards, and NetBanking.
+- 💛 **[Donate on Liberapay](https://en.liberapay.com/dai_ski/donate)**: Support recurring or one-time open donations.
+- 💳 **[Web Checkout / Tips](https://dai-ski.github.io/LYRA/tips.html)**: Support via PayPal, Apple Pay, Credit/Debit Cards, or UPI / Razorpay.
 
 ---
 
