@@ -81,12 +81,20 @@ if [ -n "$MOUNT_DIR" ]; then
     " || true
     
     sync
+    sleep 2
     hdiutil detach "${MOUNT_DIR}" -force || true
-    sleep 5
+    sleep 3
 fi
 
 echo "=== Converting to Compressed Final Lyra.dmg ==="
-hdiutil convert "${TEMP_DMG}" -format UDZO -imagekey zlib-level=9 -o "${DMG_PATH}" -ov
+for i in {1..5}; do
+    if hdiutil convert "${TEMP_DMG}" -format UDZO -imagekey zlib-level=9 -o "${DMG_PATH}" -ov; then
+        break
+    fi
+    echo "Waiting for disk subsystem to release temp.dmg (attempt $i/5)..."
+    sleep 2
+done
+
 rm -f "${TEMP_DMG}"
 rm -rf "${STAGING_DIR}"
 
