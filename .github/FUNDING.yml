@@ -1,0 +1,5 @@
+# GitHub Repository Sponsorship Configuration
+# Learn more: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
+
+liberapay: dai_ski
+custom: ['https://en.liberapay.com/dai_ski/donate', 'https://dai-ski.github.io/LYRA/tips.html']

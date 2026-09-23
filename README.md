@@ -4,6 +4,10 @@
   <a href="https://dai-ski.github.io/LYRA/">
     <img src="https://img.shields.io/badge/Download-Lyra.dmg%20(macOS)-0071e3?style=for-the-badge&logo=apple&logoColor=white" alt="Download Lyra.dmg" height="46">
   </a>
+  &nbsp;&nbsp;
+  <a href="https://en.liberapay.com/dai_ski/donate">
+    <img src="https://img.shields.io/badge/Donate-Liberapay-F6C915?style=for-the-badge&logo=liberapay&logoColor=black" alt="Donate with Liberapay" height="46">
+  </a>
 </p>
 
 
@@ -49,6 +53,25 @@ Installing Lyra on macOS is simple:
 
 ---
 
+## Support & Donate 💖
+
+If you love using **Lyra**, consider supporting its continuous development!
+
+<p align="center">
+  <a href="https://en.liberapay.com/dai_ski/donate">
+    <img src="https://img.shields.io/badge/Donate%20with-Liberapay-F6C915?style=for-the-badge&logo=liberapay&logoColor=black" alt="Donate on Liberapay" height="44">
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://dai-ski.github.io/LYRA/tips.html">
+    <img src="https://img.shields.io/badge/Support%20via-PayPal%20%7C%20Apple%20Pay%20%7C%20UPI-0071e3?style=for-the-badge&logo=applepay&logoColor=white" alt="Support via PayPal, Apple Pay, Razorpay" height="44">
+  </a>
+</p>
+
+- 💛 **[Donate on Liberapay](https://en.liberapay.com/dai_ski/donate)**: Support recurring or one-time open donations.
+- 💳 **[Web Checkout / Tips](https://dai-ski.github.io/LYRA/tips.html)**: Support via PayPal, Apple Pay, Credit/Debit Cards, or UPI / Razorpay.
+
+---
+
 ## How to Uninstall 🗑️
 
 1. Click the **Lyra** menu bar icon and select **Quit Lyra**.
@@ -57,15 +80,15 @@ Installing Lyra on macOS is simple:
    - Go to **System Settings > General > Login Items & Extensions**.
    - Under **Open at Login**, select **Lyra** and click `-`.
 
-
 ---
 
-## Support & Community 💬
+## Community & Contact 💬
 
-Want to report an issue? Reach out directly on Telegram:
+Want to report an issue or suggest a feature? Reach out directly on Telegram:
 
 <p align="center">
-  <a href="https://t.me/dai_ski" target=> <img src="https://img.shields.io/badge/Contact%20me%20on%20Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Contact me on Telegram" height="44">
+  <a href="https://t.me/dai_ski">
+    <img src="https://img.shields.io/badge/Contact%20me%20on%20Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Contact me on Telegram" height="44">
   </a>
 </p>
 
