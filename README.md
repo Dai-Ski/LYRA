@@ -67,9 +67,6 @@ If you love using **Lyra**, consider supporting its continuous development!
   </a>
 </p>
 
-- 💛 **[Donate on Liberapay](https://en.liberapay.com/dai_ski/donate)**: Support recurring or one-time open donations.
-- 💳 **[Web Checkout / Tips](https://dai-ski.github.io/LYRA/tips.html)**: Support via PayPal, Apple Pay, Credit/Debit Cards, or UPI / Razorpay.
-
 ---
 
 ## How to Uninstall 🗑️
